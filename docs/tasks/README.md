@@ -2,6 +2,8 @@
 
 Task documents are implementation contracts, not design brainstorming. Resolve product/discovery decisions and acceptance criteria before marking a task ready. Use [TEMPLATE.md](TEMPLATE.md); keep briefs small and link relevant [architecture documents](../architecture/README.md) instead of copying their rules.
 
+Every task must include an execution profile. Recommend the smallest model expected to execute the task reliably. Complexity and risk are independent measures. Escalate only for a concrete reason, not merely because the repository is large. The profile is execution metadata, not project-management estimation.
+
 | Status            | Meaning                                                                |
 | ----------------- | ---------------------------------------------------------------------- |
 | `DRAFT`           | Scope/decisions still need work; not normally handed to implementation |
