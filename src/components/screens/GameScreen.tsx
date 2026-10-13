@@ -45,6 +45,11 @@ import {
   DayActionResult,
 } from '../../lib/pipeline/types'
 import { saveGame } from '../../lib/storage'
+import {
+  resolveGameAction,
+  resolveNightAction,
+  type GameAction,
+} from '../../lib/gameAction'
 import { useI18n } from '../../lib/i18n'
 import { RoleRevelationScreen } from './RoleRevelationScreen'
 import { NightDashboard } from './NightDashboard'
@@ -104,6 +109,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
   const [pipelineUI, setPipelineUI] = useState<{
     Component: FC<PipelineInputProps>
     intent: import('../../lib/pipeline/types').Intent
+    state: import('../../lib/types').GameState
     onResult: (result: unknown) => void
   } | null>(null)
 
@@ -114,11 +120,19 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     [],
   )
 
+  const [saveError, setSaveError] = useState<unknown>(null)
+
   const state = getCurrentState(game)
 
   const updateGame = useCallback((newGame: Game) => {
-    setGame(newGame)
-    saveGame(newGame)
+    try {
+      saveGame(newGame)
+      setGame(newGame)
+      return true
+    } catch (error) {
+      setSaveError(error)
+      return false
+    }
   }, [])
 
   // ========================================================================
@@ -128,27 +142,21 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
   /**
    * Process a pipeline result. If resolved/prevented, apply changes.
    * If needs_input, show the pipeline's UI component.
-   * Returns the updated game, or null if waiting for UI input.
+   * Only complete actions are saved; pending choices stay provisional.
    */
-  const processPipelineResult = useCallback(
-    (
-      result: PipelineResult,
-      currentGame: Game,
-      afterComplete: (updatedGame: Game) => void,
-    ) => {
-      if (result.type === 'resolved' || result.type === 'prevented') {
-        const newGame = applyPipelineChanges(currentGame, result.stateChanges)
-        updateGame(newGame)
+  const processGameAction = useCallback(
+    (action: GameAction, afterComplete: (updatedGame: Game) => void) => {
+      if (action.type === 'complete') {
+        if (!updateGame(action.game)) return
         setPipelineUI(null)
-        afterComplete(newGame)
-      } else if (result.type === 'needs_input') {
-        const resumeFn = result.resume
+        afterComplete(action.game)
+      } else {
         setPipelineUI({
-          Component: result.UIComponent,
-          intent: result.intent,
-          onResult: (uiResult: unknown) => {
-            const resumed = resumeFn(uiResult)
-            processPipelineResult(resumed, currentGame, afterComplete)
+          Component: action.Component,
+          intent: action.intent,
+          state: action.state,
+          onResult: (answer: unknown) => {
+            processGameAction(action.resume(answer), afterComplete)
           },
         })
         setScreen({ type: 'pipeline_input' })
@@ -156,6 +164,14 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     },
     [updateGame],
   )
+
+  if (saveError) throw saveError
+
+  const processPipelineResult = (
+    result: PipelineResult,
+    currentGame: Game,
+    afterComplete: (updatedGame: Game) => void,
+  ) => processGameAction(resolveGameAction(currentGame, result), afterComplete)
 
   // ========================================================================
   // ROLE REVELATION FLOW
@@ -169,7 +185,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     if (screen.type !== 'showing_role') return
 
     const newGame = markRoleRevealed(game, screen.playerId)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
     setScreen({ type: 'role_revelation' })
   }
 
@@ -177,7 +193,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     const nightGame = startNight(game)
     // Process auto-skips so the dashboard is ready
     const readyGame = processAutoSkips(nightGame)
-    updateGame(readyGame)
+    if (!updateGame(readyGame)) return
     setScreen({ type: 'night_dashboard' })
   }
 
@@ -193,7 +209,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     if (screen.type !== 'setup_action') return
 
     const newGame = applySetupAction(game, screen.playerId, result)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
     setScreen({ type: 'setup_actions' })
   }
 
@@ -214,7 +230,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
       // Role has no night action component — auto-skip
       const newGame = skipNightAction(game, roleId, playerId)
       const readyGame = processAutoSkips(newGame)
-      updateGame(readyGame)
+      if (!updateGame(readyGame)) return
       setScreen({ type: 'night_dashboard' })
       return
     }
@@ -228,7 +244,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
 
   const handleStartingInfoComplete = (result: NightActionResult) => {
     const newGame = applyNightAction(game, result)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
     setScreen({ type: 'night_dashboard' })
   }
 
@@ -239,48 +255,18 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
   const handleNightActionComplete = (result: NightActionResult) => {
     if (screen.type !== 'night_action') return
 
-    // Apply direct entries/effects (not the intent)
-    const newGame = applyNightAction(game, result)
-    updateGame(newGame)
-
-    if (result.intent) {
-      // Resolve the intent through the pipeline
-      const pipelineResult = resolveIntent(
-        result.intent,
-        getCurrentState(newGame),
-        newGame,
-      )
-      processPipelineResult(pipelineResult, newGame, (updatedGame) => {
-        // After pipeline resolution, check win conditions and return to dashboard
-        const winner = checkWinCondition(
-          getCurrentState(updatedGame),
-          updatedGame,
-        )
-        if (winner) {
-          const finalGame = endGame(updatedGame, winner)
-          updateGame(finalGame)
-          setScreen({ type: 'game_over' })
-        } else {
-          // Process auto-skips and return to night dashboard
-          const readyGame = processAutoSkips(updatedGame)
-          updateGame(readyGame)
-          setScreen({ type: 'night_dashboard' })
-        }
-      })
-    } else {
-      // No intent — check win conditions and return to dashboard
+    processGameAction(resolveNightAction(game, result), (newGame) => {
       const winner = checkWinCondition(getCurrentState(newGame), newGame)
       if (winner) {
         const finalGame = endGame(newGame, winner)
-        updateGame(finalGame)
+        if (!updateGame(finalGame)) return
         setScreen({ type: 'game_over' })
       } else {
-        // Process auto-skips and return to night dashboard
         const readyGame = processAutoSkips(newGame)
-        updateGame(readyGame)
+        if (!updateGame(readyGame)) return
         setScreen({ type: 'night_dashboard' })
       }
-    }
+    })
   }
 
   const handleNightActionSkip = () => {
@@ -288,18 +274,18 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
 
     const newGame = skipNightAction(game, screen.roleId, screen.playerId)
     const readyGame = processAutoSkips(newGame)
-    updateGame(readyGame)
+    if (!updateGame(readyGame)) return
     setScreen({ type: 'night_dashboard' })
   }
 
   const handleStartDay = () => {
     const newGame = startDay(game)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
 
     const winner = checkWinCondition(getCurrentState(newGame), newGame)
     if (winner) {
       const finalGame = endGame(newGame, winner)
-      updateGame(finalGame)
+      if (!updateGame(finalGame)) return
       setScreen({ type: 'game_over' })
     } else {
       const deaths = getLastNightDeaths(newGame)
@@ -347,7 +333,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
       const winner = checkWinCondition(newState, newGame)
       if (winner) {
         const finalGame = endGame(newGame, winner)
-        updateGame(finalGame)
+        if (!updateGame(finalGame)) return
         setScreen({ type: 'game_over' })
       } else {
         const oldPlayerSet = new Set(
@@ -373,7 +359,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
               roleId: p!.roleId,
             }))
           const nightGame = finishVirginExecutionDay(newGame)
-          updateGame(nightGame)
+          if (!updateGame(nightGame)) return
           setScreen({
             type: 'death_reveal',
             deaths: deadPlayers,
@@ -390,7 +376,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     if (screen.type !== 'voting') return
 
     const newGame = resolveVote(game, screen.nomineeId, voteCount, votedIds)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
 
     // No execution here — deferred to end of day
     setScreen({ type: 'day' })
@@ -422,7 +408,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     const postExecWinner = checkWinCondition(postState, currentGame)
     if (postExecWinner) {
       const finalGame = endGame(currentGame, postExecWinner)
-      updateGame(finalGame)
+      if (!updateGame(finalGame)) return
       setScreen({ type: 'game_over' })
       return
     }
@@ -431,7 +417,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     const endOfDayWinner = checkEndOfDayWinConditions(postState, currentGame)
     if (endOfDayWinner) {
       const finalGame = endGame(currentGame, endOfDayWinner)
-      updateGame(finalGame)
+      if (!updateGame(finalGame)) return
       setScreen({ type: 'game_over' })
       return
     }
@@ -439,7 +425,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     const newGame = startNight(currentGame)
     // Process auto-skips so the dashboard is ready
     const readyGame = processAutoSkips(newGame)
-    updateGame(readyGame)
+    if (!updateGame(readyGame)) return
 
     const nightDashboardScreen: Screen = { type: 'night_dashboard' }
 
@@ -491,7 +477,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
       const winner = checkWinCondition(newState, newGame)
       if (winner) {
         const finalGame = endGame(newGame, winner)
-        updateGame(finalGame)
+        if (!updateGame(finalGame)) return
         setScreen({ type: 'game_over' })
         return
       }
@@ -535,7 +521,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
       )
       processPipelineResult(pipelineResult, directGame, finishDayAction)
     } else {
-      updateGame(directGame)
+      if (!updateGame(directGame)) return
       finishDayAction(directGame)
     }
   }
@@ -555,7 +541,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
       removeEffects: result.removeEffects,
     }
     const newGame = applyPipelineChanges(game, changes)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
     setScreen({ type: 'night_dashboard' })
   }
 
@@ -574,12 +560,12 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     data?: Record<string, unknown>,
   ) => {
     const newGame = addEffectToPlayer(game, playerId, effectType, data)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
   }
 
   const handleRemoveEffect = (playerId: string, effectType: string) => {
     const newGame = removeEffectFromPlayer(game, playerId, effectType)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
   }
 
   const handleUpdateEffect = (
@@ -588,7 +574,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
     data: Record<string, unknown>,
   ) => {
     const newGame = updateEffectData(game, playerId, effectType, data)
-    updateGame(newGame)
+    if (!updateGame(newGame)) return
   }
 
   const handleShowRoleCard = (player: PlayerState) => {
@@ -808,7 +794,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
         const PipelineComponent = pipelineUI.Component
         return (
           <PipelineComponent
-            state={state}
+            state={pipelineUI.state}
             intent={pipelineUI.intent}
             onComplete={pipelineUI.onResult}
           />
@@ -875,6 +861,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
   const showFloatingButtons =
     screen.type !== 'game_over' &&
     screen.type !== 'grimoire_role_card' &&
+    screen.type !== 'pipeline_input' &&
     !isPlayerFacing
 
   return (

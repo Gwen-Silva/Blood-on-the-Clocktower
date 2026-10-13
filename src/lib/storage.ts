@@ -1,7 +1,49 @@
 import { Game } from './types'
+import { parseSavedGames, serializeGames } from './saveFormat'
 
 const STORAGE_KEY = 'grimoire_games'
 const CURRENT_GAME_KEY = 'grimoire_current_game'
+
+export class GameStorageError extends Error {
+  constructor(
+    public readonly kind: 'read' | 'invalid' | 'write',
+    public readonly backup?: string,
+    public readonly retry?: () => void,
+  ) {
+    super(`Game storage: ${kind}`)
+    this.name = 'GameStorageError'
+  }
+}
+
+function read(key: string): string | null {
+  try {
+    return localStorage.getItem(key)
+  } catch {
+    throw new GameStorageError('read')
+  }
+}
+
+function write(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    throw new GameStorageError(
+      'write',
+      key === STORAGE_KEY ? value : undefined,
+      () => write(key, value),
+    )
+  }
+}
+
+function persistGames(games: Game[]): void {
+  let serialized: string
+  try {
+    serialized = serializeGames(games)
+  } catch {
+    throw new GameStorageError('invalid', JSON.stringify(games))
+  }
+  write(STORAGE_KEY, serialized)
+}
 
 // ============================================================================
 // GAME STORAGE
@@ -17,17 +59,16 @@ export function saveGame(game: Game): void {
     games.push(game)
   }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(games))
+  persistGames(games)
 }
 
 export function getAllGames(): Game[] {
-  const data = localStorage.getItem(STORAGE_KEY)
-  if (!data) return []
-
+  const data = read(STORAGE_KEY)
+  if (data === null) return []
   try {
-    return JSON.parse(data) as Game[]
+    return parseSavedGames(data)
   } catch {
-    return []
+    throw new GameStorageError('invalid', data)
   }
 }
 
@@ -38,7 +79,7 @@ export function getGame(gameId: string): Game | undefined {
 
 export function deleteGame(gameId: string): void {
   const games = getAllGames().filter((g) => g.id !== gameId)
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(games))
+  persistGames(games)
 
   // Clear current game if it was deleted
   if (getCurrentGameId() === gameId) {
@@ -51,15 +92,19 @@ export function deleteGame(gameId: string): void {
 // ============================================================================
 
 export function setCurrentGameId(gameId: string): void {
-  localStorage.setItem(CURRENT_GAME_KEY, gameId)
+  write(CURRENT_GAME_KEY, gameId)
 }
 
 export function getCurrentGameId(): string | null {
-  return localStorage.getItem(CURRENT_GAME_KEY)
+  return read(CURRENT_GAME_KEY)
 }
 
 export function clearCurrentGame(): void {
-  localStorage.removeItem(CURRENT_GAME_KEY)
+  try {
+    localStorage.removeItem(CURRENT_GAME_KEY)
+  } catch {
+    throw new GameStorageError('write', undefined, clearCurrentGame)
+  }
 }
 
 export function getCurrentGame(): Game | undefined {

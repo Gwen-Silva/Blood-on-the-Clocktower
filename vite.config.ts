@@ -16,7 +16,7 @@ export default defineConfig({
       manifest: {
         name: 'Grimorium',
         short_name: 'Grimorium',
-        description: 'A companion app for Blood on the Clocktower that handles the clockwork so you can focus on the story.',
+        description: 'A Storyteller companion for Blood on the Clocktower.',
         theme_color: '#0D0D0D',
         background_color: '#0D0D0D',
         display: 'standalone',
