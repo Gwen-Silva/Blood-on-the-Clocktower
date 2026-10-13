@@ -32,6 +32,7 @@ type NewGameScreen =
 
 function App() {
   const { path, navigate, replace } = useRouter()
+  const [saveError, setSaveError] = useState<unknown>(null)
 
   // New-game wizard state (lives entirely on the "/" route)
   const [newGameScreen, setNewGameScreen] = useState<NewGameScreen | null>(null)
@@ -76,6 +77,8 @@ function App() {
   // New-game wizard handlers
   // ========================================================================
 
+  if (saveError) throw saveError
+
   const handleNewGame = () => {
     setNewGameScreen({ type: 'new_game_players' })
   }
@@ -113,8 +116,13 @@ function App() {
     const gameName = `Game ${new Date().toLocaleDateString()}`
     const game = createGame(gameName, scriptId, players)
 
-    saveGame(game)
-    setCurrentGameId(game.id)
+    try {
+      saveGame(game)
+      setCurrentGameId(game.id)
+    } catch (error) {
+      setSaveError(error)
+      return
+    }
     setNewGameScreen(null)
 
     navigate(`/game/${game.id}`)

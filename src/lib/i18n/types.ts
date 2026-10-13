@@ -1,6 +1,19 @@
 export type Language = 'en' | 'es'
 
 export type Translations = {
+  storageRecovery: {
+    title: string
+    read: string
+    invalid: string
+    write: string
+    unexpected: string
+    backupHint: string
+    download: string
+    retry: string
+    reload: string
+    retryFailed: string
+  }
+
   // Common
   common: {
     continue: string

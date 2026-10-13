@@ -19,7 +19,6 @@ import {
   checkDynamicWinConditions,
 } from './pipeline'
 import { ExecuteIntent, PipelineResult } from './pipeline/types'
-import { trackEvent } from './analytics'
 
 // ============================================================================
 // GAME CREATION
@@ -90,11 +89,6 @@ export function createGame(
       },
     ],
   }
-
-  trackEvent('game_started', {
-    player_count: players.length,
-    script: scriptId,
-  })
 
   return game
 }
@@ -912,14 +906,6 @@ export function checkEndOfDayWinConditions(
 }
 
 export function endGame(game: Game, winner: 'townsfolk' | 'demon'): Game {
-  const state = getCurrentState(game)
-  trackEvent('game_finished', {
-    winner,
-    player_count: state.players.length,
-    round_count: state.round,
-    script: game.scriptId,
-  })
-
   return addHistoryEntry(
     game,
     {

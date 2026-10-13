@@ -1,146 +1,48 @@
 # Grimorium
 
-> A fully digital Grimoire for Blood on the Clocktower.
+Personal fork of [csansoon/grimorium](https://github.com/csansoon/grimorium), a Storyteller companion for Blood on the Clocktower. This version keeps the original visual design and focuses on clearer instructions and reliable local games. An Android version is a later goal; this repository currently builds a web app.
 
-<p align="center">
-  <img src="public/og-image.png" alt="Grimorium Preview" width="700">
-</p>
+![Game setup, day phase and history](public/game_management.png)
 
-<p align="center">
-  🕯️ <a href="https://grimorium.app"><strong>grimorium.app</strong></a>
-</p>
+## What it does
 
-<p align="center">
-  <a href="https://buymeacoffee.com/csansoon">
-    <img src="public/bmc-button.png" alt="Buy Me A Coffee" width="200">
-  </a>
-</p>
+- Set up a game, choose characters and assign them to players.
+- Show private character cards and information while the Storyteller holds the device.
+- Follow the night order and resolve supported character abilities.
+- Track nominations, votes, the execution block and end-of-day execution.
+- Inspect character effects and a history of recorded actions.
 
----
+Trouble Brewing is implemented for 5–15 players, excluding the Storyteller. Custom games use the existing character collection with relaxed setup restrictions. Other editions and Travellers are not implemented. The interface is available in English and Spanish.
 
-## About
+The Storyteller still chooses information when required, handles the table and checks uncertain interactions against the [official rules](https://wiki.bloodontheclocktower.com/Rules_Explanation). Suggested character sets respect the supported distribution rules; they are not a guarantee of game balance.
 
-**Grimorium** is a complete, interactive, digital version of the Grimoire for  
-[Blood on the Clocktower](https://wiki.bloodontheclocktower.com/Main_Page).
+## Local games
 
-It allows you to run an entire game — from setup to final win condition — using only your phone, tablet, or laptop.
+Games are stored in this browser on this device. There are no accounts or cloud saves. Clearing site data also clears saved games. This fork does not load Google Analytics or send game events to an analytics service. Fonts are still requested from Google Fonts when a connection is available.
 
-No box required.  
-No tokens to manage.  
-No rule lookups mid-night.
+The app can be installed as a PWA and caches its application files for offline use after installation. External fonts may fall back to local fonts offline.
 
-Everything happens inside the app.
-
-<p align="center">
-  <img src="public/game_management.png" alt="Game management — setup, day phase, and event history" width="900">
-</p>
-
-- **Game Creation** — Start a new game and add your players.
-- **Role Selection** — Pick a script and choose the roles in play, or let Grimorium generate a balanced set for you.
-- **Role Reveal** — Show each player their role privately, with themed role cards.
-- **Night Management** — The app walks you through each night in the correct wake order, resolving abilities, poisoning, protection, and death timing automatically.
-- **Day Phase** — Handle day abilities, track statuses, and move the game forward.
-- **Nominations & Voting** — Run nominations, collect votes, and resolve executions.
-- **Win Detection** — The game detects when a win condition is met.
-- **Full History** — Every action and state change is recorded in a reviewable event log.
-
-Poisoning, drunkenness, misinformation... The app handles the mechanics, but every decision stays with the Storyteller.
-
----
-
-## Why It Exists
-
-This project started for a simple reason:  
-as a Storyteller, I kept forgetting small but important things — a wake order detail, a poisoning interaction, a timing nuance.
-
-Grimorium was built to internalize those rules.
-
-Instead of remembering what to pick up, flip, move, or show, the interface narrows your focus to what actually matters:
-
-- The decision being made
-- The information being shown
-- The current state of the game
-
-The system handles the rest.
-
----
-
-## Modular by Design
-
-Although only **Trouble Brewing** is currently implemented, the system is built around a modular role architecture.
-
-Each character defines:
-
-- When it acts
-- What decisions it requires
-- How it affects the game state
-- How it interacts with other roles
-
-<p align="center">
-  <img src="public/roles.png" alt="Role cards — Fortune Teller and Imp" width="700">
-</p>
-
-Every role comes with its own themed card showing its ability, alignment, and win condition. Roles can be added independently, and new scripts can grow incrementally over time.
-
-The engine doesn't just list characters — it models how they behave.
-
----
-
-## Architecture & Workflow
-
-Grimorium is built upon several advanced architectural patterns to ensure flexibility:
-
-- **Event-Sourced Game State:** Game state is purely event-sourced and never mutated directly. All changes append a `HistoryEntry` to an immutable game model, maintaining a full snapshot after each event.
-- **The Intent Pipeline:** Roles and effects do not reference each other's logic. Characters emit "intents" (e.g., "kill this player"), which are pushed through a middleware pipeline where other effects can intercept, modify, or prevent them.
-- **Decoupled Roles & Effects:** Roles are thin wrappers; all passive ability rule interactions live within modular **Effects**.
-- **Malfunction System:** Automatically tracks and overrides abilities producing false results (from Poisoned or Drunk effects) without needing narrator rule-lookups.
-
-This engine doesn't just list characters — it fundamentally simulates how they behave and interact.
-
----
-
-## Fully Client-Side
-
-Grimorium is designed to work anywhere:
-
-- Installable as a Progressive Web App (PWA)
-- Fully functional offline
-- No accounts
-- No servers
-- No game data leaves your device
-
-Once loaded, everything runs locally in your browser.
-
-Your games stay yours.
-
----
-
-## Current Script Support
-
-- ✅ Trouble Brewing
-- ⏳ Additional scripts planned
-
----
+A night action is saved as complete only after its decisions have been resolved. If the app closes before then, repeat that action from the night dashboard. Individual unfinished form selections are not saved.
 
 ## Development
 
+Use Node.js 20.19+ or a compatible newer version.
+
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Contributions, ideas, and discussions are welcome.
+```bash
+npm test
+npm run build
+npm run preview
+```
 
----
+The app uses React, TypeScript, Vite, Tailwind CSS and Radix UI. Game history contains state snapshots. Characters and effects define abilities, and an intent pipeline resolves interactions. The rules and UI are still partly coupled; see [AGENTS.md](AGENTS.md) for contribution notes.
 
-## Support
+## Attribution
 
-If you find the project useful and want to support its development:
+Grimorium was created by csansoon. The screenshots and visual design in this fork come from that project. Blood on the Clocktower belongs to The Pandemonium Institute. This is an unofficial project for personal use.
 
-[https://buymeacoffee.com/csansoon](https://buymeacoffee.com/csansoon)
-
----
-
-## License
-
-MIT
+The inherited README declares the code to be MIT-licensed, but this checkout does not include a LICENSE file. That declaration does not cover third-party game content. Original project: [grimorium.app](https://grimorium.app).

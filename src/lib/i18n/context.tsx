@@ -32,7 +32,12 @@ function isValidLanguage(value: string): value is Language {
 
 function getInitialLanguage(): Language {
   // Check localStorage first
-  const stored = localStorage.getItem(STORAGE_KEY)
+  let stored: string | null = null
+  try {
+    stored = localStorage.getItem(STORAGE_KEY)
+  } catch {
+    /* Use browser language. */
+  }
   if (stored && isValidLanguage(stored)) {
     return stored
   }
@@ -63,7 +68,11 @@ export function I18nProvider({ children }: Props) {
 
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang)
-    localStorage.setItem(STORAGE_KEY, lang)
+    try {
+      localStorage.setItem(STORAGE_KEY, lang)
+    } catch {
+      /* Keep this session usable. */
+    }
   }, [])
 
   const t = useMemo(() => TRANSLATIONS[language], [language])

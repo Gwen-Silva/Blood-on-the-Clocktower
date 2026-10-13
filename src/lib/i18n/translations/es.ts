@@ -1,6 +1,23 @@
 import { Translations } from '../types'
 
 const es: Translations = {
+  storageRecovery: {
+    title: 'Hay un problema con la partida',
+    read: 'No se pudieron leer las partidas. Comprueba que el navegador permita guardar datos y vuelve a cargar. No borres los datos del sitio.',
+    invalid:
+      'Los datos están dañados o usan un formato no compatible. No se han reemplazado. Descarga una copia de recuperación antes de intentar repararlos.',
+    write:
+      'No se pudo guardar el último cambio. La partida está en pausa. Libera espacio si hace falta e intenta guardar de nuevo. No cierres la aplicación antes de guardar o descargar una copia.',
+    unexpected:
+      'La aplicación no pudo continuar. Vuelve a cargar el último estado guardado. No borres los datos del sitio.',
+    backupHint:
+      'La copia contiene información privada de la partida, incluidas las identidades. Guárdala para recuperar los datos; no la muestres a los jugadores.',
+    download: 'Descargar copia de recuperación',
+    retry: 'Reintentar guardado y recargar',
+    reload: 'Recargar partida guardada',
+    retryFailed:
+      'Sigue sin poder guardarse. Descarga la copia antes de cerrar la aplicación.',
+  },
   common: {
     continue: 'Continuar',
     confirm: 'Confirmar',
@@ -42,7 +59,7 @@ const es: Translations = {
     addPlayer: 'Añadir Jugador',
     playerPlaceholder: 'Jugador',
     minPlayersWarning: 'Añade al menos 5 jugadores para continuar',
-    maxPlayersWarning: 'Solo puedes añadir hasta 20 jugadores',
+    maxPlayersWarning: 'Puedes añadir hasta 15 jugadores',
     nextSelectRoles: 'Siguiente: Seleccionar Roles',
     loadedFromLastGame: 'De la última partida',
 
@@ -373,7 +390,7 @@ const es: Translations = {
     simple: 'Simple',
     simpleDescription: 'Roles sencillos, fáciles de aprender',
     interesting: 'Interesante',
-    interestingDescription: 'Una mezcla equilibrada de complejidad',
+    interestingDescription: 'Una mezcla de habilidades sencillas y complejas',
     chaotic: 'Caótico',
     chaoticDescription: 'Máximo engaño y sorpresas',
     chaos: 'Caos',
@@ -392,7 +409,7 @@ const es: Translations = {
     part1Title: '1. ¿Qué es Blood on the Clocktower?',
     p1_nutshellTitle: 'El Juego en Resumen',
     p1_nutshell1:
-      'Blood on the Clocktower es un **juego de deducción social** para 5 a 20 jugadores.',
+      'Blood on the Clocktower es un juego de **deducción social**. Esta aplicación admite 5–15 jugadores, más el Cuentacuentos.',
     p1_nutshell2:
       'Un jugador es el **Cuentacuentos** (narrador) — todos los demás son un **Aldeano, Forastero, Secuaz o Demonio**.',
     p1_nutshell3:
@@ -409,72 +426,73 @@ const es: Translations = {
       'Estás en el **equipo del Bien**, pero tu habilidad es una carga. Podrías tener información falsa, o tu mera presencia podría dificultar las cosas para el pueblo. Debes superar tu desventaja para ayudar a ganar al bien.',
     p1_teamOutsiderExample: 'Por ejemplo, el **Borracho** es un Forastero:',
     p1_teamMinion:
-      'Estás en el **equipo del Mal**. Sabes quién es el Demonio y tu objetivo es protegerlo a toda costa. Usa tus habilidades disruptivas para causar el caos, difundir desinformación y alejar las sospechas de tu Demonio.',
+      'Estás en el **equipo del Mal**. Protege al Demonio y confunde al pueblo. Con 7 o más jugadores, al empezar conoces al Demonio y a los otros Secuaces.',
     p1_teamMinionExample: 'Por ejemplo, el **Envenenador** es un Secuaz:',
     p1_teamDemon:
-      'Eres el líder del **equipo del Mal**. Matas a los jugadores por la noche y sabes quiénes son tus Secuaces. Para ganar, debes sobrevivir hasta el final fingiendo ser un personaje bueno y despistando al pueblo.',
+      'Estás en el **equipo del Mal**. Usa tu habilidad para matar e intenta sobrevivir. Con 7 o más jugadores, conoces a tus Secuaces y tres personajes que no están en juego y que puedes fingir ser.',
     p1_teamDemonExample: 'Por ejemplo, el **Diablillo** es un Demonio:',
     p1_roundTitle: 'Cómo Funciona una Ronda',
     p1_roundNight:
-      'Los jugadores "despiertan" uno a uno (controlado por el Cuentacuentos). Los roles de información aprenden cosas, el Demonio mata a alguien, etc.',
+      'Los jugadores cierran los ojos. El Cuentacuentos despierta a los personajes en orden para elegir o recibir información. El Diablillo no mata la primera noche.',
     p1_roundDay:
       'El Cuentacuentos anuncia quién murió durante la noche. Los jugadores discuten, acusan e intentan averiguar quién es malvado.',
     p1_roundNominate:
-      'Cualquier jugador puede nominar a otro para ser ejecutado. Si el voto se aprueba, ese jugador es ejecutado (y puede morir).',
-    p1_roundWinGood: 'El Bien gana cuando el **Demonio es ejecutado**.',
+      'Los jugadores vivos pueden nominar una vez al día. Cada jugador puede ser nominado una vez al día. Los votos determinan quién queda en el bloque de ejecución; la ejecución habitual ocurre al terminar el día.',
+    p1_roundWinGood:
+      'El Bien normalmente gana cuando **no queda ningún Demonio vivo**. Resuelve primero las habilidades que puedan cambiar el resultado.',
     p1_roundWinEvil:
-      'El Mal gana cuando **solo quedan 2 jugadores vivos** (o mediante habilidades especiales).',
+      'El Mal normalmente gana cuando **quedan 2 jugadores vivos**, incluido un Demonio. Algunas habilidades cambian las condiciones de victoria.',
     p1_roundWinConditions: 'Condiciones de Victoria',
     p1_roundNightLabel: 'Noche',
     p1_roundDayLabel: 'Día',
     p1_roundNominateLabel: 'Nominaciones',
     p1_conceptsTitle: 'Conceptos Clave',
     p1_conceptPoison:
-      '**Envenenamiento** — Un jugador envenenado no tiene habilidad. El Cuentacuentos finge que funciona y puede darle información arbitraria, verdadera o falsa. El jugador no sabe que está envenenado.',
+      '**Envenenamiento:** El jugador no tiene habilidad mientras está envenenado. Finge que funciona; la información puede ser verdadera o falsa. No le digas que está envenenado.',
     p1_conceptDrunk:
-      '**Ebriedad** — Como estar envenenado, pero permanente. El Borracho cree que tiene un rol distinto.',
+      '**Ebriedad:** Impide que funcione una habilidad, igual que el veneno. Su duración depende de la causa. El personaje Borracho cree que es un Aldeano, pero no tiene su habilidad.',
     p1_conceptDead:
-      '**Jugadores muertos** — Los jugadores muertos aún pueden hablar, debatir y votar **una vez** (luego pierden su voto para siempre).',
+      '**Jugadores muertos:** Siguen hablando y jugando para su equipo. No pueden nominar y les queda **un voto** para el resto de la partida.',
     p1_conceptStoryteller:
-      '**El rol del Cuentacuentos** — El Cuentacuentos sabe todo y dirige la partida. Grimorium ES la herramienta del Cuentacuentos.',
+      '**Cuentacuentos:** Dirige la partida, responde preguntas en privado y lleva el registro de los personajes. Usa la aplicación para anotar lo que ocurre.',
 
     part2Title: '2. Cómo Usar Grimorium',
     p2_createTitle: 'Crear una Partida',
     p2_create1:
       '**Añadir Jugadores** — Introduce los nombres (el Cuentacuentos no es un jugador).',
     p2_create2:
-      '**Elegir un Guión** — Un conjunto selecto de personajes para una complejidad específica.',
+      '**Elegir un guion:** Problemas en el Pueblo aplica las restricciones habituales. La partida personalizada permite elegir libremente entre los personajes implementados.',
     p2_create3:
-      '**Seleccionar Roles** — Elige qué roles están en juego, o deja que la aplicación genere un grupo equilibrado.',
-    p2_create4: '**Asignar Roles** — Arrastra o reparte quién obtiene qué rol.',
+      '**Seleccionar personajes:** Elígelos o revisa un grupo sugerido. El generador comprueba la composición, pero no garantiza el equilibrio de la partida.',
+    p2_create4:
+      '**Asignar personajes:** Elige las asignaciones o deja jugadores en aleatorio.',
     p2_createTip:
-      'La aplicación aplica la composición correcta del equipo automáticamente basada en el número de jugadores.',
+      'En Problemas en el Pueblo, respeta las cantidades mostradas. Las partidas personalizadas no exigen esa distribución.',
     p2_setupTitle: 'Acciones de Configuración',
     p2_setup1:
       'Algunos roles requieren que el Cuentacuentos tome una decisión **antes** de que comience el juego.',
     p2_setup2:
       'Por ejemplo, elegir qué rol de Aldeano cree que es el Borracho. La aplicación te guía a través de la configuración.',
     p2_revealTitle: 'Revelación de Rol',
-    p2_reveal1:
-      'El Cuentacuentos muestra a cada jugador su rol en privado usando **cartas de rol temáticas**.',
+    p2_reveal1: 'Muestra a cada jugador su **carta de personaje** en privado.',
     p2_reveal2:
       'Cada carta muestra: el nombre del rol, la descripción de la habilidad, la alineación y la condición de victoria.',
     p2_reveal3:
       '**El Cuentacuentos controla el dispositivo en todo momento** — muestra la pantalla a cada jugador y luego ocúltala.',
     p2_revealWarning:
-      'Grimorium es una herramienta **solo para el Cuentacuentos**. El dispositivo nunca se pasa de mano en mano.',
+      'Mantén el control del dispositivo. Oculta la información privada antes de volver a las pantallas del Cuentacuentos.',
     p2_nightTitle: 'Fase de Noche',
     p2_night1:
       'El **Panel Nocturno** muestra cada rol que necesita actuar, en el orden correcto.',
     p2_night2: 'Toca un rol para comenzar su acción nocturna.',
     p2_night3:
-      'Para los **roles de información**: la app autocalcula la información correcta, considerando envenenamientos o ebriedad.',
+      'Para **personajes de información**, revisa el resultado y toma las decisiones solicitadas antes de mostrarlo.',
     p2_night4:
-      'Para los **roles de acción**: selecciona objetivos a través de una lista intuitiva.',
+      'Para **personajes que eligen un objetivo**, registra al jugador que señalan.',
     p2_night5:
-      'La aplicación maneja todos los tiempos, efectos de estado y caducidades automáticamente.',
+      'La aplicación aplica los efectos implementados y su duración. Revisa el Grimorio si el resultado es inesperado.',
     p2_nightTip:
-      'Si un rol tiene un **mal funcionamiento**, la aplicación te permite dar cualquier resultado que su habilidad pudiera producir normalmente, ya sea verdadero o falso.',
+      'Si un jugador está **borracho o envenenado**, elige información que su personaje podría recibir normalmente. Puede ser verdadera o falsa.',
     p2_dayTitle: 'Fase de Día y Amanecer',
     p2_day1: '**Amanecer:** La aplicación anuncia las muertes de la noche.',
     p2_day2: '**Fase de Día:** Los jugadores discuten.',
@@ -483,31 +501,38 @@ const es: Translations = {
     p2_day4:
       'Puedes activar las **Acciones de Día** (ej. disparo del Cazador de Demonios) o iniciar **Nominaciones**.',
     p2_voteTitle: 'Nominaciones y Votaciones',
-    p2_vote1: 'Toca "Nominaciones" y selecciona quién nomina a quién.',
+    p2_vote1:
+      'Selecciona un nominador vivo y un nominado. Cada jugador puede nominar una vez mientras esté vivo y ser nominado una vez al día.',
     p2_vote2:
-      'Usa la interfaz de votación para hacer seguimiento de los votos a favor y en contra.',
-    p2_vote3: 'Si la votación alcanza la mayoría, el jugador es **ejecutado**.',
+      'Marca a cada jugador cuyo voto se contó. Se vota o no se vota; no hay votos en contra.',
+    p2_vote3:
+      'El nominado necesita al menos la mitad de los vivos, redondeada hacia arriba, y más votos que cualquier nominado anterior para quedar en el bloque. Un empate en el máximo válido lo vacía; un nominado posterior debe superar esa cifra.',
     p2_vote4:
-      'Las interacciones especiales (como la Virgen) se manejan de forma automática.',
+      'Continúa las nominaciones si hace falta. La ejecución habitual ocurre al terminar el día. La Virgen puede causar una ejecución inmediata y terminar el día.',
     p2_endTitle: 'Fin del Día y Detección de Victoria',
-    p2_end1: 'Termina el día para pasar a la siguiente noche.',
+    p2_end1:
+      'Revisa quién está en el bloque antes de terminar el día. Si no hay nadie, no habrá ejecución habitual.',
     p2_end2: 'La aplicación revisa constantemente las condiciones de victoria.',
-    p2_end3: 'Demonio ejecutado → **Gana el Bien**',
-    p2_end4: 'Solo quedan 2 jugadores vivos → **Gana el Mal**',
+    p2_end3:
+      '**El Bien normalmente gana** cuando no queda ningún Demonio vivo después de resolver las habilidades.',
+    p2_end4:
+      '**El Mal normalmente gana** con dos jugadores vivos, incluido un Demonio. Revisa también las condiciones de los personajes.',
     p2_end5:
       'Cuando detecta victoria, la partida termina en la pantalla de Fin del Juego.',
     p2_grimTitle: 'El Grimorio',
     p2_grim1:
-      'El panel de referencia del Cuentacuentos — accesible en cualquier momento.',
+      'Abre el panel del Cuentacuentos desde las pantallas de juego. Se oculta durante revelaciones privadas y resoluciones pendientes.',
     p2_grim2:
       'Consulta el **rol verdadero** de cada jugador, estado vivo/muerto, y los efectos activos.',
     p2_grim3:
       '**Añade o retira efectos manualmente** en casos peculiares que la app no pueda predecir.',
     p2_historyTitle: 'Registro de Historial',
-    p2_history1: 'Cada acción en la partida queda registrada.',
+    p2_history1:
+      'El historial muestra las acciones registradas y sus resultados.',
     p2_history2:
       'Incluye acciones nocturnas, muertes, votos, ejecuciones, y cambio de efectos.',
-    p2_history3: 'Útil para solventar errores o revisar el estado del juego.',
+    p2_history3:
+      'Úsalo para revisar lo introducido. No muestra sucesos que no registraste ni permite deshacer acciones.',
 
     part3Title: '3. Consejos para Jugadores',
     p3_tip1Title: 'Guarda tus secretos',
@@ -518,7 +543,7 @@ const es: Translations = {
       'No tengas solo conversaciones públicas con el grupo de jugadores. ¡Apártate con otros jugadores para tener charlas privadas 1 a 1!',
     p3_tip3Title: '¡Finge!',
     p3_tip3Desc:
-      'Es altamente recomendado que pretendas ser otro personaje, o incluso otro bando. Esto hace el trabajo del demonio mucho más difícil.',
+      'Puedes fingir ser otro personaje aunque seas bueno. Decide qué compartir según tu personaje y lo que sabe el grupo.',
     p3_tip4Title: 'La muerte no es el final',
     p3_tip4Desc:
       'En Blood on the clocktower, ¡los jugadores muertos siguen jugando! Te puedes comunicar con vivos durante el día y tienes **un voto final** para usarlo cuando realmente importe.',
@@ -528,29 +553,29 @@ const es: Translations = {
     p4_first1:
       'Comienza jugando **Problemas en el Pueblo** — está diseñado para aprender.',
     p4_first2:
-      'Para tu primera partida, intenta entre 5-8 jugadores para mantener el control de todo.',
+      'Para empezar, considera 7–9 jugadores. Con 5 o 6 no se da la información inicial habitual del equipo del Mal.',
     p4_first3:
-      'Utiliza el generador automático de grupos de roles hasta que te sientas lo suficientemente cómodo.',
+      'Revisa los grupos sugeridos antes de usarlos. Elige habilidades que puedas explicar al grupo.',
     p4_first4:
-      'No te preocupes de memorizar las características especiales — ¡la app los controla y hace por tí!.',
+      'Lee las habilidades en juego y ten las reglas oficiales disponibles. La aplicación no sustituye aprender a dirigir la partida.',
     p4_duringTitle: 'Durante el Juego',
     p4_during1:
-      '**Noche:** Confía en el orden para despertar jugadores. La aplicación avisará de los que no deban despertar.',
+      '**Noche:** Sigue el panel y comprueba que cada jugador recibió la información prevista antes de continuar.',
     p4_during2:
       '**Día:** Deja que los jugadores hablen e interactúen. Tu deber como Cuentacuentos es dirigir, pero no intervenir en discusiones ajenas.',
     p4_during3:
       '**Grimorio:** Puedes revisarlo repetidas veces de forma rápida si no tienes en mente algo de cada jugador o los efectos temporales.',
     p4_during4:
-      '**Historial:** Si hay un error, el historial te devolverá una respuesta absoluta.',
+      '**Historial:** Revisa las acciones en privado para aclarar una discrepancia. No reveles información oculta para resolver una discusión pública.',
     p4_pitfallsTitle: 'Errores Comunes',
     p4_pitfalls1:
-      '❌ No compartas tu pantalla al resto de participantes, está todo para guiar explícitamente tú la partida.',
+      'Muestra al jugador solo la información privada prevista. Mantén el Grimorio y el historial fuera de su vista.',
     p4_pitfalls2:
-      '❌ No olvides de que los jugadores muertos pueden emitir un último voto, de todas formas el software lleva el conteo.',
+      'Recuerda a los muertos que les queda un voto. Confirma de quién son los votos que registras.',
     p4_pitfalls3:
-      '❌ No te estreses con la información de roles que funcionan mal: la aplicación te permite elegir cualquier resultado válido, verdadero o falso.',
+      'La información para un jugador borracho o envenenado puede ser verdadera o falsa. Elige un resultado que encaje con la habilidad que cree tener.',
     p4_pitfalls4:
-      '✅ Usa el botón de Omitir sin miedo en aquellos roles que no sea necesaria acción la noche en curso.',
+      'Omite una acción nocturna solo cuando lo indiquen las reglas. Si la aplicación se cierra durante una acción sin resolver, repítela desde el panel.',
   },
 }
 
