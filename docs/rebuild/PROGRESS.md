@@ -26,3 +26,15 @@ Status: IMPLEMENTED; publication verification pending.
   typecheck, production/PWA build, Prettier and diff whitespace check passed.
 - Browser/native validation and hosted CI: not run at this checkpoint.
 - Next: verify this commit remotely, then Task 002 protected handback.
+
+### Publication blocker — implementation stopped
+
+Task 001 status: BLOCKED (tested implementation, not remotely delivered).
+Implementation commit: `d07f08bad81048b270f3243e2e80a51ca9c3600e`.
+`git push origin rebuild/tasks-001-020` failed:
+`fatal: could not read Username for 'https://github.com': No such device or address`.
+No Task 002 or later implementation was started. The clean baseline production
+build also passed. A self-contained bundle of this branch is being preserved as
+`grimorium-rebuild-task001.bundle` outside the repository and verified by cloning.
+Next checkpoint: restore authenticated Git publication, push this branch without
+force, verify matching local/remote SHA, then mark Task 001 DONE and begin 002.
