@@ -1,9 +1,20 @@
-import { useMemo } from 'react'
+import { useMemo, useState, useRef } from 'react'
+import { getRoleRevelationProgress } from '../../lib/game'
 import { Game, GameState, PlayerState } from '../../lib/types'
 import { getRole } from '../../lib/roles'
 import { getTeam } from '../../lib/teams'
-import { useI18n, getRoleName } from '../../lib/i18n'
-import { Button, Icon, BackButton } from '../atoms'
+import { useI18n, getRoleName, interpolate } from '../../lib/i18n'
+import {
+  Button,
+  Icon,
+  BackButton,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogBody,
+} from '../atoms'
 import { ScreenFooter } from '../layouts/ScreenFooter'
 import { cn } from '../../lib/utils'
 
@@ -12,6 +23,7 @@ type Props = {
   state: GameState
   onRevealRole: (playerId: string) => void
   onStartNight: () => void
+  onSkipRevelation: () => void
   onMainMenu: () => void
 }
 
@@ -20,23 +32,22 @@ export function RoleRevelationScreen({
   state,
   onRevealRole,
   onStartNight,
+  onSkipRevelation,
   onMainMenu,
 }: Props) {
   const { t } = useI18n()
 
-  const revealedPlayerIds = useMemo(() => {
-    return new Set(
-      game.history
-        .filter((e) => e.type === 'role_revealed')
-        .map((e) => e.data.playerId as string),
-    )
-  }, [game.history])
+  const { revealedPlayerIds, revealedCount, remainingCount, allRevealed } =
+    useMemo(() => getRoleRevelationProgress(game), [game])
+  const [skipOpen, setSkipOpen] = useState(false)
+  const skipSubmitted = useRef(false)
 
-  const allRevealed = state.players.every((p) => revealedPlayerIds.has(p.id))
-
-  const revealedCount = state.players.filter((p) =>
-    revealedPlayerIds.has(p.id),
-  ).length
+  const confirmSkip = () => {
+    if (!skipOpen || allRevealed || skipSubmitted.current) return
+    skipSubmitted.current = true
+    setSkipOpen(false)
+    onSkipRevelation()
+  }
 
   return (
     <div className='min-h-app bg-gradient-to-b from-grimoire-purple via-grimoire-dark to-grimoire-darker flex flex-col'>
@@ -96,19 +107,63 @@ export function RoleRevelationScreen({
 
       {/* Footer */}
       <ScreenFooter>
-        <Button onClick={onStartNight} fullWidth size='lg' variant='dawn'>
+        <Button
+          onClick={onStartNight}
+          disabled={!allRevealed}
+          aria-describedby={!allRevealed ? 'revelation-gate-hint' : undefined}
+          fullWidth
+          size='lg'
+          variant='dawn'
+        >
           <Icon name='moon' size='md' className='mr-2' />
           {t.game.startFirstNight}
         </Button>
         {!allRevealed && (
+          <p
+            id='revelation-gate-hint'
+            className='text-center text-parchment-400 text-xs mt-2'
+          >
+            {t.game.revealAllFirst}
+          </p>
+        )}
+        {!allRevealed && (
           <button
-            onClick={onStartNight}
+            onClick={() => {
+              skipSubmitted.current = false
+              setSkipOpen(true)
+            }}
             className='w-full mt-2 py-2 text-center text-parchment-600 text-xs hover:text-parchment-400 transition-colors min-h-[44px] flex items-center justify-center'
           >
             {t.game.skipRoleRevelation}
           </button>
         )}
       </ScreenFooter>
+      <Dialog open={skipOpen && !allRevealed} onOpenChange={setSkipOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t.game.skipRoleRevelation}</DialogTitle>
+            <DialogDescription className='mt-3'>
+              {interpolate(
+                remainingCount === 1
+                  ? t.game.skipRevelationOne
+                  : t.game.skipRevelationMany,
+                { count: remainingCount },
+              )}{' '}
+              {t.game.skipRevelationExplanation}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogBody>
+            <div className='flex flex-col gap-3'>
+              <Button variant='secondary' onClick={() => setSkipOpen(false)}>
+                {t.common.cancel}
+              </Button>
+              <Button variant='dawn' onClick={confirmSkip}>
+                {t.game.confirmSkipRevelation}
+              </Button>
+            </div>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
@@ -190,7 +245,7 @@ function PlayerRevealRow({
       {isRevealed ? (
         <div className='flex items-center gap-1 text-emerald-500'>
           <Icon name='checkCircle' size='md' />
-          <span className='text-xs'>{t.game.revealed}</span>
+          <span className='text-xs'>{t.game.revealedShowAgain}</span>
         </div>
       ) : (
         <div className='flex items-center gap-1 text-mystic-gold group-hover:text-mystic-gold/80'>

@@ -53,6 +53,30 @@ const es: Translations = {
     language: 'Idioma',
   },
 
+  setupReview: {
+    reviewSetup: 'Revisar configuración',
+    composition: 'Composición de la partida',
+    playerCount: '{count} jugadores',
+    clockwise: 'Asientos en sentido horario, empezando por el asiento 1',
+    characters: 'Personajes por equipo',
+    selectedCount: '{count} personajes seleccionados para {players} jugadores.',
+    largerPool:
+      'Conjunto de personajes: {count} opciones para {players} jugadores. Solo se asignarán algunos.',
+    assignments: 'Plan de asignación',
+    allRandom: 'Todo al azar',
+    mixed: 'Asignación mixta: manual y al azar',
+    allManual: 'Todo manual',
+    awaitingRandom: 'Pendiente de asignación al azar',
+    notFinalized:
+      'Revisa el plan antes de crear la partida. Las asignaciones al azar se resuelven solo al confirmar.',
+    editPlayers: 'Editar jugadores',
+    editScript: 'Editar libreto',
+    editCharacters: 'Editar personajes',
+    editAssignments: 'Editar asignaciones',
+    createGame: 'Crear partida',
+    invalidPlan:
+      'Este plan está incompleto o es incompatible. Edita la configuración antes de crear la partida.',
+  },
   newGame: {
     step1Title: 'Nueva Partida',
     step1Subtitle: 'Paso 1: Añadir jugadores',
@@ -88,6 +112,14 @@ const es: Translations = {
   },
 
   game: {
+    confirmEndDayTitle: '¿Terminar el Día {round}?',
+    confirmEndDayBlocked:
+      '{player} está en el bloque. Al confirmar termina el Día {round} y se resuelve la ejecución prevista. La Noche {nextRound} empieza salvo que termine la partida.',
+    confirmEndDayEmpty:
+      'No hay ninguna ejecución prevista. Al confirmar termina el Día {round} y se pasa a la Noche {nextRound} según las reglas, salvo que termine la partida.',
+    confirmEndDay: 'Confirmar fin del día',
+    actionDoneReview: 'Hecho · Revisar',
+
     narratorGiveDevice: 'Muestra la pantalla a {player} para que vea su rol.',
     narratorWakePlayer:
       'Despierta a {player} ({role}) para su acción nocturna.',
@@ -172,12 +204,24 @@ const es: Translations = {
     oneOfThemIsThe: 'Uno de ellos es el/la...',
 
     // Private reveal interstitial
-    returnDeviceToNarrator: 'Oculta la pantalla al jugador',
+    returnDeviceToNarrator: 'Devuelve el dispositivo al Cuentacuentos',
     returnDeviceDescription:
       'Asegúrate de que solo el Cuentacuentos pueda ver la pantalla antes de continuar.',
-    returnDeviceReady: 'La Pantalla Es Privada',
+    returnDeviceReady: 'Mantén pulsado para volver al Cuentacuentos',
+    returnDeviceHoldHint:
+      'Mantén pulsado un segundo. Ratón, toque, Espacio o Intro.',
+    returnDeviceComplete: 'Volviendo al Cuentacuentos…',
 
     // Role Revelation
+    revealedShowAgain: 'Revelado · Toca para mostrar de nuevo',
+    skipRevelationOne:
+      '{count} jugador todavía no ha visto su personaje. ¿Empezar la Noche 1 de todos modos?',
+    skipRevelationMany:
+      '{count} jugadores todavía no han visto su personaje. ¿Empezar la Noche 1 de todos modos?',
+    skipRevelationExplanation:
+      'Al confirmar, la noche empieza sin mostrar los personajes restantes.',
+    confirmSkipRevelation: 'Confirmar omisión',
+
     roleRevelation: 'Revelación de Roles',
     roleRevelationDescription: 'Toca cada jugador para mostrarle su rol',
     tapToReveal: 'Toca para revelar',

@@ -1,3 +1,4 @@
+import { shuffle } from '../shuffle'
 import { RoleId } from '../roles/types'
 import { TeamId } from '../teams/types'
 import { getRole } from '../roles'
@@ -30,7 +31,11 @@ export function generateRolePools(
   const seen = new Set<string>()
   const maxAttempts = count * 50
 
-  for (let attempt = 0; attempt < maxAttempts && pools.length < count; attempt++) {
+  for (
+    let attempt = 0;
+    attempt < maxAttempts && pools.length < count;
+    attempt++
+  ) {
     const pool = tryGenerateValidPool(script, baseDistribution, playerCount)
     if (pool) {
       // Deduplicate by sorted role set
@@ -106,7 +111,10 @@ function tryGenerateValidPool(
   )
 
   // Step 4: Pick outsiders with adjusted count
-  const outsiders = pickRandom(rolesByTeam.outsider, adjustedDistribution.outsider)
+  const outsiders = pickRandom(
+    rolesByTeam.outsider,
+    adjustedDistribution.outsider,
+  )
   if (!outsiders) return null
 
   // Step 5: Fill townsfolk to reach player count
@@ -148,6 +156,6 @@ function pickRandom(available: RoleId[], count: number): RoleId[] | null {
   if (count === 0) return []
   if (available.length < count) return null
 
-  const shuffled = [...available].sort(() => Math.random() - 0.5)
+  const shuffled = shuffle(available)
   return shuffled.slice(0, count)
 }

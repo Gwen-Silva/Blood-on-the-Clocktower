@@ -69,3 +69,7 @@ For persistence changes, cover interrupted decisions, legacy saves, malformed da
 Describe what the app currently does, where it needs a Storyteller decision and what is unsupported. Avoid slogans, claims of complete rules coverage and promises that every game will be balanced. Keep player instructions separate from implementation details. Preserve attribution to the original project without presenting the original author's experiences as Gwen's.
 
 This fork has no analytics integration. Keep game state local unless the user explicitly changes that requirement. The visual design stays unchanged unless requested.
+
+## Mandatory remote delivery gate (rebuild branch)
+
+For any task on `rebuild/tasks-001-020`, first read `docs/rebuild/RECOVERY_AND_DELIVERY.md`. **Local commits are not deliverables.** Every checkpoint MUST be committed, pushed to `origin/rebuild/tasks-001-020` and confirmed by comparing the local `git rev-parse HEAD` with the actual remote `git ls-remote origin refs/heads/rebuild/tasks-001-020`. Never report DONE if the hashes differ, if pushing fails, or if the changes only exist in an ephemeral Codex workspace. If blocked, make and verify a transferable Git bundle when possible, and stop. Do not force-push or alter `main`. Update `docs/rebuild/PROGRESS.md` with the verification evidence. The reconstruction is not recovery of the original lost commit history.

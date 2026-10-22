@@ -1,7 +1,8 @@
+import { protectAudience, releaseAudience } from '../../lib/audienceProtection'
 import {
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -41,31 +42,39 @@ export function PlayerFacingScreen({
   const { setPlayerFacing } = useContext(PlayerFacingContext)
   const [ready, setReady] = useState(!playerName)
   const [done, setDone] = useState(false)
+  const [registered, setRegistered] = useState(false)
+  const [error, setError] = useState<unknown>(null)
   const pendingCallback = useRef<(() => void) | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    protectAudience()
+    setRegistered(true)
     setPlayerFacing(true)
     return () => setPlayerFacing(false)
   }, [setPlayerFacing])
 
-  const requestHandback = useCallback(
-    (callback: () => void) => {
-      if (playerName) {
-        pendingCallback.current = callback
-        setDone(true)
-      } else {
-        callback()
-      }
-    },
-    [playerName],
-  )
+  const requestHandback = useCallback((callback: () => void) => {
+    if (pendingCallback.current) return
+    pendingCallback.current = callback
+    setDone(true)
+  }, [])
 
   const handbackCtx = useMemo(() => ({ requestHandback }), [requestHandback])
 
   const handleHandbackReady = useCallback(() => {
-    pendingCallback.current?.()
-    pendingCallback.current = null
+    try {
+      releaseAudience()
+      const callback = pendingCallback.current
+      pendingCallback.current = null
+      callback?.()
+    } catch (failure) {
+      setError(failure)
+    }
   }, [])
+
+  if (error) throw error
+  // Do not mount children or reveal player names until the durable latch is verified.
+  if (!registered) return null
 
   // State 1: Prepare a private player view
   if (!ready && playerName) {

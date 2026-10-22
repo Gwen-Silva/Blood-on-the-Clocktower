@@ -1,3 +1,4 @@
+import { shuffle } from './shuffle'
 import { getRole } from './roles'
 
 export type RoleAssignmentInput = {
@@ -68,7 +69,7 @@ export function resolveRoleAssignments(
   }
 
   // Step 3: Shuffle remaining roles and assign to remaining players
-  const shuffled = [...remainingRoles].sort(() => Math.random() - 0.5)
+  const shuffled = shuffle(remainingRoles)
 
   for (const playerName of unassignedPlayers) {
     const roleId = shuffled.pop()
@@ -85,4 +86,40 @@ export function resolveRoleAssignments(
   )
 
   return finalAssignments
+}
+
+/** Stable setup identity; array position is the clockwise seat. */
+export type SetupPlayer = { id: string; name: string }
+
+export function resolveIdentifiedRoleAssignments(input: {
+  players: SetupPlayer[]
+  selectedRoles: string[]
+  manualAssignments: Record<string, string | null>
+}): (SetupPlayer & { roleId: string })[] {
+  for (const player of input.players) {
+    if (
+      typeof player.id !== 'string' ||
+      !player.id.trim() ||
+      player.id.trim() !== player.id
+    )
+      throw new Error('Invalid player ID')
+  }
+  const identities = new Map(input.players.map((player) => [player.id, player]))
+  if (identities.size !== input.players.length) {
+    throw new Error('Duplicate player IDs')
+  }
+  for (const id of Object.keys(input.manualAssignments)) {
+    if (!identities.has(id)) throw new Error('Unknown player ID')
+  }
+  const result = resolveRoleAssignments({
+    ...input,
+    players: input.players.map((player) => player.id),
+  })
+  if (result.length !== input.players.length)
+    throw new Error('Incomplete role assignments')
+  return result.map(({ name: id, roleId }) => {
+    const player = identities.get(id)
+    if (!player) throw new Error('Unknown player ID')
+    return { ...player, roleId }
+  })
 }

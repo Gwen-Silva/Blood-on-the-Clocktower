@@ -13,16 +13,16 @@ export const PlayerFacingContext = createContext<PlayerFacingContextType>({
  * Allows children to request a "return device to Storyteller" interstitial
  * before the actual completion callback fires.
  *
- * Default behavior (when no PlayerFacingScreen wraps): call callback immediately.
+ * A missing provider is an integration error; never bypass protected handback.
  */
 export type HandbackContextType = {
   requestHandback: (callback: () => void) => void
 }
 
-export const HandbackContext = createContext<HandbackContextType>({
-  requestHandback: (cb) => cb(),
-})
+export const HandbackContext = createContext<HandbackContextType | null>(null)
 
 export function useHandback() {
-  return useContext(HandbackContext)
+  const context = useContext(HandbackContext)
+  if (!context) throw new Error('Private handback requires PlayerFacingScreen')
+  return context
 }
