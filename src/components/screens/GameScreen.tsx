@@ -9,6 +9,7 @@ import { TeamBackground, CardLink } from '../items/TeamBackground'
 import {
   markRoleRevealed,
   getRoleRevelationProgress,
+  getNextNightRound,
   startNight,
   startDay,
   applyNightAction,
@@ -63,12 +64,14 @@ import { GameOver } from './GameOver'
 import { HistoryView } from './HistoryView'
 import { GrimoireModal, type GrimoireIntent } from '../items/GrimoireModal'
 import { Icon, LanguagePicker } from '../atoms'
+import { EndDayConfirmation } from './EndDayConfirmation'
 import { NightActionResult, SetupActionResult } from '../../lib/roles/types'
 import type { FC } from 'react'
 import { SetupActionsScreen } from './SetupActionsScreen'
 import { DawnScreen } from './DawnScreen'
 import { EvilStartingInfoScreen } from './EvilStartingInfoScreen'
-import { DeathRevealScreen, DeathRevealEntry } from './DeathRevealScreen'
+import { DeathRevealScreen } from './DeathRevealScreen'
+import { toPublicDeaths, type PublicDeathEntry } from '../../lib/publicDeath'
 import { PlayerFacingContext } from '../context/PlayerFacingContext'
 import { PlayerFacingScreen } from '../layouts/PlayerFacingScreen'
 
@@ -93,7 +96,7 @@ type Screen =
   | { type: 'voting'; nomineeId: string }
   | { type: 'pipeline_input' }
   | { type: 'game_over' }
-  | { type: 'death_reveal'; deaths: DeathRevealEntry[]; next: Screen }
+  | { type: 'death_reveal'; deaths: PublicDeathEntry[]; next: Screen }
   | { type: 'grimoire_role_card'; playerId: string; returnTo: Screen }
 
 export function GameScreen(props: Props) {
@@ -111,6 +114,13 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     getInitialScreen(initialGame),
   )
   const firstNightStarted = useRef(false)
+  const liveView = useRef({ game, screen })
+  liveView.current = { game, screen }
+  const [endDayConfirmation, setEndDayConfirmation] = useState<{
+    game: Game
+    screen: Screen
+  } | null>(null)
+  const pendingEndDay = useRef<typeof endDayConfirmation>(null)
   const [showHistory, setShowHistory] = useState(false)
   const [showGrimoire, setShowGrimoire] = useState(false)
   const [grimoireIntent, setGrimoireIntent] = useState<GrimoireIntent>({
@@ -318,14 +328,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
       setScreen({ type: 'game_over' })
     } else {
       const deaths = getLastNightDeaths(newGame)
-      const deadPlayers = deaths
-        .map((id) => state.players.find((p) => p.id === id))
-        .filter(Boolean)
-        .map((p) => ({
-          playerId: p!.id,
-          playerName: p!.name,
-          roleId: p!.roleId,
-        }))
+      const deadPlayers = toPublicDeaths(state.players, deaths)
 
       if (deadPlayers.length > 0) {
         // Death reveal goes straight to day — dawn announcement is redundant
@@ -379,14 +382,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
           .some((entry) => entry.type === 'virgin_execution')
 
         if (virginTriggered && deaths.length > 0) {
-          const deadPlayers = deaths
-            .map((id) => newState.players.find((p) => p.id === id))
-            .filter(Boolean)
-            .map((p) => ({
-              playerId: p!.id,
-              playerName: p!.name,
-              roleId: p!.roleId,
-            }))
+          const deadPlayers = toPublicDeaths(newState.players, deaths)
           const nightGame = finishVirginExecutionDay(newGame)
           if (!updateGame(nightGame)) return
           setScreen({
@@ -409,6 +405,34 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
 
     // No execution here — deferred to end of day
     setScreen({ type: 'day' })
+  }
+
+  const requestEndDay = () => {
+    if (screen.type !== 'day' || state.phase !== 'day' || isPlayerFacing) return
+    const confirmation = { game, screen }
+    pendingEndDay.current = confirmation
+    setEndDayConfirmation(confirmation)
+  }
+
+  const closeEndDay = () => {
+    pendingEndDay.current = null
+    setEndDayConfirmation(null)
+  }
+
+  const confirmEndDay = () => {
+    const token = endDayConfirmation
+    if (
+      !token ||
+      pendingEndDay.current !== token ||
+      liveView.current.game !== token.game ||
+      liveView.current.screen !== token.screen ||
+      token.screen.type !== 'day' ||
+      getCurrentState(token.game).phase !== 'day' ||
+      isAudienceProtected()
+    )
+      return
+    closeEndDay()
+    handleEndDay()
   }
 
   const handleEndDay = () => {
@@ -459,14 +483,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     const nightDashboardScreen: Screen = { type: 'night_dashboard' }
 
     if (deaths.length > 0) {
-      const deadPlayers = deaths
-        .map((id) => postState.players.find((p) => p.id === id))
-        .filter(Boolean)
-        .map((p) => ({
-          playerId: p!.id,
-          playerName: p!.name,
-          roleId: p!.roleId,
-        }))
+      const deadPlayers = toPublicDeaths(postState.players, deaths)
       setScreen({
         type: 'death_reveal',
         deaths: deadPlayers,
@@ -524,14 +541,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
       const nextScreen: Screen = { type: 'day' }
 
       if (deaths.length > 0) {
-        const deadPlayers = deaths
-          .map((id) => newState.players.find((p) => p.id === id))
-          .filter(Boolean)
-          .map((p) => ({
-            playerId: p!.id,
-            playerName: p!.name,
-            roleId: p!.roleId,
-          }))
+        const deadPlayers = toPublicDeaths(newState.players, deaths)
         setScreen({
           type: 'death_reveal',
           deaths: deadPlayers,
@@ -625,7 +635,12 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   // RENDER
   // ========================================================================
 
-  if (showHistory && !isPlayerFacing) {
+  if (
+    showHistory &&
+    !isPlayerFacing &&
+    screen.type !== 'death_reveal' &&
+    screen.type !== 'dawn'
+  ) {
     return (
       <div className='relative'>
         <HistoryView game={game} onClose={() => setShowHistory(false)} />
@@ -795,7 +810,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
             nominationsBlocked={hasVirginExecutionToday(game)}
             onNominate={handleOpenNomination}
             onDayAction={handleOpenDayAction}
-            onEndDay={handleEndDay}
+            onEndDay={requestEndDay}
             onMainMenu={onMainMenu}
             onShowRoleCard={handleShowRoleCard}
             onEditEffects={handleOpenEditEffects}
@@ -889,6 +904,8 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   // - grimoire_role_card: full-screen role card overlay
   // - when a child component signals it's player-facing (via PlayerFacingScreen)
   const showFloatingButtons =
+    screen.type !== 'death_reveal' &&
+    screen.type !== 'dawn' &&
     screen.type !== 'showing_role' &&
     screen.type !== 'game_over' &&
     screen.type !== 'grimoire_role_card' &&
@@ -929,6 +946,21 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
           </button>
         </div>
       )}
+
+      <EndDayConfirmation
+        open={
+          !!endDayConfirmation &&
+          endDayConfirmation.game === game &&
+          endDayConfirmation.screen === screen &&
+          screen.type === 'day' &&
+          !isPlayerFacing
+        }
+        round={state.round}
+        nextRound={getNextNightRound(state)}
+        blockedPlayerName={getBlockStatus(game)?.playerName ?? null}
+        onClose={closeEndDay}
+        onConfirm={confirmEndDay}
+      />
 
       {/* Grimoire Modal — unified player list, detail, edit effects, effect config */}
       <GrimoireModal

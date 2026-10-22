@@ -1,3 +1,4 @@
+import { shuffle } from './shuffle'
 import { getRole } from './roles'
 
 export type RoleAssignmentInput = {
@@ -68,7 +69,7 @@ export function resolveRoleAssignments(
   }
 
   // Step 3: Shuffle remaining roles and assign to remaining players
-  const shuffled = [...remainingRoles].sort(() => Math.random() - 0.5)
+  const shuffled = shuffle(remainingRoles)
 
   for (const playerName of unassignedPlayers) {
     const roleId = shuffled.pop()

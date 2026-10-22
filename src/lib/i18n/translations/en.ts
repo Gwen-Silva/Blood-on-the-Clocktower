@@ -112,6 +112,14 @@ const en: Translations = {
   },
 
   game: {
+    confirmEndDayTitle: 'End Day {round}?',
+    confirmEndDayBlocked:
+      '{player} is on the block. Confirming ends Day {round} and resolves the scheduled execution. Night {nextRound} begins unless the game ends.',
+    confirmEndDayEmpty:
+      'No execution is currently scheduled. Confirming ends Day {round} and proceeds to Night {nextRound} according to the existing rules, unless the game ends.',
+    confirmEndDay: 'Confirm End Day',
+    actionDoneReview: 'Done · Review',
+
     narratorGiveDevice:
       'Show the screen to {player} so they can see their role.',
     narratorWakePlayer: 'Wake {player} ({role}) for their night action.',

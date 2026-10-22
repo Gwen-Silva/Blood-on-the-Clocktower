@@ -383,9 +383,13 @@ function findLastEventIndex(game: Game, eventType: string): number {
 // PHASE TRANSITIONS
 // ============================================================================
 
+export function getNextNightRound(state: GameState): number {
+  return state.phase === 'setup' ? 1 : state.round + 1
+}
+
 export function startNight(game: Game): Game {
   const state = getCurrentState(game)
-  const newRound = state.phase === 'setup' ? 1 : state.round + 1
+  const newRound = getNextNightRound(state)
 
   // Expire effects that should end at end of day (e.g., Poisoner's poison)
   const stateAfterExpiration = expireEffects(state, 'end_of_day')
@@ -1017,7 +1021,16 @@ export function getNightActionSummary(
   for (let i = nightStartIndex + 1; i < game.history.length; i++) {
     const entry = game.history[i]
     if (entry.type === 'night_action' && entry.data.playerId === playerId) {
-      messages.push(entry.message)
+      if (
+        entry.message.some((part) =>
+          part.type === 'text'
+            ? !!part.content.trim()
+            : part.type === 'i18n'
+              ? !!part.key.trim()
+              : true,
+        )
+      )
+        messages.push(entry.message)
     }
   }
   return messages

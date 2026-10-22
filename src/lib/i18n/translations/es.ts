@@ -112,6 +112,14 @@ const es: Translations = {
   },
 
   game: {
+    confirmEndDayTitle: '¿Terminar el Día {round}?',
+    confirmEndDayBlocked:
+      '{player} está en el bloque. Al confirmar termina el Día {round} y se resuelve la ejecución prevista. La Noche {nextRound} empieza salvo que termine la partida.',
+    confirmEndDayEmpty:
+      'No hay ninguna ejecución prevista. Al confirmar termina el Día {round} y se pasa a la Noche {nextRound} según las reglas, salvo que termine la partida.',
+    confirmEndDay: 'Confirmar fin del día',
+    actionDoneReview: 'Hecho · Revisar',
+
     narratorGiveDevice: 'Muestra la pantalla a {player} para que vea su rol.',
     narratorWakePlayer:
       'Despierta a {player} ({role}) para su acción nocturna.',

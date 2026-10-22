@@ -170,7 +170,12 @@ export function NightDashboard({
                   onOpen={() =>
                     onOpenNightAction(item.data.playerId, item.data.roleId)
                   }
-                  onReview={() => setReviewPlayerId(item.data.playerId)}
+                  onReview={
+                    item.data.status === 'done' &&
+                    getNightActionSummary(game, item.data.playerId).length > 0
+                      ? () => setReviewPlayerId(item.data.playerId)
+                      : undefined
+                  }
                 />
               ) : (
                 <NightFollowUpRow
@@ -247,12 +252,21 @@ export function NightDashboard({
 
       {/* Review Action Summary Dialog */}
       <Dialog
-        open={reviewPlayerId !== null}
+        open={
+          reviewPlayerId !== null &&
+          reviewMessages.length > 0 &&
+          items.some(
+            (item) =>
+              item.type === 'night_action' &&
+              item.data.playerId === reviewPlayerId &&
+              item.data.status === 'done',
+          )
+        }
         onOpenChange={(open) => {
           if (!open) setReviewPlayerId(null)
         }}
       >
-        <DialogContent>
+        <DialogContent aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle>{t.game.actionSummary}</DialogTitle>
           </DialogHeader>
@@ -332,7 +346,7 @@ function NightActionRow({
   index: number
   isNext: boolean
   onOpen: () => void
-  onReview: () => void
+  onReview?: () => void
 }) {
   const { language } = useI18n()
   const role = getRole(roleStatus.roleId)
@@ -419,10 +433,10 @@ function DashboardRow({
 
   const isClickable = isNext || (isDone && !!onReview)
   const handleClick = () => {
-    if (isNext) {
+    if (isDone) {
+      onReview?.()
+    } else if (isNext) {
       onOpen()
-    } else if (isDone && onReview) {
-      onReview()
     }
   }
 
@@ -431,7 +445,7 @@ function DashboardRow({
       return (
         <span className='flex items-center gap-1 text-xs text-emerald-400'>
           <Icon name='checkCircle' size='sm' />
-          {t.game.actionDone}
+          {onReview ? t.game.actionDoneReview : t.game.actionDone}
         </span>
       )
     }

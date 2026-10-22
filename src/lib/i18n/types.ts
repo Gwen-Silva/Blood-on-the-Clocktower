@@ -107,6 +107,12 @@ export type Translations = {
 
   // Game Phases
   game: {
+    confirmEndDayTitle: string
+    confirmEndDayBlocked: string
+    confirmEndDayEmpty: string
+    confirmEndDay: string
+    actionDoneReview: string
+
     // Narrator prompts
     narratorGiveDevice: string
     narratorWakePlayer: string
