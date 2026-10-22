@@ -35,9 +35,17 @@ export function createGame(
   scriptId: string,
   players: PlayerSetup[],
 ): Game {
-  const suppliedIds = players.flatMap((player) =>
-    player.id ? [player.id] : [],
-  )
+  const suppliedIds = players.flatMap((player) => {
+    if (!Object.prototype.hasOwnProperty.call(player, 'id')) return []
+    if (
+      typeof player.id !== 'string' ||
+      !player.id.trim() ||
+      player.id.trim() !== player.id
+    ) {
+      throw new Error('Invalid player ID')
+    }
+    return [player.id]
+  })
   if (new Set(suppliedIds).size !== suppliedIds.length)
     throw new Error('Duplicate player IDs')
   const gameId = generateId()

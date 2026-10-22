@@ -55,3 +55,24 @@ start before this checkpoint is pushed and its remote SHA verified.
 Published checkpoint verified: local and remote
 `2c7c485b191a0ebf52fbbea8b69a3026db896e80`. The implementation commit was
 independently confirmed through GitHub file retrieval before marking DONE.
+
+## Corrective review checkpoint — durable audience protection
+
+Status: VERIFIED LOCALLY — publication pending. Original Task 002 delivery above
+was incomplete with respect to reload/resume privacy (PR #2 review 6331273512).
+
+A separate minimal localStorage latch now survives React unmount, reload and
+app restart. It is verified before mounting player content and is cleared only
+by protected hold. Route-level and fresh-game guards restore a neutral screen
+while it is pending. No interrupted action is committed and no game/history is
+modified by recovery. Storage errors fail closed. A global latch intentionally
+protects the device across Main Menu, Continue and unrelated routes.
+
+The accompanying Task 001 corrections reject explicit invalid IDs, unknown
+manual targets and incomplete assignments, while keeping omitted legacy IDs.
+The real setup wizard regression covers duplicate names, touch reorder, rename,
+backward navigation, independent assignments and persisted seating/identity.
+
+Verification: 68 targeted and 504 total tests passed; typecheck, production/PWA
+build, Prettier and diff check passed. No real-browser or native validation was
+performed. Publication evidence and final status belong in PROGRESS.md.

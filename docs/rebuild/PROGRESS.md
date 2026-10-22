@@ -84,3 +84,48 @@ Starting HEAD: `38a05d89e64d6ee0034eb17ac7ed49aa05d25e0f`.
   at the published implementation ref `685a00f` before marking DONE.
 - This status-only follow-up will also be pushed and SHA-checked; product code
   and the successful verification results remain unchanged. Task 003 not started.
+
+## Corrective checkpoint — Tasks 001 and 002 review
+
+Status: VERIFIED LOCALLY — remote publication pending.
+Baseline local/remote: `8244663dfd7629759d051bfbd7e1e020e59a31b8`.
+Read PR #2 review comments `6331168405` and `6331273512` before implementation.
+
+### Corrections
+
+- A durable global device latch (`grimoire_audience_protected`, value `1` only)
+  is written and read back before PlayerFacingScreen mounts any private content
+  or preparation information. No IDs, names, roles, effects or snapshots are
+  copied into it. Unmount/reload never clears it.
+- App route entries and fresh GameScreen mounts check the latch before mounting
+  privileged children. A pending or unknown non-null marker restores only the
+  existing neutral ReturnDeviceScreen. A fresh 1,000 ms hold is required.
+- Back/popstate, Main Menu/Continue-equivalent navigation and other routes cannot
+  bypass the latch; changing routes during recovery resets the hold.
+- Interrupted actions/callbacks are discarded. Recovery does not change the game
+  or audit history. Normal completion still uses existing save-before-publish.
+- Marker read, write, read-back and release failures fail closed through the
+  existing storage boundary. Recovery offers no automatic marker-clear retry.
+- Explicit blank/non-string/undefined/null/padded player IDs and duplicate IDs
+  are rejected. Omitted IDs remain compatible with legacy creation. Identified
+  assignments reject unknown targets and incomplete output rather than creating
+  phantom players or silently dropping seats.
+
+### Verification
+
+- Targeted: 68 tests / 5 files passed (new recovery/setup tests plus previous
+  handback, identity and assignment regressions).
+- Full Vitest: 504 tests / 58 files passed.
+- Typecheck, production/PWA build, Prettier and git diff --check passed.
+- React DOM coverage: reload during role reveal/ReturnDevice and private night
+  reveal/ReturnDevice; restart with marker; route/back/menu/continue protection;
+  recovery hold cancellation; unchanged saved game/history; marker read/write/
+  silent-write/read-back/release failures; unknown marker; invalid/duplicate/
+  unknown IDs. Actual setup components use touch events for reorder, duplicate
+  names, rename, backward navigation and independent persisted assignments.
+- Browser validation: NOT RUN — no Chromium/Chrome executable installed locally.
+  React/jsdom remounts simulate reload/restart, not native runtime validation.
+- Hosted CI and native validation: not executed/claimed. Existing Radix dialog
+  description, Browserslist age and bundle-size warnings remain non-fatal.
+- Task 003 NOT STARTED. Mark this checkpoint DONE only after normal push,
+  matching local/remote HEAD and GitHub retrieval of the published commit.

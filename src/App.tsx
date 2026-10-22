@@ -18,6 +18,7 @@ import { RoleId } from './lib/roles/types'
 import { getRole } from './lib/roles'
 import { ScriptId } from './lib/scripts'
 import { returnToMainMenu } from './lib/navigation'
+import { AudienceRecoveryBoundary } from './components/layouts/AudienceRecoveryBoundary'
 
 // Internal screens for the new-game wizard (not routed — stays on "/")
 type NewGameScreen =
@@ -31,7 +32,7 @@ type NewGameScreen =
       selectedRoles: string[]
     }
 
-function App() {
+function AppRoutes() {
   const { path, navigate, replace } = useRouter()
   const [saveError, setSaveError] = useState<unknown>(null)
 
@@ -300,6 +301,15 @@ function App() {
         <LanguagePicker variant='floating' />
       </div>
     </div>
+  )
+}
+
+function App() {
+  const { path } = useRouter()
+  return (
+    <AudienceRecoveryBoundary key={path}>
+      <AppRoutes />
+    </AudienceRecoveryBoundary>
   )
 }
 

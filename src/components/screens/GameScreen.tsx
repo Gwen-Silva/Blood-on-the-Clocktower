@@ -1,3 +1,4 @@
+import { AudienceRecoveryBoundary } from '../layouts/AudienceRecoveryBoundary'
 import { useState, useCallback, useMemo } from 'react'
 import { Game, getCurrentState, getPlayer, PlayerState } from '../../lib/types'
 import { getRole } from '../../lib/roles'
@@ -93,7 +94,15 @@ type Screen =
   | { type: 'death_reveal'; deaths: DeathRevealEntry[]; next: Screen }
   | { type: 'grimoire_role_card'; playerId: string; returnTo: Screen }
 
-export function GameScreen({ initialGame, onMainMenu }: Props) {
+export function GameScreen(props: Props) {
+  return (
+    <AudienceRecoveryBoundary>
+      <GameScreenContent {...props} />
+    </AudienceRecoveryBoundary>
+  )
+}
+
+function GameScreenContent({ initialGame, onMainMenu }: Props) {
   const { t } = useI18n()
   const [game, setGame] = useState<Game>(initialGame)
   const [screen, setScreen] = useState<Screen>(() =>

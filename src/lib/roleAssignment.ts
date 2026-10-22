@@ -95,12 +95,30 @@ export function resolveIdentifiedRoleAssignments(input: {
   selectedRoles: string[]
   manualAssignments: Record<string, string | null>
 }): (SetupPlayer & { roleId: string })[] {
+  for (const player of input.players) {
+    if (
+      typeof player.id !== 'string' ||
+      !player.id.trim() ||
+      player.id.trim() !== player.id
+    )
+      throw new Error('Invalid player ID')
+  }
   const identities = new Map(input.players.map((player) => [player.id, player]))
   if (identities.size !== input.players.length) {
     throw new Error('Duplicate player IDs')
   }
-  return resolveRoleAssignments({
+  for (const id of Object.keys(input.manualAssignments)) {
+    if (!identities.has(id)) throw new Error('Unknown player ID')
+  }
+  const result = resolveRoleAssignments({
     ...input,
     players: input.players.map((player) => player.id),
-  }).map(({ name: id, roleId }) => ({ ...identities.get(id)!, roleId }))
+  })
+  if (result.length !== input.players.length)
+    throw new Error('Incomplete role assignments')
+  return result.map(({ name: id, roleId }) => {
+    const player = identities.get(id)
+    if (!player) throw new Error('Unknown player ID')
+    return { ...player, roleId }
+  })
 }

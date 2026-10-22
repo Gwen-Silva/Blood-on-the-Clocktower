@@ -78,3 +78,44 @@ describe('setup identity and clockwise seating', () => {
     ).toBe(2)
   })
 })
+
+describe('defensive setup identity validation', () => {
+  it.each(['', ' ', '\t', ' padded ', null, undefined, 17])(
+    'rejects explicit invalid ID %j',
+    (id) => {
+      expect(() =>
+        createGame('Invalid', 'trouble-brewing', [
+          { id: id as string, name: 'Alex', roleId: 'soldier' },
+        ]),
+      ).toThrow('Invalid player ID')
+      expect(() =>
+        resolveIdentifiedRoleAssignments({
+          players: [{ id: id as string, name: 'Alex' }],
+          selectedRoles,
+          manualAssignments: {},
+        }),
+      ).toThrow('Invalid player ID')
+    },
+  )
+  it.each(['chef', null])(
+    'rejects unknown assignment IDs even for %j assignment',
+    (role) => {
+      expect(() =>
+        resolveIdentifiedRoleAssignments({
+          players,
+          selectedRoles,
+          manualAssignments: { ghost: role },
+        }),
+      ).toThrow('Unknown player ID')
+    },
+  )
+  it('rejects incomplete assignments instead of silently dropping players', () => {
+    expect(() =>
+      resolveIdentifiedRoleAssignments({
+        players,
+        selectedRoles: ['imp'],
+        manualAssignments: {},
+      }),
+    ).toThrow('Incomplete role assignments')
+  })
+})
