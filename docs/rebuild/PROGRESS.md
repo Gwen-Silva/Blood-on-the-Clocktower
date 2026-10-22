@@ -50,3 +50,25 @@ Verified local HEAD and remote branch via `git ls-remote` both equal
 The original `grimorium-rebuild-task001.bundle` remains unchanged and verified.
 No Task 001 implementation was repeated. No product changes were made while
 resolving authentication. Next implementation checkpoint: Task 002.
+
+## Task 002 — protected Storyteller handback
+
+Status: VERIFIED LOCALLY; publication/SHA verification pending.
+Implementation commit: `685a00f` (Protect player handback to Storyteller).
+Starting HEAD: `38a05d89e64d6ee0034eb17ac7ed49aa05d25e0f`.
+
+- Shared neutral return requires a continuous 1,000 ms hold for mouse, touch,
+  Space or Enter. Clicks do nothing. Release/cancellation, leaving bounds,
+  capture loss, blur, hidden page and unmount cancel and reset pending attempts.
+- Private information unmounts before neutral return. Callback runs once only
+  after successful hold. Missing-context and nameless-wrapper immediate-return
+  fallbacks removed. Storyteller overlays close before private content appears.
+- Targeted: 42 tests / 3 files passed (23 handback/privacy + 19 setup regression).
+- Full suite: 478 tests / 56 files passed. Typecheck, production/PWA build,
+  Prettier check and git diff --check passed.
+- Browser/native validation: NOT RUN. No local Chromium installation detected;
+  React DOM/jsdom tests do not constitute real-browser or native validation.
+- Hosted CI not claimed. Existing Radix description and build-size/Browserslist
+  warnings recorded in the task document; no failing verification.
+- Task 003 not started. Next: normal push and exact local/remote SHA comparison,
+  inspect published commit on GitHub, then record DONE in a verified follow-up.
