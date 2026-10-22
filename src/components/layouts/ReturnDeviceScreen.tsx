@@ -1,5 +1,6 @@
 import { useI18n } from '../../lib/i18n'
 import { Button, Icon } from '../atoms'
+import { useHandbackHold } from './useHandbackHold'
 
 type Props = {
   onReady: () => void
@@ -7,6 +8,7 @@ type Props = {
 
 export function ReturnDeviceScreen({ onReady }: Props) {
   const { t } = useI18n()
+  const { progress, handlers } = useHandbackHold(onReady)
 
   return (
     <div className='min-h-app bg-gradient-to-b from-grimoire-purple via-grimoire-dark to-grimoire-darker flex flex-col items-center justify-center px-6'>
@@ -21,13 +23,40 @@ export function ReturnDeviceScreen({ onReady }: Props) {
         <h1 className='font-tarot text-2xl text-parchment-100 tracking-widest-xl uppercase mb-3'>
           {t.game.returnDeviceToNarrator}
         </h1>
-        <p className='text-parchment-500 text-sm mb-10'>
+        <p
+          id='handback-instruction'
+          className='text-parchment-500 text-sm mb-10'
+        >
           {t.game.returnDeviceDescription}
         </p>
-        <Button onClick={onReady} size='lg' variant='gold' fullWidth>
+        <Button
+          {...handlers}
+          type='button'
+          size='lg'
+          variant='gold'
+          fullWidth
+          className='relative overflow-hidden whitespace-normal h-auto min-h-14 select-none touch-none'
+          aria-describedby='handback-instruction'
+        >
+          <span
+            aria-hidden='true'
+            className='absolute inset-y-0 left-0 bg-white/30 pointer-events-none'
+            style={{ width: `${progress * 100}%` }}
+          />
           <Icon name='check' size='md' className='mr-2' />
-          {t.game.returnDeviceReady}
+          <span className='relative'>{t.game.returnDeviceReady}</span>
         </Button>
+        <progress
+          className='w-full mt-3 accent-mystic-gold'
+          value={progress}
+          max={1}
+          aria-label={t.game.returnDeviceReady}
+        />
+        <p role='status' className='text-parchment-400 text-sm mt-2'>
+          {progress === 1
+            ? t.game.returnDeviceComplete
+            : t.game.returnDeviceHoldHint}
+        </p>
       </div>
     </div>
   )

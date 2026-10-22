@@ -172,10 +172,13 @@ const es: Translations = {
     oneOfThemIsThe: 'Uno de ellos es el/la...',
 
     // Private reveal interstitial
-    returnDeviceToNarrator: 'Oculta la pantalla al jugador',
+    returnDeviceToNarrator: 'Devuelve el dispositivo al Cuentacuentos',
     returnDeviceDescription:
       'Asegúrate de que solo el Cuentacuentos pueda ver la pantalla antes de continuar.',
-    returnDeviceReady: 'La Pantalla Es Privada',
+    returnDeviceReady: 'Mantén pulsado para volver al Cuentacuentos',
+    returnDeviceHoldHint:
+      'Mantén pulsado un segundo. Ratón, toque, Espacio o Intro.',
+    returnDeviceComplete: 'Volviendo al Cuentacuentos…',
 
     // Role Revelation
     roleRevelation: 'Revelación de Roles',

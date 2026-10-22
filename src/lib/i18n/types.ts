@@ -176,6 +176,8 @@ export type Translations = {
     returnDeviceToNarrator: string
     returnDeviceDescription: string
     returnDeviceReady: string
+    returnDeviceHoldHint: string
+    returnDeviceComplete: string
 
     // Role Revelation
     roleRevelation: string

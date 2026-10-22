@@ -1,7 +1,7 @@
 import {
   useCallback,
   useContext,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -43,28 +43,23 @@ export function PlayerFacingScreen({
   const [done, setDone] = useState(false)
   const pendingCallback = useRef<(() => void) | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPlayerFacing(true)
     return () => setPlayerFacing(false)
   }, [setPlayerFacing])
 
-  const requestHandback = useCallback(
-    (callback: () => void) => {
-      if (playerName) {
-        pendingCallback.current = callback
-        setDone(true)
-      } else {
-        callback()
-      }
-    },
-    [playerName],
-  )
+  const requestHandback = useCallback((callback: () => void) => {
+    if (pendingCallback.current) return
+    pendingCallback.current = callback
+    setDone(true)
+  }, [])
 
   const handbackCtx = useMemo(() => ({ requestHandback }), [requestHandback])
 
   const handleHandbackReady = useCallback(() => {
-    pendingCallback.current?.()
+    const callback = pendingCallback.current
     pendingCallback.current = null
+    callback?.()
   }, [])
 
   // State 1: Prepare a private player view

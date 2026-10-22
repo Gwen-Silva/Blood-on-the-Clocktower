@@ -173,10 +173,13 @@ const en: Translations = {
     oneOfThemIsThe: 'One of them is the...',
 
     // Private reveal interstitial
-    returnDeviceToNarrator: 'Hide the screen from the player',
+    returnDeviceToNarrator: 'Return the device to the Storyteller',
     returnDeviceDescription:
       'Make sure only the Storyteller can see the screen before continuing.',
-    returnDeviceReady: 'Screen Is Private',
+    returnDeviceReady: 'Hold to return to Storyteller',
+    returnDeviceHoldHint:
+      'Hold continuously for one second. Mouse, touch, Space or Enter.',
+    returnDeviceComplete: 'Returning to Storyteller…',
 
     // Role Revelation
     roleRevelation: 'Role Revelation',

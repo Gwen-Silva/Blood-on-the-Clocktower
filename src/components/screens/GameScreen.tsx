@@ -115,9 +115,16 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
 
   // Player-facing state — set by PlayerFacingScreen wrapper inside NightAction components
   const [isPlayerFacing, setIsPlayerFacing] = useState(false)
+  const setPlayerFacing = useCallback((value: boolean) => {
+    setIsPlayerFacing(value)
+    if (value) {
+      setShowHistory(false)
+      setShowGrimoire(false)
+    }
+  }, [])
   const playerFacingCtx = useMemo(
-    () => ({ setPlayerFacing: setIsPlayerFacing }),
-    [],
+    () => ({ setPlayerFacing }),
+    [setPlayerFacing],
   )
 
   const [saveError, setSaveError] = useState<unknown>(null)
@@ -596,7 +603,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
   // RENDER
   // ========================================================================
 
-  if (showHistory) {
+  if (showHistory && !isPlayerFacing) {
     return (
       <div className='relative'>
         <HistoryView game={game} onClose={() => setShowHistory(false)} />
@@ -859,6 +866,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
   // - grimoire_role_card: full-screen role card overlay
   // - when a child component signals it's player-facing (via PlayerFacingScreen)
   const showFloatingButtons =
+    screen.type !== 'showing_role' &&
     screen.type !== 'game_over' &&
     screen.type !== 'grimoire_role_card' &&
     screen.type !== 'pipeline_input' &&
@@ -902,7 +910,7 @@ export function GameScreen({ initialGame, onMainMenu }: Props) {
       {/* Grimoire Modal — unified player list, detail, edit effects, effect config */}
       <GrimoireModal
         state={state}
-        open={showGrimoire}
+        open={showGrimoire && showFloatingButtons}
         onClose={() => setShowGrimoire(false)}
         intent={grimoireIntent}
         onShowRoleCard={handleShowRoleCard}
