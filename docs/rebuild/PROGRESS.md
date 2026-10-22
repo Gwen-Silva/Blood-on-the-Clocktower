@@ -4,7 +4,8 @@
 | ------------------------- | ----------- | ------------------------------------------ | ---------------------------------------- | ------------------------------------------------- |
 | Initial delivery contract | DONE        | Pending final verification in setup        | Not applicable (no product code changed) | Original source not recovered; baseline `1eea438` |
 | Task 001                  | DONE        | `35e2d088f7a5d6ffe8b12e44551705fd362ed737` | 455 tests; typecheck/build passed        | Stable setup identity                             |
-| Tasks 002–005             | NOT STARTED | —                                          | —                                        | Next: protected handback                          |
+| Task 002                  | DONE        | `2c7c485b191a0ebf52fbbea8b69a3026db896e80` | 478 tests; typecheck/build passed        | Protected handback                                |
+| Tasks 003–005             | NOT STARTED | —                                          | —                                        | Next: role-revelation progression                 |
 | Tasks 006–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
@@ -53,7 +54,7 @@ resolving authentication. Next implementation checkpoint: Task 002.
 
 ## Task 002 — protected Storyteller handback
 
-Status: VERIFIED LOCALLY; publication/SHA verification pending.
+Status: DONE — normal push and GitHub publication verified.
 Implementation commit: `685a00f` (Protect player handback to Storyteller).
 Starting HEAD: `38a05d89e64d6ee0034eb17ac7ed49aa05d25e0f`.
 
@@ -72,3 +73,14 @@ Starting HEAD: `38a05d89e64d6ee0034eb17ac7ed49aa05d25e0f`.
   warnings recorded in the task document; no failing verification.
 - Task 003 not started. Next: normal push and exact local/remote SHA comparison,
   inspect published commit on GitHub, then record DONE in a verified follow-up.
+
+### Task 002 remote delivery evidence
+
+- Implementation SHA: `685a00f` (full SHA available in Git history).
+- Published checkpoint local HEAD: `2c7c485b191a0ebf52fbbea8b69a3026db896e80`.
+- `git ls-remote origin refs/heads/rebuild/tasks-001-020` returned exactly
+  `2c7c485b191a0ebf52fbbea8b69a3026db896e80` after the normal push.
+- GitHub file API confirmed `src/components/layouts/useHandbackHold.ts` exists
+  at the published implementation ref `685a00f` before marking DONE.
+- This status-only follow-up will also be pushed and SHA-checked; product code
+  and the successful verification results remain unchanged. Task 003 not started.

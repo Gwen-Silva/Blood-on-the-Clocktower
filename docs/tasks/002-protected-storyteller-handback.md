@@ -1,6 +1,6 @@
 # Task 002 — Protected Storyteller Handback
 
-Status: VERIFIED LOCALLY — remote publication pending.
+Status: DONE — published to rebuild/tasks-001-020 and verified on GitHub.
 
 ## Scope
 
@@ -51,3 +51,7 @@ Preserve Task 001, game rules and save-before-publication behavior.
 
 Publication evidence is recorded in docs/rebuild/PROGRESS.md. Task 003 must not
 start before this checkpoint is pushed and its remote SHA verified.
+
+Published checkpoint verified: local and remote
+`2c7c485b191a0ebf52fbbea8b69a3026db896e80`. The implementation commit was
+independently confirmed through GitHub file retrieval before marking DONE.
