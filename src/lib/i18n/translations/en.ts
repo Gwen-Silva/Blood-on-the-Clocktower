@@ -18,6 +18,15 @@ const en: Translations = {
     retryFailed:
       'Saving still failed. Download the recovery copy before closing the app.',
   },
+  playerReference: {
+    previousCharacter: 'Previous character',
+    nextCharacter: 'Next character',
+    title: 'Player Reference',
+    introduction:
+      'All possible characters in this script. This does not show which characters are in play or who has them.',
+    unavailable: 'The public character catalog is unavailable for this script.',
+    returnToStoryteller: 'Return to Storyteller',
+  },
   common: {
     continue: 'Continue',
     confirm: 'Confirm',

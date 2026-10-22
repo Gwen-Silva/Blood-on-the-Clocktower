@@ -18,6 +18,16 @@ const es: Translations = {
     retryFailed:
       'Sigue sin poder guardarse. Descarga la copia antes de cerrar la aplicación.',
   },
+  playerReference: {
+    previousCharacter: 'Personaje anterior',
+    nextCharacter: 'Siguiente personaje',
+    title: 'Referencia para jugadores',
+    introduction:
+      'Todos los personajes posibles de este guion. No indica cuáles están en juego ni quién los tiene.',
+    unavailable:
+      'El catálogo público de personajes no está disponible para este guion.',
+    returnToStoryteller: 'Volver al Cuentacuentos',
+  },
   common: {
     continue: 'Continuar',
     confirm: 'Confirmar',

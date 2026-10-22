@@ -14,6 +14,15 @@ export type Translations = {
     retryFailed: string
   }
 
+  playerReference: {
+    previousCharacter: string
+    nextCharacter: string
+    title: string
+    introduction: string
+    unavailable: string
+    returnToStoryteller: string
+  }
+
   // Common
   common: {
     continue: string

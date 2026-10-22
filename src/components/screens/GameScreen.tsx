@@ -74,6 +74,8 @@ import { DeathRevealScreen } from './DeathRevealScreen'
 import { toPublicDeaths, type PublicDeathEntry } from '../../lib/publicDeath'
 import { PlayerFacingContext } from '../context/PlayerFacingContext'
 import { PlayerFacingScreen } from '../layouts/PlayerFacingScreen'
+import { PlayerReference } from './PlayerReference'
+import { projectPublicGameState } from '../../lib/publicGameState'
 
 type Props = {
   initialGame: Game
@@ -121,6 +123,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     screen: Screen
   } | null>(null)
   const pendingEndDay = useRef<typeof endDayConfirmation>(null)
+  const [showPlayerReference, setShowPlayerReference] = useState(false)
   const [showHistory, setShowHistory] = useState(false)
   const [showGrimoire, setShowGrimoire] = useState(false)
   const [grimoireIntent, setGrimoireIntent] = useState<GrimoireIntent>({
@@ -635,6 +638,44 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   // RENDER
   // ========================================================================
 
+  // Reference is an audience session, not a game screen transition. Unmount all
+  // privileged overlays and controls for its entire browsing/handback lifetime.
+  const canOpenPlayerReference =
+    ['setup_actions', 'role_revelation', 'night_dashboard', 'day'].includes(
+      screen.type,
+    ) &&
+    !pipelineUI &&
+    !isPlayerFacing &&
+    !showPlayerReference
+  const openPlayerReference = () => {
+    if (!canOpenPlayerReference || isAudienceProtected()) return
+    setShowHistory(false)
+    setShowGrimoire(false)
+    setEndDayConfirmation(null)
+    pendingEndDay.current = null
+    setShowPlayerReference(true)
+  }
+  const playerReferenceEntry = canOpenPlayerReference ? (
+    <button
+      onClick={openPlayerReference}
+      className='min-h-12 px-4 rounded-full bg-grimoire-dark/90 border border-mystic-gold/30 text-mystic-gold shadow-lg text-sm'
+    >
+      {t.playerReference.title}
+    </button>
+  ) : null
+  if (showPlayerReference) {
+    return (
+      <PlayerFacingContext.Provider value={playerFacingCtx}>
+        <PlayerFacingScreen>
+          <PlayerReference
+            scriptId={projectPublicGameState(game).scriptId}
+            onReturnToStoryteller={() => setShowPlayerReference(false)}
+          />
+        </PlayerFacingScreen>
+      </PlayerFacingContext.Provider>
+    )
+  }
+
   if (
     showHistory &&
     !isPlayerFacing &&
@@ -644,6 +685,9 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     return (
       <div className='relative'>
         <HistoryView game={game} onClose={() => setShowHistory(false)} />
+        <div className='fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4'>
+          {playerReferenceEntry}
+        </div>
         <div className='fixed top-4 right-4 z-50'>
           <LanguagePicker variant='floating' />
         </div>
@@ -925,6 +969,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
       {/* Floating Action Buttons */}
       {showFloatingButtons && (
         <div className='fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 flex flex-col gap-2'>
+          {playerReferenceEntry}
           <button
             onClick={() => {
               setGrimoireIntent({ view: 'list' })
