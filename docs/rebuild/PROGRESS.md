@@ -211,3 +211,31 @@ GitHub file retrieval at this exact commit confirmed setupPlan.ts; PR #2 metadat
 independently confirmed the same head SHA and draft status before marking DONE.
 This documentation-only follow-up is also pushed and SHA-verified. No Task 005
 work started, no main changes, merge or force-push.
+
+## Task 005 — core interaction hardening
+
+Status: VERIFIED LOCALLY — publication pending.
+Baseline local/remote: `fdd000c1f068c81b290d48711c50905e30c37938`.
+Implementation: `1b7cdcbc9f587d73fbafb2ed44ee85410bfc15a2`.
+
+- Explicit EN/ES End Day dialog covers blocked/unblocked outcomes and canonical
+  current/next rounds. Cancel/dismiss saves nothing; snapshot-bound one-shot
+  confirmation rejects stale callbacks, preserves resolution/victory and saves
+  before publishing. No execution/history/persistence model rewrite.
+- Shared non-mutating Fisher–Yates replaces both random-comparator sorts while
+  preserving generator distribution/scoring/presets, manual roles, multiplicity,
+  Demon guarantee, custom pools and clockwise player identities.
+- Done · Review is offered only for completed meaningful current-night summaries;
+  existing read-only dialog remains private and never reopens completed actions.
+  Starting information and follow-ups retain their original lifecycle.
+- PublicDeathEntry/toPublicDeaths allow only playerId/playerName for all four
+  death callers. Private authoritative roles remain intact; animation/progression
+  retained; no broad PublicGameState feature introduced. Floating Storyteller
+  controls remain hidden during public death/dawn display.
+- Added 43 targeted tests / 2 files; full suite 589 tests / 62 files passed.
+  Typecheck, production/PWA build, Prettier and git diff --check passed.
+- Browser/native validation NOT RUN: no installed Chromium/Chrome; jsdom is not
+  native/E2E validation. Hosted CI not claimed. Existing non-fatal warnings and
+  separately tracked Task 004 pointer-write risk recorded in task document.
+- Task 006 NOT STARTED. Next: push normally, compare exact local/remote SHA,
+  retrieve published commit on GitHub, then record DONE in verified follow-up.
