@@ -182,12 +182,21 @@ const en: Translations = {
     returnDeviceComplete: 'Returning to Storyteller…',
 
     // Role Revelation
+    revealedShowAgain: 'Revealed · Tap to show again',
+    skipRevelationOne:
+      "{count} player hasn't seen their role yet. Start Night 1 anyway?",
+    skipRevelationMany:
+      "{count} players haven't seen their roles yet. Start Night 1 anyway?",
+    skipRevelationExplanation:
+      'Confirming starts the night without showing the remaining roles.',
+    confirmSkipRevelation: 'Confirm Skip',
+
     roleRevelation: 'Role Revelation',
     roleRevelationDescription: 'Tap each player to show them their role',
     tapToReveal: 'Tap to reveal',
     revealed: 'Revealed',
     startFirstNight: 'Start Night 1',
-    skipRoleRevelation: 'Skip and reveal roles later',
+    skipRoleRevelation: 'Skip Role Revelation',
     revealAllFirst: 'Reveal all roles before continuing',
 
     // Night Dashboard

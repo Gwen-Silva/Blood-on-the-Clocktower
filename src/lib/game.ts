@@ -474,10 +474,34 @@ export function startDay(game: Game): Game {
   )
 }
 
+/** Initial revelation is committed history, keyed by stable player identity. */
+export function getRoleRevelationProgress(game: Game) {
+  const revealedPlayerIds = new Set(
+    game.history
+      .filter((entry) => entry.type === 'role_revealed')
+      .map((entry) => entry.data.playerId)
+      .filter((id): id is string => typeof id === 'string'),
+  )
+  const players = getCurrentState(game).players
+  const revealedCount = players.filter((player) =>
+    revealedPlayerIds.has(player.id),
+  ).length
+  return {
+    revealedPlayerIds,
+    revealedCount,
+    remainingCount: players.length - revealedCount,
+    allRevealed: revealedCount === players.length,
+  }
+}
+
 export function markRoleRevealed(game: Game, playerId: string): Game {
   const state = getCurrentState(game)
   const player = state.players.find((p) => p.id === playerId)
-  if (!player) return game
+  if (
+    !player ||
+    getRoleRevelationProgress(game).revealedPlayerIds.has(playerId)
+  )
+    return game
 
   return addHistoryEntry(game, {
     type: 'role_revealed',

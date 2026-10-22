@@ -1,5 +1,6 @@
 import { AudienceRecoveryBoundary } from '../layouts/AudienceRecoveryBoundary'
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useRef } from 'react'
+import { isAudienceProtected } from '../../lib/audienceProtection'
 import { Game, getCurrentState, getPlayer, PlayerState } from '../../lib/types'
 import { getRole } from '../../lib/roles'
 import { getTeam } from '../../lib/teams'
@@ -7,6 +8,7 @@ import { RoleCard } from '../items/RoleCard'
 import { TeamBackground, CardLink } from '../items/TeamBackground'
 import {
   markRoleRevealed,
+  getRoleRevelationProgress,
   startNight,
   startDay,
   applyNightAction,
@@ -108,6 +110,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   const [screen, setScreen] = useState<Screen>(() =>
     getInitialScreen(initialGame),
   )
+  const firstNightStarted = useRef(false)
   const [showHistory, setShowHistory] = useState(false)
   const [showGrimoire, setShowGrimoire] = useState(false)
   const [grimoireIntent, setGrimoireIntent] = useState<GrimoireIntent>({
@@ -201,11 +204,21 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     if (screen.type !== 'showing_role') return
 
     const newGame = markRoleRevealed(game, screen.playerId)
-    if (!updateGame(newGame)) return
+    if (newGame !== game && !updateGame(newGame)) return
     setScreen({ type: 'role_revelation' })
   }
 
-  const handleStartFirstNight = () => {
+  const handleStartFirstNight = (confirmedSkip = false) => {
+    if (
+      screen.type !== 'role_revelation' ||
+      state.phase !== 'setup' ||
+      isPlayerFacing ||
+      isAudienceProtected() ||
+      firstNightStarted.current
+    )
+      return
+    if (!confirmedSkip && !getRoleRevelationProgress(game).allRevealed) return
+    firstNightStarted.current = true
     const nightGame = startNight(game)
     // Process auto-skips so the dashboard is ready
     const readyGame = processAutoSkips(nightGame)
@@ -658,7 +671,8 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
             game={game}
             state={state}
             onRevealRole={handleRevealRole}
-            onStartNight={handleStartFirstNight}
+            onStartNight={() => handleStartFirstNight()}
+            onSkipRevelation={() => handleStartFirstNight(true)}
             onMainMenu={onMainMenu}
           />
         )

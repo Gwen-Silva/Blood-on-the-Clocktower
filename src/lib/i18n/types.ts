@@ -180,6 +180,12 @@ export type Translations = {
     returnDeviceComplete: string
 
     // Role Revelation
+    revealedShowAgain: string
+    skipRevelationOne: string
+    skipRevelationMany: string
+    skipRevelationExplanation: string
+    confirmSkipRevelation: string
+
     roleRevelation: string
     roleRevelationDescription: string
     tapToReveal: string

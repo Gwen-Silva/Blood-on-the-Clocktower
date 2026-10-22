@@ -181,6 +181,15 @@ const es: Translations = {
     returnDeviceComplete: 'Volviendo al Cuentacuentos…',
 
     // Role Revelation
+    revealedShowAgain: 'Revelado · Toca para mostrar de nuevo',
+    skipRevelationOne:
+      '{count} jugador todavía no ha visto su personaje. ¿Empezar la Noche 1 de todos modos?',
+    skipRevelationMany:
+      '{count} jugadores todavía no han visto su personaje. ¿Empezar la Noche 1 de todos modos?',
+    skipRevelationExplanation:
+      'Al confirmar, la noche empieza sin mostrar los personajes restantes.',
+    confirmSkipRevelation: 'Confirmar omisión',
+
     roleRevelation: 'Revelación de Roles',
     roleRevelationDescription: 'Toca cada jugador para mostrarle su rol',
     tapToReveal: 'Toca para revelar',

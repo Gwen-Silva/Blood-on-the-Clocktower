@@ -139,3 +139,26 @@ GitHub file retrieval at that exact commit confirmed the durable audience
 protection implementation before marking DONE. This follow-up records status
 only and is also pushed/verified. Task 003 remains NOT STARTED. No merge or
 force-push; the original Task 001 bundle and previous commits remain intact.
+
+## Task 003 — first-night role revelation gates
+
+Status: VERIFIED LOCALLY — remote publication pending.
+Starting local/remote HEAD: `313f211e8b024bdbea022e77739c3bd7b3ee4840`.
+
+- Shared history-based progress by stable player ID gates both primary button
+  and GameScreen handler; unrevealed players have an explicit disabled reason.
+- Separate skip dialog gives current remaining count with EN/ES singular/plural
+  copy, cancel and explicit confirmation. Cancel/reload does not modify saves.
+  Confirmation uses normal save-before-publish transition exactly once and does
+  not create false revelation records. Private/stale callbacks cannot bypass the
+  existing persistent audience guard.
+- Re-show is explicit, uses protected handback and records no duplicate history
+  or unchanged save. New revelation remains committed only after hold/save.
+- Added 20 focused React DOM tests. Targeted: 88 tests / 6 files passed.
+  Full suite: 524 tests / 59 files passed. Typecheck, production/PWA build,
+  Prettier and git diff --check passed.
+- Browser/native validation NOT RUN: Chromium/Chrome not installed; no actual
+  native runtime execution. Hosted CI not claimed. Existing non-fatal warnings
+  unchanged. Tasks 001/002 regression suite preserved.
+- Task 004 NOT STARTED. Publish normally, compare local/remote SHA and retrieve
+  the commit through GitHub before marking Task 003 DONE.
