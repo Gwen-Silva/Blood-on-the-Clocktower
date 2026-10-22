@@ -53,6 +53,30 @@ const en: Translations = {
     language: 'Language',
   },
 
+  setupReview: {
+    reviewSetup: 'Review Setup',
+    composition: 'Game composition',
+    playerCount: '{count} players',
+    clockwise: 'Clockwise seating, starting at seat 1',
+    characters: 'Characters by team',
+    selectedCount: '{count} selected characters for {players} players.',
+    largerPool:
+      'Character pool: {count} options for {players} players. Only some will be assigned.',
+    assignments: 'Assignment plan',
+    allRandom: 'All random',
+    mixed: 'Mixed manual and random',
+    allManual: 'All manual',
+    awaitingRandom: 'Awaiting random assignment',
+    notFinalized:
+      'Review the plan before creating the game. Random assignments are resolved only when you confirm.',
+    editPlayers: 'Edit Players',
+    editScript: 'Edit Script',
+    editCharacters: 'Edit Characters',
+    editAssignments: 'Edit Assignments',
+    createGame: 'Create Game',
+    invalidPlan:
+      'This plan is incomplete or incompatible. Edit the setup before creating the game.',
+  },
   newGame: {
     step1Title: 'New Game',
     step1Subtitle: 'Step 1: Add players',

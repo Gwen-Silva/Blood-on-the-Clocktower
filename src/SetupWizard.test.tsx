@@ -146,7 +146,9 @@ it('real setup keeps duplicate-name identities across touch reorder, rename, bac
   click('Imp')
   click('3. Alex renamed')
   click('Chef')
-  click(en.common.startGame)
+  click(en.setupReview.reviewSetup)
+  expect(getAllGames()).toHaveLength(0)
+  click(en.setupReview.createGame)
   const games = getAllGames()
   expect(games).toHaveLength(1)
   const seated = types.getCurrentState(games[0]).players

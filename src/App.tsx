@@ -1,6 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
-import { SetupPlayer } from './lib/roleAssignment'
-import { createGame, PlayerSetup } from './lib/game'
+import { useEffect, useMemo, useState, useRef } from 'react'
+import {
+  SetupPlayer,
+  resolveIdentifiedRoleAssignments,
+} from './lib/roleAssignment'
+import {
+  SetupPlan,
+  compatibleAssignments,
+  validateSetupPlan,
+} from './lib/setupPlan'
+import { SetupReview } from './components/screens/SetupReview'
+import { createGame } from './lib/game'
 import { saveGame, setCurrentGameId, getGame } from './lib/storage'
 import {
   MainMenu,
@@ -21,16 +30,8 @@ import { returnToMainMenu } from './lib/navigation'
 import { AudienceRecoveryBoundary } from './components/layouts/AudienceRecoveryBoundary'
 
 // Internal screens for the new-game wizard (not routed — stays on "/")
-type NewGameScreen =
-  | { type: 'new_game_players'; players?: SetupPlayer[] }
-  | { type: 'new_game_script'; players: SetupPlayer[] }
-  | { type: 'new_game_roles'; players: SetupPlayer[]; scriptId: ScriptId }
-  | {
-      type: 'new_game_assign'
-      players: SetupPlayer[]
-      scriptId: ScriptId
-      selectedRoles: string[]
-    }
+type SetupStep = 'players' | 'script' | 'roles' | 'assign' | 'review'
+type NewGameScreen = { step: SetupStep; plan: SetupPlan }
 
 function AppRoutes() {
   const { path, navigate, replace } = useRouter()
@@ -38,6 +39,7 @@ function AppRoutes() {
 
   // New-game wizard state (lives entirely on the "/" route)
   const [newGameScreen, setNewGameScreen] = useState<NewGameScreen | null>(null)
+  const creating = useRef(false)
 
   // Parse route segments once
   const segments = useMemo(() => path.split('/').filter(Boolean), [path])
@@ -82,43 +84,65 @@ function AppRoutes() {
   if (saveError) throw saveError
 
   const handleNewGame = () => {
-    setNewGameScreen({ type: 'new_game_players' })
-  }
-
-  const handlePlayersNext = (players: SetupPlayer[]) => {
-    setNewGameScreen({ type: 'new_game_script', players })
-  }
-
-  const handleScriptNext = (players: SetupPlayer[], scriptId: ScriptId) => {
-    setNewGameScreen({ type: 'new_game_roles', players, scriptId })
-  }
-
-  const handleRolesNext = (
-    players: SetupPlayer[],
-    scriptId: ScriptId,
-    selectedRoles: string[],
-  ) => {
+    creating.current = false
     setNewGameScreen({
-      type: 'new_game_assign',
-      players,
-      scriptId,
-      selectedRoles,
+      step: 'players',
+      plan: {
+        players: [],
+        scriptId: 'trouble-brewing',
+        selectedRoles: [],
+        manualAssignments: {},
+      },
     })
   }
 
-  const handleStartGame = (
-    roleAssignments: (SetupPlayer & { roleId: string })[],
-    scriptId: ScriptId,
-  ) => {
-    const players: PlayerSetup[] = roleAssignments.map((a) => ({
-      id: a.id,
-      name: a.name,
-      roleId: a.roleId,
-    }))
+  const goTo = (step: SetupStep) =>
+    setNewGameScreen((current) => current && { ...current, step })
 
+  const handlePlayersNext = (players: SetupPlayer[]) => {
+    if (!newGameScreen) return
+    const old = newGameScreen.plan
+    const countChanged = old.players.length !== players.length
+    const plan = {
+      ...old,
+      players,
+      selectedRoles: countChanged ? [] : old.selectedRoles,
+      manualAssignments: countChanged ? {} : old.manualAssignments,
+    }
+    plan.manualAssignments = compatibleAssignments(plan)
+    setNewGameScreen({ step: 'script', plan })
+  }
+
+  const handleScriptNext = (scriptId: ScriptId) => {
+    if (!newGameScreen) return
+    const old = newGameScreen.plan
+    const plan =
+      old.scriptId === scriptId
+        ? old
+        : { ...old, scriptId, selectedRoles: [], manualAssignments: {} }
+    setNewGameScreen({ step: 'roles', plan })
+  }
+
+  const handleRolesNext = (selectedRoles: string[]) => {
+    if (!newGameScreen) return
+    const plan = { ...newGameScreen.plan, selectedRoles }
+    plan.manualAssignments = compatibleAssignments(plan)
+    setNewGameScreen({ step: 'assign', plan })
+  }
+
+  const handleCreateGame = () => {
+    if (!newGameScreen || newGameScreen.step !== 'review' || creating.current)
+      return
+    const plan = newGameScreen.plan
+    try {
+      validateSetupPlan(plan)
+    } catch {
+      return
+    }
+    creating.current = true
+    const players = resolveIdentifiedRoleAssignments(plan)
     const gameName = `Game ${new Date().toLocaleDateString()}`
-    const game = createGame(gameName, scriptId, players)
-
+    const game = createGame(gameName, plan.scriptId, players)
     try {
       saveGame(game)
       setCurrentGameId(game.id)
@@ -127,7 +151,6 @@ function AppRoutes() {
       return
     }
     setNewGameScreen(null)
-
     navigate(`/game/${game.id}`)
   }
 
@@ -215,68 +238,60 @@ function AppRoutes() {
   const renderHome = () => {
     // New-game wizard (internal to "/" route)
     if (newGameScreen) {
-      switch (newGameScreen.type) {
-        case 'new_game_players':
+      const { plan, step } = newGameScreen
+      switch (step) {
+        case 'players':
           return (
             <PlayerEntry
-              initialPlayers={newGameScreen.players}
+              initialPlayers={plan.players.length ? plan.players : undefined}
               onNext={handlePlayersNext}
               onBack={handleBackToMenu}
             />
           )
-
-        case 'new_game_script':
+        case 'script':
           return (
             <ScriptSelection
-              players={newGameScreen.players.map((player) => player.name)}
-              onSelect={(scriptId) =>
-                handleScriptNext(newGameScreen.players, scriptId)
-              }
-              onBack={() =>
-                setNewGameScreen({
-                  type: 'new_game_players',
-                  players: newGameScreen.players,
-                })
-              }
+              players={plan.players.map((player) => player.name)}
+              onSelect={handleScriptNext}
+              onBack={() => goTo('players')}
             />
           )
-
-        case 'new_game_roles':
+        case 'roles':
           return (
             <RoleSelection
-              players={newGameScreen.players.map((player) => player.name)}
-              scriptId={newGameScreen.scriptId}
-              onNext={(selectedRoles) =>
-                handleRolesNext(
-                  newGameScreen.players,
-                  newGameScreen.scriptId,
-                  selectedRoles,
-                )
-              }
-              onBack={() =>
+              players={plan.players.map((player) => player.name)}
+              scriptId={plan.scriptId}
+              initialSelectedRoles={plan.selectedRoles}
+              onNext={handleRolesNext}
+              onBack={() => goTo('script')}
+            />
+          )
+        case 'assign':
+          return (
+            <RoleAssignment
+              players={plan.players}
+              selectedRoles={plan.selectedRoles}
+              initialAssignments={plan.manualAssignments}
+              onNext={(manualAssignments) =>
                 setNewGameScreen({
-                  type: 'new_game_script',
-                  players: newGameScreen.players,
+                  step: 'review',
+                  plan: { ...plan, manualAssignments },
+                })
+              }
+              onBack={(manualAssignments) =>
+                setNewGameScreen({
+                  step: 'roles',
+                  plan: { ...plan, manualAssignments },
                 })
               }
             />
           )
-
-        case 'new_game_assign':
+        case 'review':
           return (
-            <RoleAssignment
-              players={newGameScreen.players}
-              selectedRoles={newGameScreen.selectedRoles}
-              onStart={(assignments) =>
-                handleStartGame(assignments, newGameScreen.scriptId)
-              }
-              onBack={() =>
-                setNewGameScreen({
-                  type: 'new_game_roles',
-                  players: newGameScreen.players,
-                  scriptId: newGameScreen.scriptId,
-                })
-              }
+            <SetupReview
+              plan={plan}
+              onEdit={goTo}
+              onConfirm={handleCreateGame}
             />
           )
       }

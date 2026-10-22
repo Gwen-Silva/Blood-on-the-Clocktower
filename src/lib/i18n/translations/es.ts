@@ -53,6 +53,30 @@ const es: Translations = {
     language: 'Idioma',
   },
 
+  setupReview: {
+    reviewSetup: 'Revisar configuración',
+    composition: 'Composición de la partida',
+    playerCount: '{count} jugadores',
+    clockwise: 'Asientos en sentido horario, empezando por el asiento 1',
+    characters: 'Personajes por equipo',
+    selectedCount: '{count} personajes seleccionados para {players} jugadores.',
+    largerPool:
+      'Conjunto de personajes: {count} opciones para {players} jugadores. Solo se asignarán algunos.',
+    assignments: 'Plan de asignación',
+    allRandom: 'Todo al azar',
+    mixed: 'Asignación mixta: manual y al azar',
+    allManual: 'Todo manual',
+    awaitingRandom: 'Pendiente de asignación al azar',
+    notFinalized:
+      'Revisa el plan antes de crear la partida. Las asignaciones al azar se resuelven solo al confirmar.',
+    editPlayers: 'Editar jugadores',
+    editScript: 'Editar libreto',
+    editCharacters: 'Editar personajes',
+    editAssignments: 'Editar asignaciones',
+    createGame: 'Crear partida',
+    invalidPlan:
+      'Este plan está incompleto o es incompatible. Edita la configuración antes de crear la partida.',
+  },
   newGame: {
     step1Title: 'Nueva Partida',
     step1Subtitle: 'Paso 1: Añadir jugadores',

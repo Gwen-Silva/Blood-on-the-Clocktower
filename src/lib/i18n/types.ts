@@ -52,6 +52,27 @@ export type Translations = {
   }
 
   // New Game Flow
+  setupReview: {
+    reviewSetup: string
+    composition: string
+    playerCount: string
+    clockwise: string
+    characters: string
+    selectedCount: string
+    largerPool: string
+    assignments: string
+    allRandom: string
+    mixed: string
+    allManual: string
+    awaitingRandom: string
+    notFinalized: string
+    editPlayers: string
+    editScript: string
+    editCharacters: string
+    editAssignments: string
+    createGame: string
+    invalidPlan: string
+  }
   newGame: {
     step1Title: string
     step1Subtitle: string
