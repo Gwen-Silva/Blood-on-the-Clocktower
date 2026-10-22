@@ -58,7 +58,7 @@ independently confirmed through GitHub file retrieval before marking DONE.
 
 ## Corrective review checkpoint — durable audience protection
 
-Status: VERIFIED LOCALLY — publication pending. Original Task 002 delivery above
+Status: DONE — published and remotely verified. Original Task 002 delivery above
 was incomplete with respect to reload/resume privacy (PR #2 review 6331273512).
 
 A separate minimal localStorage latch now survives React unmount, reload and
@@ -76,3 +76,6 @@ backward navigation, independent assignments and persisted seating/identity.
 Verification: 68 targeted and 504 total tests passed; typecheck, production/PWA
 build, Prettier and diff check passed. No real-browser or native validation was
 performed. Publication evidence and final status belong in PROGRESS.md.
+
+Corrective implementation and verified remote checkpoint:
+`ba6e9ef4fa0da11217f96543f284fefdaca99086`.

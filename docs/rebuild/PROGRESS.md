@@ -87,7 +87,7 @@ Starting HEAD: `38a05d89e64d6ee0034eb17ac7ed49aa05d25e0f`.
 
 ## Corrective checkpoint — Tasks 001 and 002 review
 
-Status: VERIFIED LOCALLY — remote publication pending.
+Status: DONE — normal push and GitHub publication verified.
 Baseline local/remote: `8244663dfd7629759d051bfbd7e1e020e59a31b8`.
 Read PR #2 review comments `6331168405` and `6331273512` before implementation.
 
@@ -129,3 +129,13 @@ Read PR #2 review comments `6331168405` and `6331273512` before implementation.
   description, Browserslist age and bundle-size warnings remain non-fatal.
 - Task 003 NOT STARTED. Mark this checkpoint DONE only after normal push,
   matching local/remote HEAD and GitHub retrieval of the published commit.
+
+### Corrective checkpoint publication evidence
+
+Implementation/local HEAD: `ba6e9ef4fa0da11217f96543f284fefdaca99086`.
+Verified remote branch SHA after normal push:
+`ba6e9ef4fa0da11217f96543f284fefdaca99086`.
+GitHub file retrieval at that exact commit confirmed the durable audience
+protection implementation before marking DONE. This follow-up records status
+only and is also pushed/verified. Task 003 remains NOT STARTED. No merge or
+force-push; the original Task 001 bundle and previous commits remain intact.
