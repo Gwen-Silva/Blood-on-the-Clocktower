@@ -86,3 +86,21 @@ export function resolveRoleAssignments(
 
   return finalAssignments
 }
+
+/** Stable setup identity; array position is the clockwise seat. */
+export type SetupPlayer = { id: string; name: string }
+
+export function resolveIdentifiedRoleAssignments(input: {
+  players: SetupPlayer[]
+  selectedRoles: string[]
+  manualAssignments: Record<string, string | null>
+}): (SetupPlayer & { roleId: string })[] {
+  const identities = new Map(input.players.map((player) => [player.id, player]))
+  if (identities.size !== input.players.length) {
+    throw new Error('Duplicate player IDs')
+  }
+  return resolveRoleAssignments({
+    ...input,
+    players: input.players.map((player) => player.id),
+  }).map(({ name: id, roleId }) => ({ ...identities.get(id)!, roleId }))
+}

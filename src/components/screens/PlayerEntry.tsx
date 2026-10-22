@@ -3,11 +3,14 @@ import { useDrag } from '@use-gesture/react'
 import { useI18n } from '../../lib/i18n'
 import { Button, Icon, BackButton } from '../atoms'
 import { ScreenFooter } from '../layouts/ScreenFooter'
+import { generateId } from '../../lib/types'
+import { SetupPlayer } from '../../lib/roleAssignment'
 import { getLastGamePlayers } from '../../lib/storage'
 import { MAX_BASE_PLAYERS, MIN_BASE_PLAYERS } from '../../lib/scripts'
 
 type Props = {
-  onNext: (players: string[]) => void
+  initialPlayers?: SetupPlayer[]
+  onNext: (players: SetupPlayer[]) => void
   onBack: () => void
 }
 
@@ -16,15 +19,14 @@ type PlayerItem = {
   name: string
 }
 
-let _nextId = 0
 function makePlayerItem(name: string): PlayerItem {
-  return { id: `p-${_nextId++}`, name }
+  return { id: generateId(), name }
 }
 
-export function PlayerEntry({ onNext, onBack }: Props) {
+export function PlayerEntry({ onNext, onBack, initialPlayers }: Props) {
   const { t } = useI18n()
   const [players, setPlayers] = useState<PlayerItem[]>(() => {
-    _nextId = 0
+    if (initialPlayers) return initialPlayers.map((player) => ({ ...player }))
     const lastPlayers = getLastGamePlayers()
     if (lastPlayers.length >= MIN_BASE_PLAYERS)
       return lastPlayers
@@ -173,7 +175,7 @@ export function PlayerEntry({ onNext, onBack }: Props) {
   const handleNext = () => {
     const validPlayers = players.filter((p) => p.name.trim().length > 0)
     if (validPlayers.length >= MIN_BASE_PLAYERS) {
-      onNext(validPlayers.map((p) => p.name))
+      onNext(validPlayers.map((p) => ({ ...p, name: p.name.trim() })))
     }
   }
 

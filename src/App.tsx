@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { SetupPlayer } from './lib/roleAssignment'
 import { createGame, PlayerSetup } from './lib/game'
 import { saveGame, setCurrentGameId, getGame } from './lib/storage'
 import {
@@ -20,12 +21,12 @@ import { returnToMainMenu } from './lib/navigation'
 
 // Internal screens for the new-game wizard (not routed — stays on "/")
 type NewGameScreen =
-  | { type: 'new_game_players' }
-  | { type: 'new_game_script'; players: string[] }
-  | { type: 'new_game_roles'; players: string[]; scriptId: ScriptId }
+  | { type: 'new_game_players'; players?: SetupPlayer[] }
+  | { type: 'new_game_script'; players: SetupPlayer[] }
+  | { type: 'new_game_roles'; players: SetupPlayer[]; scriptId: ScriptId }
   | {
       type: 'new_game_assign'
-      players: string[]
+      players: SetupPlayer[]
       scriptId: ScriptId
       selectedRoles: string[]
     }
@@ -83,16 +84,16 @@ function App() {
     setNewGameScreen({ type: 'new_game_players' })
   }
 
-  const handlePlayersNext = (players: string[]) => {
+  const handlePlayersNext = (players: SetupPlayer[]) => {
     setNewGameScreen({ type: 'new_game_script', players })
   }
 
-  const handleScriptNext = (players: string[], scriptId: ScriptId) => {
+  const handleScriptNext = (players: SetupPlayer[], scriptId: ScriptId) => {
     setNewGameScreen({ type: 'new_game_roles', players, scriptId })
   }
 
   const handleRolesNext = (
-    players: string[],
+    players: SetupPlayer[],
     scriptId: ScriptId,
     selectedRoles: string[],
   ) => {
@@ -105,10 +106,11 @@ function App() {
   }
 
   const handleStartGame = (
-    roleAssignments: { name: string; roleId: string }[],
+    roleAssignments: (SetupPlayer & { roleId: string })[],
     scriptId: ScriptId,
   ) => {
     const players: PlayerSetup[] = roleAssignments.map((a) => ({
+      id: a.id,
       name: a.name,
       roleId: a.roleId,
     }))
@@ -215,24 +217,33 @@ function App() {
       switch (newGameScreen.type) {
         case 'new_game_players':
           return (
-            <PlayerEntry onNext={handlePlayersNext} onBack={handleBackToMenu} />
+            <PlayerEntry
+              initialPlayers={newGameScreen.players}
+              onNext={handlePlayersNext}
+              onBack={handleBackToMenu}
+            />
           )
 
         case 'new_game_script':
           return (
             <ScriptSelection
-              players={newGameScreen.players}
+              players={newGameScreen.players.map((player) => player.name)}
               onSelect={(scriptId) =>
                 handleScriptNext(newGameScreen.players, scriptId)
               }
-              onBack={() => setNewGameScreen({ type: 'new_game_players' })}
+              onBack={() =>
+                setNewGameScreen({
+                  type: 'new_game_players',
+                  players: newGameScreen.players,
+                })
+              }
             />
           )
 
         case 'new_game_roles':
           return (
             <RoleSelection
-              players={newGameScreen.players}
+              players={newGameScreen.players.map((player) => player.name)}
               scriptId={newGameScreen.scriptId}
               onNext={(selectedRoles) =>
                 handleRolesNext(

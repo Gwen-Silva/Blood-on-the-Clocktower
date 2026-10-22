@@ -25,6 +25,7 @@ import { ExecuteIntent, PipelineResult } from './pipeline/types'
 // ============================================================================
 
 export type PlayerSetup = {
+  id?: string
   name: string
   roleId: string
 }
@@ -34,6 +35,11 @@ export function createGame(
   scriptId: string,
   players: PlayerSetup[],
 ): Game {
+  const suppliedIds = players.flatMap((player) =>
+    player.id ? [player.id] : [],
+  )
+  if (new Set(suppliedIds).size !== suppliedIds.length)
+    throw new Error('Duplicate player IDs')
   const gameId = generateId()
 
   const playerStates: PlayerState[] = players.map((p) => {
@@ -53,7 +59,7 @@ export function createGame(
     }
 
     return {
-      id: generateId(),
+      id: p.id ?? generateId(),
       name: p.name,
       roleId: p.roleId,
       effects,
