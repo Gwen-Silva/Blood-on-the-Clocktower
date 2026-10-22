@@ -1,6 +1,6 @@
 # Task 003 — First-Night Role Revelation Gates
 
-Status: VERIFIED LOCALLY — publication pending.
+Status: DONE — published and independently confirmed on GitHub.
 Baseline: `313f211e8b024bdbea022e77739c3bd7b3ee4840` on
 `rebuild/tasks-001-020`.
 
@@ -48,3 +48,8 @@ Baseline: `313f211e8b024bdbea022e77739c3bd7b3ee4840` on
 
 Remote publication must be verified before marking DONE. Evidence is recorded
 in `docs/rebuild/PROGRESS.md`. Task 004 is not started by this checkpoint.
+
+Published implementation/local/remote checkpoint SHA:
+`d06a4b843065cc401a9e415c0ecbe842832004f8`. Exact SHA equality and GitHub file
+retrieval were confirmed before marking DONE. Final status record is pushed and
+verified separately; no additional product changes.

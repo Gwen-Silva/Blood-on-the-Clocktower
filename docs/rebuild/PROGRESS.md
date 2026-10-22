@@ -5,7 +5,8 @@
 | Initial delivery contract | DONE        | Pending final verification in setup        | Not applicable (no product code changed) | Original source not recovered; baseline `1eea438` |
 | Task 001                  | DONE        | `35e2d088f7a5d6ffe8b12e44551705fd362ed737` | 455 tests; typecheck/build passed        | Stable setup identity                             |
 | Task 002                  | DONE        | `2c7c485b191a0ebf52fbbea8b69a3026db896e80` | 478 tests; typecheck/build passed        | Protected handback                                |
-| Tasks 003–005             | NOT STARTED | —                                          | —                                        | Next: role-revelation progression                 |
+| Task 003                  | DONE        | `d06a4b843065cc401a9e415c0ecbe842832004f8` | 524 tests; typecheck/build passed        | First-night revelation gates                      |
+| Tasks 004–005             | NOT STARTED | —                                          | —                                        | Next: setup final review                          |
 | Tasks 006–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
@@ -142,7 +143,7 @@ force-push; the original Task 001 bundle and previous commits remain intact.
 
 ## Task 003 — first-night role revelation gates
 
-Status: VERIFIED LOCALLY — remote publication pending.
+Status: DONE — normal push and GitHub publication verified.
 Starting local/remote HEAD: `313f211e8b024bdbea022e77739c3bd7b3ee4840`.
 
 - Shared history-based progress by stable player ID gates both primary button
@@ -162,3 +163,12 @@ Starting local/remote HEAD: `313f211e8b024bdbea022e77739c3bd7b3ee4840`.
   unchanged. Tasks 001/002 regression suite preserved.
 - Task 004 NOT STARTED. Publish normally, compare local/remote SHA and retrieve
   the commit through GitHub before marking Task 003 DONE.
+
+### Task 003 remote delivery evidence
+
+Implementation/local HEAD: `d06a4b843065cc401a9e415c0ecbe842832004f8`.
+After normal push, `git ls-remote origin refs/heads/rebuild/tasks-001-020`
+returned exactly `d06a4b843065cc401a9e415c0ecbe842832004f8`.
+GitHub file retrieval at this exact SHA independently confirmed the published
+RoleRevelationScreen implementation before marking DONE. This documentation-only
+follow-up is also pushed and SHA-verified. Task 004 remains NOT STARTED.
