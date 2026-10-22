@@ -9,7 +9,7 @@
 | Task 004                  | DONE        | `63290afc20e60bfa3125759f41d5c0c1ade82d0a` | 546 tests; typecheck/build passed        | Final setup review                                |
 | Task 005                  | DONE        | `a8412533b0d2cf27d6a4446a25ad55ab41412621` | 589 tests; typecheck/build passed        | Core interaction hardening                        |
 | Task 006                  | DONE        | `b205e684b06f0e31e18ea3f58a21432a2ac644e3` | 634 tests; typecheck/build passed        | Strict public projection                          |
-| Task 007                  | VERIFYING   | —                                          | 655 tests; typecheck/build passed        | Public Player Reference                           |
+| Task 007                  | BLOCKED     | —                                          | 655 tests; typecheck/build passed        | Public Player Reference                           |
 | Tasks 008–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
@@ -290,7 +290,7 @@ main modification, merge or force-push.
 
 ## Task 007 — Public Player Reference
 
-Status: VERIFIED LOCALLY — mandatory remote publication pending.
+Status: BLOCKED — tested implementation; terminal GitHub authentication unavailable.
 Baseline local/remote: `f1ed58315107a58fffd227254ae21fcbadb05b44`.
 Implementation: `64442823c2cd07b263b72fe965625f323cc96d65`.
 
@@ -318,3 +318,19 @@ Implementation: `64442823c2cd07b263b72fe965625f323cc96d65`.
   and separately tracked Task 004 pointer-write limitation remain unchanged.
 - Next: normal push, exact local/remote comparison, independent GitHub content
   and PR verification. Mark DONE only after delivery; no Task 008 started.
+
+### Task 007 publication blocker
+
+Normal push failed: `fatal: could not read Username for 'https://github': No such
+device or address`. Installed GitHub CLI 2.103.0 reports no logged-in hosts.
+Local implementation `64442823c2cd07b263b72fe965625f323cc96d65` and documentation
+`befe828b60dcdccee4159ec286fe2c0a5e567190` remain preserved; they are not remote
+completion evidence. Independent GitHub PR #2 metadata confirms remote HEAD
+`f1ed58315107a58fffd227254ae21fcbadb05b44` and draft=true. No main modification,
+force-push, merge or Task 008 work.
+
+Self-contained transfer artifact: `grimorium-rebuild-task007.bundle`, created
+from this branch after committing this blocker record, verified with git bundle
+verify and a fresh clone/HEAD comparison. Resume with authenticated normal push,
+local/remote exact-SHA comparison and independent GitHub content verification;
+only then mark DONE in a published follow-up. All 655 tests remain passing.

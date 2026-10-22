@@ -1,6 +1,6 @@
 # Task 007 — Public Player Reference
 
-Status: VERIFIED LOCALLY — remote publication pending.
+Status: BLOCKED — implementation verified locally; GitHub terminal authentication unavailable.
 
 Baseline: `f1ed58315107a58fffd227254ae21fcbadb05b44` on
 `rebuild/tasks-001-020`. Preserves reconstructed Tasks 001–006; no Task 008 work.
@@ -105,3 +105,18 @@ Implementation and documentation are separate commits. Delivery evidence goes in
 `docs/rebuild/PROGRESS.md` after normal push, exact local/remote SHA comparison and
 independent GitHub file/PR verification. Task stays pending until then. PR #2
 remains draft; main is untouched; no force-push or merge.
+
+### Publication blocker
+
+Normal push failed with `fatal: could not read Username for 'https://github': No
+such device or address`. GitHub CLI 2.103.0 reports no logged-in GitHub hosts.
+Implementation is not published and must not be considered DONE. Independent
+PR #2 lookup confirms remote HEAD is still the Task 006 baseline
+`f1ed58315107a58fffd227254ae21fcbadb05b44`, with draft=true.
+
+Implementation commit: `64442823c2cd07b263b72fe965625f323cc96d65`.
+Documentation checkpoint: `befe828b60dcdccee4159ec286fe2c0a5e567190`.
+A verified self-contained `grimorium-rebuild-task007.bundle` preserves the branch,
+including this blocker record and all Tasks 001–007 commits. No Task 008 started.
+Resume delivery using authenticated normal push and matching-SHA/GitHub checks;
+do not recreate the implementation or force-push.
