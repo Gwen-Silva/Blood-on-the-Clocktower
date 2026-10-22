@@ -1,6 +1,6 @@
 # Task 006 — Strict PublicGameState Projection
 
-Status: VERIFIED LOCALLY — publication pending.
+Status: DONE — normal push and independent GitHub verification completed.
 
 Baseline: `f804315f3e6617d843622d402d5ace5906156940` on
 `rebuild/tasks-001-020`. Reconstructed implementation; no recovery claim for
@@ -121,3 +121,8 @@ Documentation and remote verification SHAs are recorded in
 `docs/rebuild/PROGRESS.md`. DONE requires normal push, exact local/remote SHA
 comparison and independent GitHub confirmation. PR #2 remains draft; main is not
 modified and no merge/force-push is performed.
+
+Published checkpoint: `b205e684b06f0e31e18ea3f58a21432a2ac644e3`.
+Local HEAD and git ls-remote matched exactly. GitHub returned publicGameState.ts
+at that exact commit; PR #2 metadata independently confirmed the same head and
+draft=true. This status-only follow-up is also pushed and SHA-verified.

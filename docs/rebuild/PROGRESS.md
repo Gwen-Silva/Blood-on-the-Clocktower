@@ -8,7 +8,7 @@
 | Task 003                  | DONE        | `d06a4b843065cc401a9e415c0ecbe842832004f8` | 524 tests; typecheck/build passed        | First-night revelation gates                      |
 | Task 004                  | DONE        | `63290afc20e60bfa3125759f41d5c0c1ade82d0a` | 546 tests; typecheck/build passed        | Final setup review                                |
 | Task 005                  | DONE        | `a8412533b0d2cf27d6a4446a25ad55ab41412621` | 589 tests; typecheck/build passed        | Core interaction hardening                        |
-| Task 006                  | VERIFYING   | —                                          | 634 tests; typecheck/build passed        | Strict public projection                          |
+| Task 006                  | DONE        | `b205e684b06f0e31e18ea3f58a21432a2ac644e3` | 634 tests; typecheck/build passed        | Strict public projection                          |
 | Tasks 007–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
@@ -253,7 +253,7 @@ No Task 006 work, main change, merge or force-push.
 
 ## Task 006 — strict public-state projection
 
-Status: VERIFIED LOCALLY — mandatory remote publication pending.
+Status: DONE — normal push and independent GitHub publication verified.
 Baseline local/remote: `f804315f3e6617d843622d402d5ace5906156940`.
 Implementation: `0fe2e5361362b7de2efe9551dcf2e09946b83500`.
 
@@ -276,3 +276,13 @@ Implementation: `0fe2e5361362b7de2efe9551dcf2e09946b83500`.
   limitation remain documented. No Task 007 started.
 - Next: normal push, exact local/remote SHA comparison and independent GitHub
   retrieval; mark DONE only after publication verification.
+
+### Task 006 remote delivery evidence
+
+Implementation SHA: `0fe2e5361362b7de2efe9551dcf2e09946b83500`.
+Published checkpoint local and remote branch SHA both equal:
+`b205e684b06f0e31e18ea3f58a21432a2ac644e3`.
+GitHub file retrieval confirmed publicGameState.ts at this exact SHA; PR #2
+metadata independently returned the same head SHA and draft=true before marking
+DONE. The status-only follow-up is also pushed and SHA-verified. No Task 007,
+main modification, merge or force-push.
