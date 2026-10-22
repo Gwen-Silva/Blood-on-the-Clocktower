@@ -8,7 +8,8 @@
 | Task 003                  | DONE        | `d06a4b843065cc401a9e415c0ecbe842832004f8` | 524 tests; typecheck/build passed        | First-night revelation gates                      |
 | Task 004                  | DONE        | `63290afc20e60bfa3125759f41d5c0c1ade82d0a` | 546 tests; typecheck/build passed        | Final setup review                                |
 | Task 005                  | DONE        | `a8412533b0d2cf27d6a4446a25ad55ab41412621` | 589 tests; typecheck/build passed        | Core interaction hardening                        |
-| Tasks 006–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
+| Task 006                  | VERIFYING   | —                                          | 634 tests; typecheck/build passed        | Strict public projection                          |
+| Tasks 007–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
 | Task 021                  | BLOCKED     | —                                          | —                                        | Only after 001–020 restored and pushed            |
@@ -249,3 +250,29 @@ GitHub file retrieval confirmed publicDeath.ts at that exact commit, and PR #2
 metadata independently returned the same head SHA with draft status true before
 marking DONE. This documentation-only follow-up is also pushed/SHA-verified.
 No Task 006 work, main change, merge or force-push.
+
+## Task 006 — strict public-state projection
+
+Status: VERIFIED LOCALLY — mandatory remote publication pending.
+Baseline local/remote: `f804315f3e6617d843622d402d5ace5906156940`.
+Implementation: `0fe2e5361362b7de2efe9551dcf2e09946b83500`.
+
+- Explicit independent public DTO permits only game ID, known script ID,
+  phase/round, numbered clockwise player ID/name/life, validated Day voting
+  threshold/benchmark/block and ended-only good/evil winner. Fresh objects and
+  canonical helpers; no raw roles, individual teams, effects, history, messages,
+  action state, targets, snapshots or extensible metadata.
+- Night life comes from committed night-start snapshot, preventing premature
+  public disclosure of night deaths/resurrection. Unknown optional facts return
+  null; malformed required identity/state throws generic error. No new save,
+  routing or engine semantics. Ghost-vote/nomination fields deferred to Task 009.
+- DawnScreen now receives PublicDeathEntry[] and round instead of GameState;
+  existing Task 005 DTO/animation/progression/privacy controls remain intact.
+- 45 new tests: 43 hostile projector/semantics tests and 2 React dawn-boundary
+  tests. Targeted 72 tests / 2 files passed; full 634 tests / 63 files passed.
+  Typecheck, production/PWA build, Prettier and git diff --check passed.
+- Browser/Chromium and Android/native validation NOT RUN; jsdom is not E2E.
+  Hosted CI not claimed. Existing nonfatal warnings and Task 004 pointer-write
+  limitation remain documented. No Task 007 started.
+- Next: normal push, exact local/remote SHA comparison and independent GitHub
+  retrieval; mark DONE only after publication verification.
