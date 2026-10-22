@@ -6,7 +6,8 @@
 | Task 001                  | DONE        | `35e2d088f7a5d6ffe8b12e44551705fd362ed737` | 455 tests; typecheck/build passed        | Stable setup identity                             |
 | Task 002                  | DONE        | `2c7c485b191a0ebf52fbbea8b69a3026db896e80` | 478 tests; typecheck/build passed        | Protected handback                                |
 | Task 003                  | DONE        | `d06a4b843065cc401a9e415c0ecbe842832004f8` | 524 tests; typecheck/build passed        | First-night revelation gates                      |
-| Tasks 004–005             | NOT STARTED | —                                          | —                                        | Next: setup final review                          |
+| Task 004                  | DONE        | `63290afc20e60bfa3125759f41d5c0c1ade82d0a` | 546 tests; typecheck/build passed        | Final setup review                                |
+| Task 005                  | NOT STARTED | —                                          | —                                        | Flow/UI hardening                                 |
 | Tasks 006–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
@@ -175,7 +176,7 @@ follow-up is also pushed and SHA-verified. Task 004 remains NOT STARTED.
 
 ## Task 004 — final setup review
 
-Status: VERIFIED LOCALLY — publication pending.
+Status: DONE — normal push and GitHub publication verified.
 Implementation commit: `4571e93`.
 Starting local/remote HEAD: `f878144db24a43f9a00802e3b06dea0c5c684a8a`.
 
@@ -200,3 +201,13 @@ Starting local/remote HEAD: `f878144db24a43f9a00802e3b06dea0c5c684a8a`.
   Grimoire description, old Browserslist data and advisory large bundle size.
 - Task 005 NOT STARTED. Publish and verify local/remote SHA plus GitHub access
   before marking Task 004 DONE.
+
+### Task 004 remote delivery evidence
+
+Implementation SHA: `4571e93144b4ca0d1591492f34e8f3c0874e704d`.
+Published local HEAD and verified remote branch SHA:
+`63290afc20e60bfa3125759f41d5c0c1ade82d0a`.
+GitHub file retrieval at this exact commit confirmed setupPlan.ts; PR #2 metadata
+independently confirmed the same head SHA and draft status before marking DONE.
+This documentation-only follow-up is also pushed and SHA-verified. No Task 005
+work started, no main changes, merge or force-push.

@@ -1,6 +1,6 @@
 # Task 004 — Final Setup Review
 
-Status: VERIFIED LOCALLY — publication pending.
+Status: DONE — published and independently confirmed on GitHub.
 Baseline: `f878144db24a43f9a00802e3b06dea0c5c684a8a`.
 
 ## Behavior
@@ -58,3 +58,8 @@ EN/ES review text and interpolation are included. PT-BR/Android are out of scope
 
 Publication evidence belongs in docs/rebuild/PROGRESS.md. Mark DONE only after
 normal push and matching local/remote SHA. Task 005 remains NOT STARTED.
+
+Verified implementation: `4571e93144b4ca0d1591492f34e8f3c0874e704d`.
+Published checkpoint local/remote SHA: `63290afc20e60bfa3125759f41d5c0c1ade82d0a`.
+GitHub file retrieval and draft PR #2 metadata independently confirmed publication
+before marking DONE. Final status documentation is pushed and verified separately.
