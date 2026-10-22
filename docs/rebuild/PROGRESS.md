@@ -172,3 +172,31 @@ returned exactly `d06a4b843065cc401a9e415c0ecbe842832004f8`.
 GitHub file retrieval at this exact SHA independently confirmed the published
 RoleRevelationScreen implementation before marking DONE. This documentation-only
 follow-up is also pushed and SHA-verified. Task 004 remains NOT STARTED.
+
+## Task 004 — final setup review
+
+Status: VERIFIED LOCALLY — publication pending.
+Implementation commit: `4571e93`.
+Starting local/remote HEAD: `f878144db24a43f9a00802e3b06dea0c5c684a8a`.
+
+- Storyteller review summarizes localized script/count, numbered clockwise seats,
+  team composition, custom pool versus selected roles, and manual/random plan.
+- Assignment planning is separate from resolution. No resolve/create/save on
+  opening, leaving or revisiting review. Only explicit final confirmation runs
+  the unchanged resolver, creates once and saves before pointer/navigation.
+- Edit actions preserve stable IDs and compatible assignments; count/script
+  changes clear downstream choices, character changes prune incompatible roles
+  and deleted players cannot leave stale assignments. Back from Assignments
+  preserves manual edits. Task 003 gating and persistent audience guard retained.
+- Added 22 tests and updated existing real wizard identity coverage. Targeted:
+  110 tests / 7 files passed. Full suite: 546 tests / 60 files passed.
+- Typecheck, production/PWA build, Prettier and git diff --check passed.
+- Tested double submission, final ID/role correspondence, larger custom pools,
+  Demon guarantee, actual touch reorder/rename, edits/invalidation, all assignment
+  modes, EN/ES placeholders, game/pointer persistence failure and save ordering.
+- Browser/native validation NOT RUN: no Chromium/Chrome executable installed.
+  React/jsdom tests are not real-browser/native validation. Hosted CI not claimed.
+- Existing warnings documented in the task: custom RoleSelection nested buttons,
+  Grimoire description, old Browserslist data and advisory large bundle size.
+- Task 005 NOT STARTED. Publish and verify local/remote SHA plus GitHub access
+  before marking Task 004 DONE.
