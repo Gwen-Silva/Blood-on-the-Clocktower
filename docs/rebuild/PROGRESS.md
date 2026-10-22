@@ -9,7 +9,8 @@
 | Task 004                  | DONE        | `63290afc20e60bfa3125759f41d5c0c1ade82d0a` | 546 tests; typecheck/build passed        | Final setup review                                |
 | Task 005                  | DONE        | `a8412533b0d2cf27d6a4446a25ad55ab41412621` | 589 tests; typecheck/build passed        | Core interaction hardening                        |
 | Task 006                  | DONE        | `b205e684b06f0e31e18ea3f58a21432a2ac644e3` | 634 tests; typecheck/build passed        | Strict public projection                          |
-| Tasks 007–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
+| Task 007                  | VERIFYING   | —                                          | 655 tests; typecheck/build passed        | Public Player Reference                           |
+| Tasks 008–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
 | Task 021                  | BLOCKED     | —                                          | —                                        | Only after 001–020 restored and pushed            |
@@ -286,3 +287,34 @@ GitHub file retrieval confirmed publicGameState.ts at this exact SHA; PR #2
 metadata independently returned the same head SHA and draft=true before marking
 DONE. The status-only follow-up is also pushed and SHA-verified. No Task 007,
 main modification, merge or force-push.
+
+## Task 007 — Public Player Reference
+
+Status: VERIFIED LOCALLY — mandatory remote publication pending.
+Baseline local/remote: `f1ed58315107a58fffd227254ae21fcbadb05b44`.
+Implementation: `64442823c2cd07b263b72fe965625f323cc96d65`.
+
+- Reuses static SCRIPTS catalog and RolesLibrary/RoleCard: complete Trouble
+  Brewing (22) or Custom (23), four teams/counts, EN/ES introduction explicitly
+  distinguishes possible characters from confirmed assignments. Localized
+  descriptions, detail/list/previous/next navigation and unknown-script fallback.
+- Public component receives only projected scriptId and handback completion
+  callback. No authoritative game, selected pool, players, assignment mappings,
+  effects, private history or mutation callbacks. Hostile DOM/prop checks pass.
+- Available from normal setup overview/revelation, Night dashboard and Day;
+  private History also offers entry where safe. Opening unmounts all privileged
+  overlays/controls and preserves the earlier screen. No entry while actions,
+  pipeline resolution or another handoff are active.
+- Shared PlayerFacingScreen verifies durable marker before browsing. Detail Back
+  stays public; catalog exit removes content and requires existing neutral
+  ReturnDevice 1,000 ms hold. Reload/popstate/menu/Continue/route changes cannot
+  bypass recovery. Overlays stay closed after return. No separate timer or route.
+- Browsing/return saves no game/history and executes no action. Only existing
+  audience marker is written/cleared. Standalone Roles Library remains functional.
+- Added 21 tests. Targeted 84 tests / 3 files passed; full 655 tests / 64 files
+  passed. Typecheck, production/PWA build, Prettier and git diff --check passed.
+- Browser/Chromium and Android/native validation NOT RUN; no installed browser
+  executable, jsdom is not E2E. Hosted CI not claimed. Existing unrelated warnings
+  and separately tracked Task 004 pointer-write limitation remain unchanged.
+- Next: normal push, exact local/remote comparison, independent GitHub content
+  and PR verification. Mark DONE only after delivery; no Task 008 started.
