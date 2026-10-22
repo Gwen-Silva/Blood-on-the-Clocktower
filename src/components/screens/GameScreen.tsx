@@ -781,8 +781,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
       case 'dawn':
         return (
           <DawnScreen
-            state={state}
-            deaths={screen.deaths}
+            deaths={toPublicDeaths(state.players, screen.deaths)}
             round={screen.round}
             onContinue={handleDawnContinue}
           />

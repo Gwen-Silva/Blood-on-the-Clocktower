@@ -17,6 +17,7 @@ import { GameScreen } from './GameScreen'
 import * as day from './DayPhase'
 import * as night from './NightDashboard'
 import * as deaths from './DeathRevealScreen'
+import * as dawn from './DawnScreen'
 import * as nomination from './NominationScreen'
 import * as endDay from './EndDayConfirmation'
 import * as engine from '../../lib/game'
@@ -587,5 +588,55 @@ describe('public death allowlist and construction paths', () => {
     act(() => vi.advanceTimersByTime(1200))
     click(en.game.deathRevealContinue)
     expect(done).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('public dawn boundary', () => {
+  it('GameScreen passes only public deaths and round to DawnScreen', () => {
+    const OriginalDashboard = night.NightDashboard
+    let dashboard!: ComponentProps<typeof OriginalDashboard>
+    vi.spyOn(night, 'NightDashboard').mockImplementation((props) => {
+      dashboard = props
+      return <OriginalDashboard {...props} />
+    })
+    const OriginalDawn = dawn.DawnScreen
+    let captured!: ComponentProps<typeof OriginalDawn>
+    vi.spyOn(dawn, 'DawnScreen').mockImplementation((props) => {
+      captured = props
+      return <OriginalDawn {...props} />
+    })
+    const game = engine.startNight(fixture())
+    mountGame(game)
+    act(() => dashboard.onStartDay())
+    expect(Object.keys(captured).sort()).toEqual([
+      'deaths',
+      'onContinue',
+      'round',
+    ])
+    expect(captured.deaths).toEqual([])
+    expect(captured.round).toBe(getCurrentState(game).round)
+    expect(document.querySelector('[title="Grimoire"]')).toBeNull()
+    expect(container.textContent).toContain(en.game.dawnNoDeaths)
+    click(en.game.continueToDay)
+    expect(document.querySelector('[title="Grimoire"]')).not.toBeNull()
+  })
+  it('renders duplicate public names by ID without private role/effect data and retains progression', () => {
+    const players = [
+      makePlayer({ roleId: 'chef', id: 'one', name: 'Alex' }),
+      makePlayer({ roleId: 'imp', id: 'two', name: 'Alex' }),
+    ]
+    const entries = toPublicDeaths(players, ['one', 'two'])
+    const onContinue = vi.fn()
+    render(
+      <dawn.DawnScreen deaths={entries} round={2} onContinue={onContinue} />,
+    )
+    expect(entries).toEqual([
+      { playerId: 'one', playerName: 'Alex' },
+      { playerId: 'two', playerName: 'Alex' },
+    ])
+    expect(container.textContent).not.toContain('Chef')
+    expect(container.textContent).not.toContain('Imp')
+    click(en.game.continueToDay)
+    expect(onContinue).toHaveBeenCalledTimes(1)
   })
 })

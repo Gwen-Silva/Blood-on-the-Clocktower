@@ -370,7 +370,7 @@ export function getNextStep(game: Game): GameStep {
   return { type: 'day' }
 }
 
-function findLastEventIndex(game: Game, eventType: string): number {
+export function findLastEventIndex(game: Game, eventType: string): number {
   for (let i = game.history.length - 1; i >= 0; i--) {
     if (game.history[i].type === eventType) {
       return i
