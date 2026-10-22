@@ -7,7 +7,7 @@
 | Task 002                  | DONE        | `2c7c485b191a0ebf52fbbea8b69a3026db896e80` | 478 tests; typecheck/build passed        | Protected handback                                |
 | Task 003                  | DONE        | `d06a4b843065cc401a9e415c0ecbe842832004f8` | 524 tests; typecheck/build passed        | First-night revelation gates                      |
 | Task 004                  | DONE        | `63290afc20e60bfa3125759f41d5c0c1ade82d0a` | 546 tests; typecheck/build passed        | Final setup review                                |
-| Task 005                  | NOT STARTED | —                                          | —                                        | Flow/UI hardening                                 |
+| Task 005                  | DONE        | `a8412533b0d2cf27d6a4446a25ad55ab41412621` | 589 tests; typecheck/build passed        | Core interaction hardening                        |
 | Tasks 006–011             | NOT STARTED | —                                          | —                                        | Public surfaces/Almanac                           |
 | Tasks 012–016             | NOT STARTED | —                                          | —                                        | Corrections/backup                                |
 | Tasks 017–020             | NOT STARTED | —                                          | —                                        | PT-BR/Android/CI                                  |
@@ -214,7 +214,7 @@ work started, no main changes, merge or force-push.
 
 ## Task 005 — core interaction hardening
 
-Status: VERIFIED LOCALLY — publication pending.
+Status: DONE — normal push and GitHub publication verified.
 Baseline local/remote: `fdd000c1f068c81b290d48711c50905e30c37938`.
 Implementation: `1b7cdcbc9f587d73fbafb2ed44ee85410bfc15a2`.
 
@@ -239,3 +239,13 @@ Implementation: `1b7cdcbc9f587d73fbafb2ed44ee85410bfc15a2`.
   separately tracked Task 004 pointer-write risk recorded in task document.
 - Task 006 NOT STARTED. Next: push normally, compare exact local/remote SHA,
   retrieve published commit on GitHub, then record DONE in verified follow-up.
+
+### Task 005 remote delivery evidence
+
+Implementation SHA: `1b7cdcbc9f587d73fbafb2ed44ee85410bfc15a2`.
+Published checkpoint local and remote branch SHA both equal:
+`a8412533b0d2cf27d6a4446a25ad55ab41412621`.
+GitHub file retrieval confirmed publicDeath.ts at that exact commit, and PR #2
+metadata independently returned the same head SHA with draft status true before
+marking DONE. This documentation-only follow-up is also pushed/SHA-verified.
+No Task 006 work, main change, merge or force-push.

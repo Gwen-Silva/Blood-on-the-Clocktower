@@ -1,6 +1,6 @@
 # Task 005 — Core Interaction Hardening
 
-Status: VERIFIED LOCALLY — publication pending.
+Status: DONE — published and independently confirmed on GitHub.
 Baseline: `fdd000c1f068c81b290d48711c50905e30c37938`.
 Implementation: `1b7cdcbc9f587d73fbafb2ed44ee85410bfc15a2`.
 
@@ -70,3 +70,8 @@ are retained. This does not introduce the broader PublicGameState/Task 006 flow.
 
 Publish implementation/documentation and verify matching local/remote HEAD plus
 GitHub access before marking DONE. PR #2 stays draft; Task 006 is not started.
+
+Publication verified before DONE: local and remote checkpoint SHA
+`a8412533b0d2cf27d6a4446a25ad55ab41412621`; GitHub file retrieval and draft PR #2
+metadata independently confirmed this SHA. Status-only follow-up is separately
+pushed and verified. No product changes after successful validation.
