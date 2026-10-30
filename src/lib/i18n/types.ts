@@ -1,8 +1,10 @@
 import type { NightGuidanceTranslations } from './nightGuidance'
 import type { clarityEn } from './clarity'
-export type Language = 'en' | 'es'
+import type { aboutEn } from './about'
+export type Language = 'en' | 'es' | 'pt-BR'
 
 export type Translations = {
+  about: typeof aboutEn
   clarity: typeof clarityEn
   nightGuide: NightGuidanceTranslations
   storageRecovery: {

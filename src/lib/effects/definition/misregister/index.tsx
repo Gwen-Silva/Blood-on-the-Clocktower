@@ -15,9 +15,11 @@ import type { TeamId } from '../../../teams'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('misregister', 'en', en)
 registerEffectTranslations('misregister', 'es', es)
+registerEffectTranslations('misregister', 'pt-BR', ptBR)
 
 // Badge variant for alignment rendering
 const ALIGNMENT_BADGE_VARIANT: Record<string, 'townsfolk' | 'demon'> = {
@@ -135,10 +137,7 @@ function MisregisterConfigEditor({
                     : 'bg-white/5 border-white/10 text-parchment-400 hover:border-white/30'
                 }`}
               >
-                <Icon
-                  name={isSelected ? 'checkSquare' : 'square'}
-                  size='sm'
-                />
+                <Icon name={isSelected ? 'checkSquare' : 'square'} size='sm' />
                 {(t[`alignment_${alignment}`] as string) ?? alignment}
               </button>
             )
@@ -164,10 +163,7 @@ function MisregisterConfigEditor({
                     : 'bg-white/5 border-white/10 text-parchment-400 hover:border-white/30'
                 }`}
               >
-                <Icon
-                  name={isSelected ? 'checkSquare' : 'square'}
-                  size='sm'
-                />
+                <Icon name={isSelected ? 'checkSquare' : 'square'} size='sm' />
                 <Badge variant={team}>
                   {(t[`team_${team}`] as string) ?? team}
                 </Badge>

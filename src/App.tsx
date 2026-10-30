@@ -1,4 +1,4 @@
-import { useI18n, interpolate } from './lib/i18n'
+import { useI18n, interpolate, getLocale } from './lib/i18n'
 import { useEffect, useMemo, useState, useRef } from 'react'
 import {
   SetupPlayer,
@@ -29,6 +29,7 @@ import { getRole } from './lib/roles'
 import { ScriptId } from './lib/scripts'
 import { returnToMainMenu } from './lib/navigation'
 import { AudienceRecoveryBoundary } from './components/layouts/AudienceRecoveryBoundary'
+import { AboutAndUpdates } from './components/items/AboutAndUpdates'
 
 // Internal screens for the new-game wizard (not routed — stays on "/")
 type SetupStep = 'players' | 'script' | 'roles' | 'assign' | 'review'
@@ -144,9 +145,7 @@ function AppRoutes() {
     creating.current = true
     const players = resolveIdentifiedRoleAssignments(plan)
     const gameName = interpolate(t.clarity.gameName, {
-      date: new Date().toLocaleDateString(
-        language === 'es' ? 'es-ES' : 'en-US',
-      ),
+      date: new Date().toLocaleDateString(getLocale(language)),
     })
     const game = createGame(gameName, plan.scriptId, players)
     try {
@@ -323,6 +322,7 @@ function AppRoutes() {
     <div className='game-shell'>
       <div className='game-tools'>
         <LanguagePicker />
+        <AboutAndUpdates allowActivation={!newGameScreen} />
       </div>
       <div className='game-content'>{renderHome()}</div>
     </div>

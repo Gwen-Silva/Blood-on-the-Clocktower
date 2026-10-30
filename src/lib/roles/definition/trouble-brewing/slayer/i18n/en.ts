@@ -15,8 +15,8 @@ const en = {
 
   // History
   history: {
-    targetDied: '{slayer} shot {target} — the target died!',
-    missed: '{slayer} shot {target} — nothing happened',
+    targetDied: '{slayer} shot {target}: the target died!',
+    missed: '{slayer} shot {target}: nothing happened',
   },
 } as const
 

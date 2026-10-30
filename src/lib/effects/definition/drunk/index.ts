@@ -3,9 +3,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('drunk', 'en', en)
 registerEffectTranslations('drunk', 'es', es)
+registerEffectTranslations('drunk', 'pt-BR', ptBR)
 
 /**
  * Drunk effect — permanently causes the player's ability to malfunction.

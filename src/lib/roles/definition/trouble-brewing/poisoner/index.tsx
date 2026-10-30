@@ -21,9 +21,11 @@ import { isMalfunctioning } from '../../../../effects'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('poisoner', 'en', en)
 registerRoleTranslations('poisoner', 'es', es)
+registerRoleTranslations('poisoner', 'pt-BR', ptBR)
 
 export function createPoisonResult(
   player: PlayerState,

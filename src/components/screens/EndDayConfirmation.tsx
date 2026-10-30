@@ -51,11 +51,11 @@ export function EndDayConfirmation({
         </DialogHeader>
         <DialogBody>
           <div className='flex flex-col gap-3'>
-            <Button variant='secondary' onClick={onClose}>
-              {t.common.cancel}
-            </Button>
             <Button variant='dawn' onClick={onConfirm}>
               {t.game.confirmEndDay}
+            </Button>
+            <Button variant='secondary' onClick={onClose}>
+              {t.common.cancel}
             </Button>
           </div>
         </DialogBody>

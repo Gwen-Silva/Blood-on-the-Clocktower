@@ -22,8 +22,7 @@ const en = {
   // History
   history: {
     townsfolkExecuted: '{nominator} nominated the Virgin and was executed!',
-    lostPurity:
-      "{nominator} nominated the Virgin — the Virgin's power is spent",
+    lostPurity: "{nominator} nominated the Virgin: the Virgin's power is spent",
   },
 } as const
 

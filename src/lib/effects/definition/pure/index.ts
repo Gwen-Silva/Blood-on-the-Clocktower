@@ -12,9 +12,11 @@ import { VirginRegistrationUI } from '../../../../components/items/VirginRegistr
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('pure', 'en', en)
 registerEffectTranslations('pure', 'es', es)
+registerEffectTranslations('pure', 'pt-BR', ptBR)
 
 /**
  * Determine a player's actual team.

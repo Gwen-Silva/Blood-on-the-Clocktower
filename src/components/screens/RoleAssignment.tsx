@@ -1,3 +1,4 @@
+import { formatRoleQuantity } from '../../lib/roleDisplay'
 import { useState, useMemo } from 'react'
 import { getRole } from '../../lib/roles'
 import { getTeam } from '../../lib/teams'
@@ -189,8 +190,7 @@ export function RoleAssignment({
                   className='inline-flex items-center gap-1'
                 >
                   <Icon name={role.icon} size='xs' />
-                  {getRoleName(roleId, language)}
-                  {count > 1 && <span className='opacity-60'>x{count}</span>}
+                  {formatRoleQuantity(getRoleName(roleId, language), count)}
                 </Badge>
               )
             })}

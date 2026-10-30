@@ -3,9 +3,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('poisoned', 'en', en)
 registerEffectTranslations('poisoned', 'es', es)
+registerEffectTranslations('poisoned', 'pt-BR', ptBR)
 
 /**
  * Poisoned effect — causes the player's ability to malfunction.

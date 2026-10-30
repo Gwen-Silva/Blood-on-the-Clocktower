@@ -1,4 +1,10 @@
-export { I18nProvider, useI18n, interpolate, LANGUAGES } from './context'
+export {
+  I18nProvider,
+  useI18n,
+  interpolate,
+  LANGUAGES,
+  getLocale,
+} from './context'
 export type { Language, Translations } from './types'
 export type { LanguageOption } from './context'
 export {

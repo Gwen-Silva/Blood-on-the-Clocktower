@@ -1,8 +1,10 @@
 import { Translations } from '../types'
 import { nightGuidanceEs } from '../nightGuidance'
 import { clarityEs } from '../clarity'
+import { aboutEs } from '../about'
 
 const es: Translations = {
+  about: aboutEs,
   clarity: clarityEs,
   nightGuide: nightGuidanceEs,
   storageRecovery: {
@@ -173,8 +175,8 @@ const es: Translations = {
     currentBlock: '{player} está a punto de morir ({count} votos).',
     needMoreThan: 'Se necesitan más de {count} para reemplazar',
     noOneOnBlock: 'Nadie está a punto de morir.',
-    endDayExecute: 'Terminar Día \u2014 Ejecutar a {player}',
-    endDayNoExecution: 'Terminar Día \u2014 Sin Ejecución',
+    endDayExecute: 'Terminar Día: Ejecutar a {player}',
+    endDayNoExecution: 'Terminar Día: Sin Ejecución',
     confirmVotes: 'Confirmar Votos',
     cancelNomination: 'Cancelar Nominación',
     nominee: 'Nominado/a',
@@ -460,7 +462,7 @@ const es: Translations = {
     p1_nutshell1:
       'Blood on the Clocktower es un juego de **deducción social**. Esta aplicación admite 5–15 jugadores, más el Cuentacuentos.',
     p1_nutshell2:
-      'Un jugador es el **Cuentacuentos** (narrador) — todos los demás son un **Aldeano, Forastero, Secuaz o Demonio**.',
+      'Un jugador es el **Cuentacuentos** (narrador): todos los demás son un **Aldeano, Forastero, Secuaz o Demonio**.',
     p1_nutshell3:
       'El **equipo del Bien** (Aldeanos + Forasteros) intenta encontrar y ejecutar al **Demonio**.',
     p1_nutshell4:
@@ -508,7 +510,7 @@ const es: Translations = {
     part2Title: '2. Cómo Usar Grimorium',
     p2_createTitle: 'Crear una Partida',
     p2_create1:
-      '**Añadir Jugadores** — Introduce los nombres (el Cuentacuentos no es un jugador).',
+      '**Añadir Jugadores**: Introduce los nombres (el Cuentacuentos no es un jugador).',
     p2_create2:
       '**Elegir un guion:** Problemas en el Pueblo aplica las restricciones habituales. La partida personalizada permite elegir libremente entre los personajes implementados.',
     p2_create3:
@@ -600,7 +602,7 @@ const es: Translations = {
     part4Title: '4. Consejos para el Cuentacuentos',
     p4_firstTitle: 'Para la primera vez como Cuentacuentos',
     p4_first1:
-      'Comienza jugando **Problemas en el Pueblo** — está diseñado para aprender.',
+      'Comienza jugando **Problemas en el Pueblo**: está diseñado para aprender.',
     p4_first2:
       'Para empezar, considera 7–9 jugadores. Con 5 o 6 no se da la información inicial habitual del equipo del Mal.',
     p4_first3:

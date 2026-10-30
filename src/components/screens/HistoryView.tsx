@@ -1,5 +1,5 @@
 import { Game, getCurrentState } from '../../lib/types'
-import { useI18n, interpolate } from '../../lib/i18n'
+import { useI18n, interpolate, getLocale } from '../../lib/i18n'
 import { RichMessage } from '../items/RichMessage'
 import { Icon, IconName, BackButton } from '../atoms'
 
@@ -29,7 +29,7 @@ export function HistoryView({ game, onClose }: Props) {
   const state = getCurrentState(game)
 
   const formatTime = (timestamp: number) => {
-    const locale = language === 'es' ? 'es-ES' : 'en-US'
+    const locale = getLocale(language)
     return new Date(timestamp).toLocaleTimeString(locale, {
       hour: '2-digit',
       minute: '2-digit',

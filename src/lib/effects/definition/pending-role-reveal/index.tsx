@@ -6,9 +6,7 @@ import {
 import { getRole } from '../../../roles'
 import { getTeam } from '../../../teams'
 import { RoleCard } from '../../../../components/items/RoleCard'
-import {
-  TeamBackground,
-} from '../../../../components/items/TeamBackground'
+import { TeamBackground } from '../../../../components/items/TeamBackground'
 import { PlayerFacingScreen } from '../../../../components/layouts/PlayerFacingScreen'
 import { HandbackCardLink } from '../../../../components/layouts'
 import { useI18n } from '../../../i18n'
@@ -17,9 +15,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('pending_role_reveal', 'en', en)
 registerEffectTranslations('pending_role_reveal', 'es', es)
+registerEffectTranslations('pending_role_reveal', 'pt-BR', ptBR)
 
 /**
  * Action component shown when a player's role has changed and they need

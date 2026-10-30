@@ -9,9 +9,11 @@ import {
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('investigator', 'en', en)
 registerRoleTranslations('investigator', 'es', es)
+registerRoleTranslations('investigator', 'pt-BR', ptBR)
 
 const investigatorConfig: InfoRoleConfig = {
   roleId: 'investigator',

@@ -7,7 +7,7 @@ const es = {
     { type: 'PASSIVE', text: 'No tienes ninguna habilidad especial.' },
     {
       type: 'ADVICE',
-      text: 'Escucha, debate y usa tu voto sabiamente — tu juicio es tu arma.',
+      text: 'Escucha, debate y usa tu voto sabiamente: tu juicio es tu arma.',
     },
     {
       type: 'WIN',

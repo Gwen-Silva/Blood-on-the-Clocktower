@@ -4,7 +4,7 @@ import {
   getCurrentGameId,
   GameSummary,
 } from '../../lib/storage'
-import { useI18n } from '../../lib/i18n'
+import { useI18n, getLocale } from '../../lib/i18n'
 import { Icon } from '../atoms'
 import { MysticDivider } from '../items'
 import { useShaderBackground } from '../../hooks/useShaderBackground'
@@ -221,7 +221,7 @@ export function MainMenu({
   }, [])
 
   const formatDate = (timestamp: number) => {
-    const locale = language === 'es' ? 'es-ES' : 'en-US'
+    const locale = getLocale(language)
     return new Date(timestamp).toLocaleDateString(locale, {
       month: 'short',
       day: 'numeric',
@@ -272,8 +272,8 @@ export function MainMenu({
                   style={
                     phase === 'breaking'
                       ? ({
-                        '--break-duration': '600ms',
-                      } as React.CSSProperties)
+                          '--break-duration': '600ms',
+                        } as React.CSSProperties)
                       : undefined
                   }
                 >
@@ -301,9 +301,9 @@ export function MainMenu({
                   style={
                     phase === 'breaking'
                       ? ({
-                        '--break-duration': '600ms',
-                        '--break-delay': '60ms',
-                      } as React.CSSProperties)
+                          '--break-duration': '600ms',
+                          '--break-delay': '60ms',
+                        } as React.CSSProperties)
                       : undefined
                   }
                 >
@@ -358,9 +358,7 @@ export function MainMenu({
               </div>
 
               {/* Title & subtitle */}
-              <div
-                className={cn(phase === 'breaking' && 'grimoire-seal-fade')}
-              >
+              <div className={cn(phase === 'breaking' && 'grimoire-seal-fade')}>
                 <h1 className='font-tarot text-3xl sm:text-4xl font-bold text-parchment-100 tracking-widest-xl uppercase mb-3'>
                   {t.mainMenu.title}
                 </h1>
@@ -387,9 +385,7 @@ export function MainMenu({
               {/* Compact title */}
               <div
                 className='text-center mb-8 grimoire-menu-reveal'
-                style={
-                  { '--reveal-delay': '0ms' } as React.CSSProperties
-                }
+                style={{ '--reveal-delay': '0ms' } as React.CSSProperties}
               >
                 <h1 className='font-tarot text-2xl sm:text-3xl font-bold text-parchment-100 tracking-widest-xl uppercase mb-2'>
                   {t.mainMenu.title}
@@ -403,9 +399,7 @@ export function MainMenu({
                 {hasActiveGame && currentGame && (
                   <div
                     className='grimoire-menu-reveal'
-                    style={
-                      { '--reveal-delay': '80ms' } as React.CSSProperties
-                    }
+                    style={{ '--reveal-delay': '80ms' } as React.CSSProperties}
                   >
                     <button
                       onClick={() => onContinue(currentGame.id)}
@@ -422,8 +416,7 @@ export function MainMenu({
                             {t.mainMenu.continueGame}
                           </div>
                           <div className='text-sm text-parchment-400 mt-1'>
-                            {currentGame.name} •{' '}
-                            {formatPhase(currentGame)}
+                            {currentGame.name} • {formatPhase(currentGame)}
                           </div>
                         </div>
                         <Icon
@@ -489,7 +482,9 @@ export function MainMenu({
                   {t.howToPlay.title}
                 </button>
 
-                <span className='text-parchment-500/40 hidden sm:inline'>·</span>
+                <span className='text-parchment-500/40 hidden sm:inline'>
+                  ·
+                </span>
 
                 <button
                   onClick={onRolesLibrary}
@@ -569,9 +564,7 @@ export function MainMenu({
                   >
                     <div className='flex items-start gap-3'>
                       <Icon
-                        name={
-                          game.phase === 'ended' ? 'checkCircle' : 'circle'
-                        }
+                        name={game.phase === 'ended' ? 'checkCircle' : 'circle'}
                         size='sm'
                         className={cn(
                           'mt-0.5 shrink-0',
@@ -585,10 +578,8 @@ export function MainMenu({
                           {game.name}
                         </div>
                         <div className='text-xs text-parchment-500'>
-                          {game.playerCount}{' '}
-                          {t.common.players.toLowerCase()} •{' '}
-                          {formatPhase(game)} •{' '}
-                          {formatDate(game.createdAt)}
+                          {game.playerCount} {t.common.players.toLowerCase()} •{' '}
+                          {formatPhase(game)} • {formatDate(game.createdAt)}
                         </div>
                       </div>
                     </div>

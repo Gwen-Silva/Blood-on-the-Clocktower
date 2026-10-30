@@ -8,13 +8,17 @@ import type { Language } from '../../../i18n'
 
 import correctEn from './i18n/correct-en'
 import correctEs from './i18n/correct-es'
+import correctPtBR from './i18n/correct-pt-BR'
 import wrongEn from './i18n/wrong-en'
 import wrongEs from './i18n/wrong-es'
+import wrongPtBR from './i18n/wrong-pt-BR'
 
 registerEffectTranslations('info_ping_correct', 'en', correctEn)
 registerEffectTranslations('info_ping_correct', 'es', correctEs)
+registerEffectTranslations('info_ping_correct', 'pt-BR', correctPtBR)
 registerEffectTranslations('info_ping_wrong', 'en', wrongEn)
 registerEffectTranslations('info_ping_wrong', 'es', wrongEs)
+registerEffectTranslations('info_ping_wrong', 'pt-BR', wrongPtBR)
 
 function InfoPingDescription({ instance, language }: EffectDescriptionProps) {
   const lang = language as Language

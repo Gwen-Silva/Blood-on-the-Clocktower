@@ -34,9 +34,11 @@ import { Perception } from '../../../../pipeline/types'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('ravenkeeper', 'en', en)
 registerRoleTranslations('ravenkeeper', 'es', es)
+registerRoleTranslations('ravenkeeper', 'pt-BR', ptBR)
 
 // Helper to check if a player was actually killed this night.
 // Compares the player's state at night start vs now — if they gained

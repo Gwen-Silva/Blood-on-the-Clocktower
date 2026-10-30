@@ -5,9 +5,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('martyrdom', 'en', en)
 registerEffectTranslations('martyrdom', 'es', es)
+registerEffectTranslations('martyrdom', 'pt-BR', ptBR)
 
 const martyrdomWinCondition: WinConditionCheck = {
   trigger: 'after_execution',

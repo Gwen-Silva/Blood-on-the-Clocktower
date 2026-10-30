@@ -7,9 +7,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('imp_starpass_pending', 'en', en)
 registerEffectTranslations('imp_starpass_pending', 'es', es)
+registerEffectTranslations('imp_starpass_pending', 'pt-BR', ptBR)
 
 /**
  * Imp Starpass Pending effect handler.

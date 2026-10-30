@@ -5,9 +5,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('deflect', 'en', en)
 registerEffectTranslations('deflect', 'es', es)
+registerEffectTranslations('deflect', 'pt-BR', ptBR)
 
 const deflectHandler: IntentHandler = {
   intentType: 'kill',

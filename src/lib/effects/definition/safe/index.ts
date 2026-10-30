@@ -4,9 +4,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('safe', 'en', en)
 registerEffectTranslations('safe', 'es', es)
+registerEffectTranslations('safe', 'pt-BR', ptBR)
 
 const safeHandler: IntentHandler = {
   intentType: 'kill',

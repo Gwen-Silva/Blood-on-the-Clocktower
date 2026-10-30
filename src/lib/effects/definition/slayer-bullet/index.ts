@@ -6,9 +6,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('slayer_bullet', 'en', en)
 registerEffectTranslations('slayer_bullet', 'es', es)
+registerEffectTranslations('slayer_bullet', 'pt-BR', ptBR)
 
 const slayerDayAction: DayActionDefinition = {
   id: 'slayer_shot',

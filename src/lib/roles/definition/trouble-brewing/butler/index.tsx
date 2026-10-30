@@ -20,9 +20,11 @@ import { isMalfunctioning } from '../../../../effects'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('butler', 'en', en)
 registerRoleTranslations('butler', 'es', es)
+registerRoleTranslations('butler', 'pt-BR', ptBR)
 
 /**
  * The Butler — Outsider role.

@@ -32,3 +32,7 @@ bun.lockb
 dev-dist
 
 TODO.md
+
+# Browser regression artifacts
+test-results/
+playwright-report/

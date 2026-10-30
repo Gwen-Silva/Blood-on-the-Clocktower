@@ -41,9 +41,11 @@ import { Perception } from '../../../../pipeline/types'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('fortune_teller', 'en', en)
 registerRoleTranslations('fortune_teller', 'es', es)
+registerRoleTranslations('fortune_teller', 'pt-BR', ptBR)
 
 type Phase =
   | 'step_list'
@@ -271,7 +273,14 @@ const definition: RoleDefinition = {
       })
 
       return result
-    }, [selectPlayersDone, needsPerceptionConfig, perceptionConfigDone, malfunctioning, malfunctionConfigDone, t])
+    }, [
+      selectPlayersDone,
+      needsPerceptionConfig,
+      perceptionConfigDone,
+      malfunctioning,
+      malfunctionConfigDone,
+      t,
+    ])
 
     const handleSelectStep = (stepId: string) => {
       if (stepId === 'select_players') {
@@ -339,7 +348,12 @@ const definition: RoleDefinition = {
       // Check if either selected player registers as a Demon
       const registersDemon = (p: typeof player1) => {
         if (!p) return false
-        const perception = perceive(p, effectiveObserver, 'team', effectiveState)
+        const perception = perceive(
+          p,
+          effectiveObserver,
+          'team',
+          effectiveState,
+        )
         return perception.team === 'demon'
       }
 
@@ -375,9 +389,9 @@ const definition: RoleDefinition = {
           result: sawDemon ? 'yes' : 'no',
           ...(malfunctioning
             ? {
-              malfunctioned: true,
-              actualResult: calculatedSawDemon ? 'yes' : 'no',
-            }
+                malfunctioned: true,
+                actualResult: calculatedSawDemon ? 'yes' : 'no',
+              }
             : {}),
           perceptionOverrides:
             Object.keys(perceptionOverrides).length > 0
@@ -446,7 +460,9 @@ const definition: RoleDefinition = {
         >
           <StepSection
             step={1}
-            label={interpolate(roleT.selectTwoPlayersToCheck, { player: getPlayerName(player.id) })}
+            label={interpolate(roleT.selectTwoPlayersToCheck, {
+              player: getPlayerName(player.id),
+            })}
             count={{ current: selectedPlayers.length, max: 2 }}
           >
             <PlayerPickerList

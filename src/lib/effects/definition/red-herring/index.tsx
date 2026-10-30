@@ -9,9 +9,11 @@ import { Button, Icon } from '../../../../components/atoms'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('red_herring', 'en', en)
 registerEffectTranslations('red_herring', 'es', es)
+registerEffectTranslations('red_herring', 'pt-BR', ptBR)
 
 function RedHerringConfigEditor({
   data,
@@ -45,10 +47,11 @@ function RedHerringConfigEditor({
             <button
               key={p.id}
               onClick={() => setSelectedPlayerId(p.id)}
-              className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left text-sm ${isSelected
+              className={`w-full flex items-center gap-3 p-3 rounded-lg border transition-colors text-left text-sm ${
+                isSelected
                   ? 'bg-amber-500/20 border-amber-400/50 text-amber-200'
                   : 'bg-white/5 border-white/10 text-parchment-300 hover:border-white/30'
-                }`}
+              }`}
             >
               <Icon
                 name={isSelected ? 'circleDot' : 'circle'}

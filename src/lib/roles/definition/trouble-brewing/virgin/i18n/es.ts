@@ -26,7 +26,7 @@ const es = {
   history: {
     townsfolkExecuted: '¡{nominator} nominó a la Virgen y fue ejecutado!',
     lostPurity:
-      '{nominator} nominó a la Virgen — el poder de la Virgen se ha agotado',
+      '{nominator} nominó a la Virgen: el poder de la Virgen se ha agotado',
   },
 } as const
 

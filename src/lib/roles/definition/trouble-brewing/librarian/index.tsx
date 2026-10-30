@@ -9,9 +9,11 @@ import {
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('librarian', 'en', en)
 registerRoleTranslations('librarian', 'es', es)
+registerRoleTranslations('librarian', 'pt-BR', ptBR)
 
 export const librarianConfig: InfoRoleConfig = {
   roleId: 'librarian',

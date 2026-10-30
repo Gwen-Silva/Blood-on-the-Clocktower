@@ -10,9 +10,11 @@ import { registerEffectTranslations } from '../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('demon_successor', 'en', en)
 registerEffectTranslations('demon_successor', 'es', es)
+registerEffectTranslations('demon_successor', 'pt-BR', ptBR)
 
 /**
  * Demon Successor effect handler.

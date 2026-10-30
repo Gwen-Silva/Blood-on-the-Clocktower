@@ -1,8 +1,10 @@
 import { Translations } from '../types'
 import { nightGuidanceEn } from '../nightGuidance'
 import { clarityEn } from '../clarity'
+import { aboutEn } from '../about'
 
 const en: Translations = {
+  about: aboutEn,
   clarity: clarityEn,
   nightGuide: nightGuidanceEn,
   storageRecovery: {
@@ -171,8 +173,8 @@ const en: Translations = {
     currentBlock: '{player} is about to die ({count} votes).',
     needMoreThan: 'Need more than {count} to replace',
     noOneOnBlock: 'No one is about to die.',
-    endDayExecute: 'End Day \u2014 Execute {player}',
-    endDayNoExecution: 'End Day \u2014 No Execution',
+    endDayExecute: 'End Day: Execute {player}',
+    endDayNoExecution: 'End Day: No Execution',
     confirmVotes: 'Confirm Votes',
     cancelNomination: 'Cancel Nomination',
     nominee: 'Nominee',
@@ -453,7 +455,7 @@ const en: Translations = {
     p1_nutshell1:
       'Blood on the Clocktower is a **social deduction game**. This app supports 5–15 players, plus a Storyteller.',
     p1_nutshell2:
-      'One player is the **Storyteller** (narrator) — everyone else is a **Townsfolk, Outsider, Minion, or Demon**.',
+      'One player is the **Storyteller** (narrator): everyone else is a **Townsfolk, Outsider, Minion, or Demon**.',
     p1_nutshell3:
       'The **Good team** (Townsfolk + Outsiders) tries to find and execute the **Demon**.',
     p1_nutshell4:
@@ -501,7 +503,7 @@ const en: Translations = {
     part2Title: '2. How To Use Grimorium',
     p2_createTitle: 'Creating a Game',
     p2_create1:
-      '**Add Players** — Enter player names (the Storyteller is not a player).',
+      '**Add Players**: Enter player names (the Storyteller is not a player).',
     p2_create2:
       '**Choose a script:** Trouble Brewing uses the standard setup restrictions. Custom Game lets you select freely from the implemented characters.',
     p2_create3:
@@ -590,7 +592,7 @@ const en: Translations = {
 
     part4Title: '4. Tips for Storytellers',
     p4_firstTitle: 'For First-Time Storytellers',
-    p4_first1: "Start with **Trouble Brewing** — it's designed for learning.",
+    p4_first1: "Start with **Trouble Brewing**: it's designed for learning.",
     p4_first2:
       'For a first game, consider 7–9 players. Games with 5 or 6 players omit the usual evil starting information.',
     p4_first3:

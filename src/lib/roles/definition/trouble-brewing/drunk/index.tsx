@@ -17,9 +17,11 @@ import type { GameState } from '../../../../types'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('drunk', 'en', en)
 registerRoleTranslations('drunk', 'es', es)
+registerRoleTranslations('drunk', 'pt-BR', ptBR)
 
 export function getDrunkBelievedRoleOptions(state: GameState) {
   const rolesInPlay = new Set(state.players.map((player) => player.roleId))

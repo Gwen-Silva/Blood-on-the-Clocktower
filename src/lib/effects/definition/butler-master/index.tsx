@@ -9,9 +9,11 @@ import { Button, Icon } from '../../../../components/atoms'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerEffectTranslations('butler_master', 'en', en)
 registerEffectTranslations('butler_master', 'es', es)
+registerEffectTranslations('butler_master', 'pt-BR', ptBR)
 
 function ButlerMasterConfigEditor({
   data,
@@ -109,12 +111,13 @@ const definition: EffectDefinition = {
     if (!votes) return true
 
     // Check if the master has voted
-    const masterId = player.effects.find((e) => e.type === 'butler_master')?.data?.masterId as string
+    const masterId = player.effects.find((e) => e.type === 'butler_master')
+      ?.data?.masterId as string
     if (!masterId) return true // No master assigned, no restriction
 
     // Can only vote if the master has voted
     return !!votes[masterId]
-  }
+  },
 }
 
 export default definition

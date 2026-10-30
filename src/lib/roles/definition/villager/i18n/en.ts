@@ -6,7 +6,7 @@ const en = {
     { type: 'PASSIVE', text: 'You have no special ability.' },
     {
       type: 'ADVICE',
-      text: 'Listen, discuss, and use your vote wisely — your judgment is your weapon.',
+      text: 'Listen, discuss, and use your vote wisely: your judgment is your weapon.',
     },
     { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],

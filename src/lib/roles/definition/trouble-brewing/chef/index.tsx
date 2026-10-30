@@ -29,9 +29,11 @@ import { isMalfunctioning } from '../../../../effects'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('chef', 'en', en)
 registerRoleTranslations('chef', 'es', es)
+registerRoleTranslations('chef', 'pt-BR', ptBR)
 
 /**
  * Calculate the number of pairs of evil players sitting next to each other.

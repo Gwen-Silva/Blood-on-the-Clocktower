@@ -29,9 +29,11 @@ import { Perception } from '../../../../pipeline/types'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('undertaker', 'en', en)
 registerRoleTranslations('undertaker', 'es', es)
+registerRoleTranslations('undertaker', 'pt-BR', ptBR)
 
 // Helper to find execution from the previous day
 function findExecutedPlayerId(game: {

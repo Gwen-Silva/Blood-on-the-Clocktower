@@ -1,3 +1,4 @@
+import { formatRoleQuantity } from '../../lib/roleDisplay'
 import { SetupPlan, isSetupPlanValid } from '../../lib/setupPlan'
 import { getRole } from '../../lib/roles'
 import { getTeam, TeamId } from '../../lib/teams'
@@ -97,8 +98,10 @@ export function SetupReview({ plan, onEdit, onConfirm }: Props) {
                 <div className='flex flex-wrap gap-2 mt-1'>
                   {unique.map((id) => (
                     <Badge key={id} variant={team}>
-                      {getRoleName(id, language)} ×{' '}
-                      {roles.filter((role) => role === id).length}
+                      {formatRoleQuantity(
+                        getRoleName(id, language),
+                        roles.filter((role) => role === id).length,
+                      )}
                     </Badge>
                   ))}
                 </div>

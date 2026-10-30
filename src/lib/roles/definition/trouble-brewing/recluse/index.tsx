@@ -4,9 +4,11 @@ import { registerRoleTranslations } from '../../../../i18n'
 
 import en from './i18n/en'
 import es from './i18n/es'
+import ptBR from './i18n/pt-BR'
 
 registerRoleTranslations('recluse', 'en', en)
 registerRoleTranslations('recluse', 'es', es)
+registerRoleTranslations('recluse', 'pt-BR', ptBR)
 
 const definition: RoleDefinition = {
   id: 'recluse',

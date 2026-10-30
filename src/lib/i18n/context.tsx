@@ -5,12 +5,14 @@ import {
   useCallback,
   ReactNode,
   useMemo,
+  useEffect,
 } from 'react'
 import { Language, Translations } from './types'
 import en from './translations/en'
 import es from './translations/es'
+import ptBR from './translations/pt-BR'
 
-const TRANSLATIONS: Record<Language, Translations> = { en, es }
+const TRANSLATIONS: Record<Language, Translations> = { en, es, 'pt-BR': ptBR }
 
 export type LanguageOption = {
   code: Language
@@ -18,6 +20,7 @@ export type LanguageOption = {
 }
 
 export const LANGUAGES: LanguageOption[] = [
+  { code: 'pt-BR', nativeName: 'Português (Brasil)' },
   { code: 'en', nativeName: 'English' },
   { code: 'es', nativeName: 'Español' },
 ]
@@ -36,19 +39,13 @@ function getInitialLanguage(): Language {
   try {
     stored = localStorage.getItem(STORAGE_KEY)
   } catch {
-    /* Use browser language. */
+    /* Keep this session usable with the default language. */
   }
   if (stored && isValidLanguage(stored)) {
     return stored
   }
 
-  // Check browser language
-  const browserLang = navigator.language.slice(0, 2)
-  if (isValidLanguage(browserLang)) {
-    return browserLang
-  }
-
-  return 'en'
+  return 'pt-BR'
 }
 
 type I18nContextType = {
@@ -65,6 +62,9 @@ type Props = {
 
 export function I18nProvider({ children }: Props) {
   const [language, setLanguageState] = useState<Language>(getInitialLanguage)
+  useEffect(() => {
+    document.documentElement.lang = language
+  }, [language])
 
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang)
@@ -83,6 +83,10 @@ export function I18nProvider({ children }: Props) {
   )
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>
+}
+
+export function getLocale(language: Language): string {
+  return language === 'en' ? 'en-US' : language === 'es' ? 'es-ES' : 'pt-BR'
 }
 
 export function useI18n(): I18nContextType {
