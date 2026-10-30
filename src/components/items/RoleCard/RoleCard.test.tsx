@@ -9,6 +9,7 @@ import {
 } from '../../../lib/i18n'
 import { getRoleWikiUrl, ROLE_WIKI_PAGES } from '../../../lib/roles/wiki'
 import { RoleCard } from './index'
+import { RoleName } from './RoleName'
 import { PlayerFacingScreen } from '../../layouts/PlayerFacingScreen'
 
 let root: Root
@@ -71,6 +72,19 @@ it('keeps long names complete and grouped into unbroken words', () => {
   expect(host.querySelector('h1 .whitespace-nowrap')?.textContent).toBe(
     'Bibliotecário',
   )
+})
+it('fits names using layout widths even while the entrance animation scales visual bounds', () => {
+  vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(100)
+  vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200)
+  vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+    width: 50,
+  } as DOMRect)
+  vi.spyOn(window, 'getComputedStyle').mockReturnValue({
+    fontSize: '30px',
+  } as CSSStyleDeclaration)
+  act(() => root.render(<RoleName name='Bibliotecário' />))
+  expect(host.querySelector('h1')?.style.fontSize).toBe('14.85px')
+  expect(host.querySelector('h1')?.textContent).toBe('Bibliotecário')
 })
 it('does not remount or clear an adjacent unfinished input when rules close', () => {
   act(() =>

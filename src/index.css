@@ -47,6 +47,11 @@
   max-height: none;
   overflow-y: visible;
 }
+/* The outer game region owns scrolling. An unconstrained inner scroller with
+   overscroll containment swallows gestures before they reach that region. */
+.game-content .reference-detail-content {
+  overflow: visible;
+}
 .screen-navigation {
   display: flex;
   align-items: center;

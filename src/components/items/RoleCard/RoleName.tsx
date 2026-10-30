@@ -21,12 +21,14 @@ export function RoleName({
       const size = parseFloat(getComputedStyle(heading).fontSize)
       const widest = Math.max(
         ...Array.from(
-          heading.children,
-          (word) => word.getBoundingClientRect().width,
+          heading.querySelectorAll<HTMLElement>('.whitespace-nowrap'),
+          // Layout width ignores the card's animated scale. Mixing transformed
+          // word bounds with clientWidth would fit too large during its entrance.
+          (word) => word.offsetWidth,
         ),
       )
       if (widest > heading.clientWidth) {
-        heading.style.fontSize = `${(size * heading.clientWidth) / widest}px`
+        heading.style.fontSize = `${(size * (heading.clientWidth - 1)) / widest}px`
       }
     }
     fit()

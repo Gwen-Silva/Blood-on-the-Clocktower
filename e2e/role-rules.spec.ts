@@ -1,5 +1,27 @@
 import { test, expect } from '@playwright/test'
 
+test('short reference screens allow native scroll gestures to reach the rules control', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 320, height: 568 })
+  await page.goto('./roles/imp')
+  await page.addStyleTag({
+    content: '.animate-card-float { animation: none !important }',
+  })
+  await page.getByRole('button', { name: 'Ver regras', exact: true }).waitFor()
+  const region = page.locator('.game-content')
+  await page.mouse.move(150, 450)
+  await page.mouse.wheel(0, 350)
+  await expect
+    .poll(() => region.evaluate((el) => el.scrollTop))
+    .toBeGreaterThan(0)
+  const trigger = page.getByRole('button', { name: 'Ver regras', exact: true })
+  const box = (await trigger.boundingBox())!
+  expect(box.y + box.height).toBeLessThanOrEqual(568)
+  await trigger.tap()
+  await expect(page.getByRole('dialog')).toBeVisible()
+})
+
 test('rules stay static, scroll independently and close before a private reveal can advance', async ({
   page,
   context,
