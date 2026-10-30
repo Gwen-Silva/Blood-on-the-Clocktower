@@ -88,7 +88,10 @@ function hold(el = button()) {
   advance(1000)
 }
 function progress() {
-  return document.querySelector('progress')!.value
+  const fill = button().querySelector<HTMLSpanElement>(
+    'span[aria-hidden="true"]',
+  )!
+  return Number.parseFloat(fill.style.width) / 100
 }
 function noStorytellerControls() {
   expect(document.querySelector(`[title="${en.game.grimoire}"]`)).toBeNull()
@@ -97,6 +100,56 @@ function noStorytellerControls() {
 }
 
 describe('protected return interaction', () => {
+  it('keeps a continuous touch hold through the native long-press contextmenu', () => {
+    const ready = vi.fn()
+    render(<ReturnDeviceScreen onReady={ready} />)
+    pointer(button(), 'pointerdown', 1, 10, 10, 'touch')
+    advance(500)
+    const menu = new MouseEvent('contextmenu', {
+      bubbles: true,
+      cancelable: true,
+    })
+    act(() => {
+      button().dispatchEvent(menu)
+    })
+    expect(menu.defaultPrevented).toBe(true)
+    advance(499)
+    expect(ready).not.toHaveBeenCalled()
+    advance(1)
+    expect(ready).toHaveBeenCalledTimes(1)
+    pointer(button(), 'pointerup', 1, 10, 10, 'touch')
+    click(button())
+    advance(2000)
+    expect(ready).toHaveBeenCalledTimes(1)
+  })
+  it('suppresses contextmenu without starting a hold or unlocking', () => {
+    const ready = vi.fn()
+    render(<ReturnDeviceScreen onReady={ready} />)
+    const menu = new MouseEvent('contextmenu', {
+      bubbles: true,
+      cancelable: true,
+    })
+    act(() => {
+      button().dispatchEvent(menu)
+    })
+    expect(menu.defaultPrevented).toBe(true)
+    advance(2000)
+    expect(progress()).toBe(0)
+    expect(ready).not.toHaveBeenCalled()
+  })
+  it('uses only the in-button fill and retains accessible hold instructions', () => {
+    render(<ReturnDeviceScreen onReady={vi.fn()} />)
+    expect(container.querySelector('progress, [role="progressbar"]')).toBeNull()
+    const descriptions = button()
+      .getAttribute('aria-describedby')!
+      .split(' ')
+      .map((id) => document.getElementById(id)?.textContent)
+      .join(' ')
+    expect(descriptions).toContain(en.game.returnDeviceHoldHint)
+    pointer(button(), 'pointerdown')
+    advance(500)
+    expect(progress()).toBe(0.5)
+  })
   it('rejects ordinary and synthetic clicks, including rapid taps', () => {
     const ready = vi.fn()
     render(<ReturnDeviceScreen onReady={ready} />)
@@ -110,23 +163,26 @@ describe('protected return interaction', () => {
     expect(ready).not.toHaveBeenCalled()
     expect(progress()).toBe(0)
   })
-  it('does not complete below 1000ms and resets on early release', () => {
-    const ready = vi.fn()
-    render(<ReturnDeviceScreen onReady={ready} />)
-    pointer(button(), 'pointerdown')
-    advance(999)
-    expect(ready).not.toHaveBeenCalled()
-    expect(progress()).toBeGreaterThan(0)
-    pointer(button(), 'pointerup')
-    expect(progress()).toBe(0)
-    advance(1000)
-    expect(ready).not.toHaveBeenCalled()
-    pointer(button(), 'pointerdown')
-    advance(999)
-    expect(ready).not.toHaveBeenCalled()
-    advance(1)
-    expect(ready).toHaveBeenCalledTimes(1)
-  })
+  it.each(['mouse', 'touch'])(
+    'does not complete below 1000ms and resets on early %s release',
+    (pointerType) => {
+      const ready = vi.fn()
+      render(<ReturnDeviceScreen onReady={ready} />)
+      pointer(button(), 'pointerdown', 1, 10, 10, pointerType)
+      advance(999)
+      expect(ready).not.toHaveBeenCalled()
+      expect(progress()).toBeGreaterThan(0)
+      pointer(button(), 'pointerup', 1, 10, 10, pointerType)
+      expect(progress()).toBe(0)
+      advance(1000)
+      expect(ready).not.toHaveBeenCalled()
+      pointer(button(), 'pointerdown', 1, 10, 10, pointerType)
+      advance(999)
+      expect(ready).not.toHaveBeenCalled()
+      advance(1)
+      expect(ready).toHaveBeenCalledTimes(1)
+    },
+  )
   it('completes at 1000ms exactly once despite later input', () => {
     const ready = vi.fn()
     render(<ReturnDeviceScreen onReady={ready} />)
@@ -141,37 +197,41 @@ describe('protected return interaction', () => {
     advance(2000)
     expect(ready).toHaveBeenCalledTimes(1)
   })
-  it.each(['pointercancel', 'pointerout', 'lostpointercapture'])(
-    '%s cancels and resets',
-    (event) => {
-      const ready = vi.fn()
-      render(<ReturnDeviceScreen onReady={ready} />)
-      pointer(button(), 'pointerdown')
-      advance(700)
-      pointer(button(), event)
-      expect(progress()).toBe(0)
-      advance(1500)
-      expect(ready).not.toHaveBeenCalled()
-      hold()
-      expect(ready).toHaveBeenCalledTimes(1)
-    },
-  )
-  it('captured pointer movement outside the button cancels', () => {
+  it.each(
+    ['pointercancel', 'pointerout', 'lostpointercapture'].flatMap((event) =>
+      ['mouse', 'touch'].map((pointerType) => [event, pointerType]),
+    ),
+  )('%s cancels and resets for %s', (event, pointerType) => {
     const ready = vi.fn()
     render(<ReturnDeviceScreen onReady={ready} />)
-    vi.spyOn(button(), 'getBoundingClientRect').mockReturnValue({
-      left: 0,
-      right: 100,
-      top: 0,
-      bottom: 50,
-    } as DOMRect)
-    pointer(button(), 'pointerdown')
-    advance(500)
-    pointer(button(), 'pointermove', 1, 101, 20)
+    pointer(button(), 'pointerdown', 1, 10, 10, pointerType)
+    advance(700)
+    pointer(button(), event, 1, 10, 10, pointerType)
     expect(progress()).toBe(0)
-    advance(2000)
+    advance(1500)
     expect(ready).not.toHaveBeenCalled()
+    hold()
+    expect(ready).toHaveBeenCalledTimes(1)
   })
+  it.each(['mouse', 'touch'])(
+    'captured %s movement outside the button cancels',
+    (pointerType) => {
+      const ready = vi.fn()
+      render(<ReturnDeviceScreen onReady={ready} />)
+      vi.spyOn(button(), 'getBoundingClientRect').mockReturnValue({
+        left: 0,
+        right: 100,
+        top: 0,
+        bottom: 50,
+      } as DOMRect)
+      pointer(button(), 'pointerdown', 1, 10, 10, pointerType)
+      advance(500)
+      pointer(button(), 'pointermove', 1, 101, 20, pointerType)
+      expect(progress()).toBe(0)
+      advance(2000)
+      expect(ready).not.toHaveBeenCalled()
+    },
+  )
   it.each(['blur', 'visibilitychange'])(
     '%s cancels a pending hold',
     (event) => {

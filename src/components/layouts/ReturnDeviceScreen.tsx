@@ -36,7 +36,8 @@ export function ReturnDeviceScreen({ onReady }: Props) {
           variant='gold'
           fullWidth
           className='relative overflow-hidden whitespace-normal h-auto min-h-14 select-none touch-none'
-          aria-describedby='handback-instruction'
+          style={{ WebkitTouchCallout: 'none', WebkitUserSelect: 'none' }}
+          aria-describedby='handback-instruction handback-hold-hint'
         >
           <span
             aria-hidden='true'
@@ -46,13 +47,11 @@ export function ReturnDeviceScreen({ onReady }: Props) {
           <Icon name='check' size='md' className='mr-2' />
           <span className='relative'>{t.game.returnDeviceReady}</span>
         </Button>
-        <progress
-          className='w-full mt-3 accent-mystic-gold'
-          value={progress}
-          max={1}
-          aria-label={t.game.returnDeviceReady}
-        />
-        <p role='status' className='text-parchment-400 text-sm mt-2'>
+        <p
+          id='handback-hold-hint'
+          role='status'
+          className='text-parchment-400 text-sm mt-2'
+        >
           {progress === 1
             ? t.game.returnDeviceComplete
             : t.game.returnDeviceHoldHint}

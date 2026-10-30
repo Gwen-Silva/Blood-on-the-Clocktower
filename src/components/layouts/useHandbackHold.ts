@@ -61,13 +61,14 @@ export function useHandbackHold(onReady: () => void) {
       onClick: (event: React.MouseEvent<HTMLButtonElement>) =>
         event.preventDefault(),
       onContextMenu: (event: React.MouseEvent<HTMLButtonElement>) => {
+        // Mobile long-press menus do not mean the finger was released. Keep
+        // tracking the pointer; up/cancel/capture loss still end the attempt.
         event.preventDefault()
-        cancel()
       },
       onPointerDown: (event: React.PointerEvent<HTMLButtonElement>) => {
         if (event.button !== 0 || event.isPrimary === false) return
         event.preventDefault()
-        event.currentTarget.focus()
+        event.currentTarget.focus({ preventScroll: true })
         event.currentTarget.setPointerCapture?.(event.pointerId)
         start(`pointer:${event.pointerId}`)
       },
