@@ -9,7 +9,7 @@ test('short reference screens allow native scroll gestures to reach the rules co
     content: '.animate-card-float { animation: none !important }',
   })
   await page.getByRole('button', { name: 'Ver regras', exact: true }).waitFor()
-  const region = page.locator('.game-content')
+  const region = page.locator('.role-library-scroll')
   await page.mouse.move(150, 450)
   await page.mouse.wheel(0, 350)
   await expect

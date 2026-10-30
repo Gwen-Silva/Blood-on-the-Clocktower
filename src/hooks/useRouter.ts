@@ -10,7 +10,10 @@ import { router } from '../lib/router'
 export function useRouter() {
   const path = useSyncExternalStore(router.subscribe, router.getPath)
 
-  const navigate = useCallback((to: string) => router.navigate(to), [])
+  const navigate = useCallback(
+    (to: string, state: unknown = null) => router.navigate(to, state),
+    [],
+  )
   const replace = useCallback((to: string) => router.replace(to), [])
 
   return { path, navigate, replace }

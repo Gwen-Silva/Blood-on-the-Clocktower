@@ -1,7 +1,9 @@
+import { libraryPtBR } from '../library'
 import type { Translations } from '../types'
 import { aboutPtBR } from '../about'
 
 const ptBR: Translations = {
+  library: libraryPtBR,
   about: aboutPtBR,
   clarity: {
     rules: 'Ver regras',

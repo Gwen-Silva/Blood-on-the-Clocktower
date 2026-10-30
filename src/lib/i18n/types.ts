@@ -1,9 +1,11 @@
+import type { libraryEn } from './library'
 import type { NightGuidanceTranslations } from './nightGuidance'
 import type { clarityEn } from './clarity'
 import type { aboutEn } from './about'
 export type Language = 'en' | 'es' | 'pt-BR'
 
 export type Translations = {
+  library: typeof libraryEn
   about: typeof aboutEn
   clarity: typeof clarityEn
   nightGuide: NightGuidanceTranslations

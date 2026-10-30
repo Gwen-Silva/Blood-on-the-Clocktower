@@ -207,10 +207,8 @@ function AppRoutes() {
         </div>
         <div className='game-content'>
           <RolesLibrary
-            selectedRoleId={selectedRoleId}
-            onBack={() => navigate('/')}
-            onSelectRole={(id) => navigate(`/roles/${id}`)}
-            onDeselectRole={() => navigate('/roles')}
+            initialRoleId={selectedRoleId}
+            onBack={() => replace('/')}
           />
         </div>
       </div>
@@ -312,7 +310,9 @@ function AppRoutes() {
         onNewGame={handleNewGame}
         onContinue={(gameId) => navigate(`/game/${gameId}`)}
         onLoadGame={(gameId) => navigate(`/game/${gameId}`)}
-        onRolesLibrary={() => navigate('/roles')}
+        onRolesLibrary={() =>
+          navigate('/roles', { __roleLibraryFromHome: true })
+        }
         onHowToPlay={() => navigate('/how-to-play')}
       />
     )

@@ -28,16 +28,16 @@ function getPath(): string {
 }
 
 /** Navigate to a new path, pushing a history entry. */
-function navigate(path: string): void {
+function navigate(path: string, state: unknown = null): void {
   const fullPath = getBasePath() + path
-  window.history.pushState(null, '', fullPath)
+  window.history.pushState(state, '', fullPath)
   notify()
 }
 
 /** Replace the current path without adding a history entry. */
-function replace(path: string): void {
+function replace(path: string, state: unknown = null): void {
   const fullPath = getBasePath() + path
-  window.history.replaceState(null, '', fullPath)
+  window.history.replaceState(state, '', fullPath)
   notify()
 }
 

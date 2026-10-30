@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import type { PublicGameState } from '../../lib/publicGameState'
-import type { RoleId } from '../../lib/roles/types'
 import { useI18n } from '../../lib/i18n'
 import { useHandback } from '../context/PlayerFacingContext'
 import { Button } from '../atoms'
@@ -15,7 +13,6 @@ type Props = {
 export function PlayerReference({ scriptId, onReturnToStoryteller }: Props) {
   const { t } = useI18n()
   const { requestHandback } = useHandback()
-  const [selectedRoleId, setSelectedRoleId] = useState<RoleId | null>(null)
   const requestReturn = () => requestHandback(onReturnToStoryteller)
 
   if (scriptId !== 'trouble-brewing' && scriptId !== 'custom') {
@@ -33,13 +30,10 @@ export function PlayerReference({ scriptId, onReturnToStoryteller }: Props) {
   return (
     <RolesLibrary
       scriptId={scriptId}
-      showAbilityDescription
+      mode='player'
       title={t.playerReference.title}
       introduction={t.playerReference.introduction}
       backLabel={t.playerReference.returnToStoryteller}
-      selectedRoleId={selectedRoleId}
-      onSelectRole={setSelectedRoleId}
-      onDeselectRole={() => setSelectedRoleId(null)}
       onBack={requestReturn}
     />
   )

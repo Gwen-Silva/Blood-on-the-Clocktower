@@ -16,13 +16,23 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   projects: [
-    [360, 800],
-    [390, 844],
-    [412, 915],
-  ].map(([width, height]) => ({
-    name: `mobile-${width}`,
-    use: { viewport: { width, height } },
-  })),
+    ...[
+      [360, 800],
+      [390, 844],
+      [412, 915],
+    ].map(([width, height]) => ({
+      name: `mobile-${width}`,
+      use: { viewport: { width, height } },
+    })),
+    {
+      name: 'desktop',
+      testMatch: /role-library\.spec\.ts/,
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1400, height: 900 },
+      },
+    },
+  ],
   webServer: process.env.E2E_BASE_URL
     ? undefined
     : {

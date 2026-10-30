@@ -15,14 +15,13 @@ import { I18nProvider, getRoleName, getRoleDescription } from '../../lib/i18n'
 import en from '../../lib/i18n/translations/en'
 import es from '../../lib/i18n/translations/es'
 import { SCRIPTS, type ScriptId } from '../../lib/scripts'
-import { getRole } from '../../lib/roles'
+import { getRole, getAllRoles } from '../../lib/roles'
 import { getCurrentState } from '../../lib/types'
 import * as engine from '../../lib/game'
 import * as storage from '../../lib/storage'
 import { isAudienceProtected } from '../../lib/audienceProtection'
 import * as projection from '../../lib/publicGameState'
 import * as reference from './PlayerReference'
-import { RolesLibrary } from './RolesLibrary'
 import { GameScreen } from './GameScreen'
 import * as nightDashboard from './NightDashboard'
 import { PlayerFacingScreen } from '../layouts/PlayerFacingScreen'
@@ -68,8 +67,31 @@ function button(text: string) {
   expect(found, `Missing ${text}`).toBeTruthy()
   return found!
 }
+function showCategoryForRole(roleId: string) {
+  const category = getRole(roleId)!.team
+  act(() => {
+    const picker = container.querySelector('select')
+    if (picker) {
+      picker.value = category
+      picker.dispatchEvent(new Event('change', { bubbles: true }))
+    } else
+      container
+        .querySelector<HTMLButtonElement>(`[data-category="${category}"]`)!
+        .click()
+  })
+}
 function click(text: string) {
+  const language = (localStorage.getItem('grimoire_language') ?? 'en') as
+    | 'en'
+    | 'es'
+    | 'pt-BR'
+  const role = getAllRoles().find(
+    (role) => getRoleName(role.id, language) === text,
+  )
+  if (role && !container.querySelector(`[data-role-id="${role.id}"]`))
+    showCategoryForRole(role.id)
   act(() => button(text).click())
+  act(() => vi.advanceTimersByTime(10))
 }
 function hold(ms = 1000) {
   act(() =>
@@ -147,27 +169,21 @@ describe('static public catalog', () => {
     (scriptId) => {
       catalog(scriptId)
       const roles = SCRIPTS[scriptId].roles
-      for (const roleId of roles) {
-        expect(button(getRoleName(roleId, 'en'))).toBeTruthy()
-        expect(container.textContent).toContain(
-          getRoleDescription(roleId, 'en'),
-        )
-      }
-      const sections = [...container.querySelectorAll('section')]
-      expect(sections).toHaveLength(4)
-      for (const [index, team] of [
-        'townsfolk',
-        'outsider',
-        'minion',
-        'demon',
-      ].entries()) {
-        const count = roles.filter((id) => getRole(id)!.team === team).length
-        expect(sections[index].querySelectorAll('button')).toHaveLength(count)
-        expect(sections[index].getAttribute('aria-label')).toContain(
-          `(${count})`,
-        )
-      }
+      expect(container.querySelectorAll('[data-category]')).toHaveLength(4)
       expect(container.textContent).toContain(en.playerReference.introduction)
+      for (const team of ['townsfolk', 'outsider', 'minion', 'demon']) {
+        const expected = roles.filter((id) => getRole(id)!.team === team)
+        showCategoryForRole(expected[0])
+        expect(container.querySelectorAll('[data-role-id]')).toHaveLength(
+          expected.length,
+        )
+        for (const roleId of expected) {
+          expect(button(getRoleName(roleId, 'en'))).toBeTruthy()
+          expect(container.textContent).toContain(
+            getRoleDescription(roleId, 'en'),
+          )
+        }
+      }
       expect(isAudienceProtected()).toBe(true)
     },
   )
@@ -179,9 +195,6 @@ describe('static public catalog', () => {
       const copy = language === 'en' ? en : es
       expect(container.textContent).toContain(copy.playerReference.title)
       expect(container.textContent).toContain(copy.playerReference.introduction)
-      expect(container.textContent).toContain(
-        getRoleDescription('imp', language),
-      )
       click(getRoleName('imp', language))
       expect(container.querySelector('h1')?.textContent).toBe(
         getRoleName('imp', language),
@@ -190,7 +203,7 @@ describe('static public catalog', () => {
         getRoleDescription('imp', language),
       )
       click(copy.common.back)
-      expect(container.textContent).toContain(copy.playerReference.introduction)
+      expect(container.textContent).toContain(copy.library.demon)
     },
   )
   it.each([null, 'UNKNOWN_SCRIPT' as never])(
@@ -213,7 +226,7 @@ describe('static public catalog', () => {
     )
     expect(container.textContent).not.toContain(en.game.returnDeviceReady)
     click(en.common.back)
-    expect(container.textContent).toContain(en.playerReference.introduction)
+    expect(container.textContent).toContain(en.library.townsfolk)
     expect(done).not.toHaveBeenCalled()
     click(en.playerReference.returnToStoryteller)
     expect(container.textContent).not.toContain(
@@ -224,31 +237,16 @@ describe('static public catalog', () => {
     hold()
     expect(done).toHaveBeenCalledTimes(1)
   })
-  it('main-menu Roles Library retains its ordinary list/detail/back behavior without an audience latch', () => {
-    const back = vi.fn(),
-      select = vi.fn(),
-      deselect = vi.fn()
-    render(
-      <RolesLibrary
-        selectedRoleId={null}
-        onBack={back}
-        onSelectRole={select}
-        onDeselectRole={deselect}
-      />,
-    )
+  it('main-menu Roles Library retains categorized navigation without an audience latch', () => {
+    act(() => router.replace('/roles'))
+    render(<App />)
     expect(container.textContent).toContain(en.mainMenu.rolesLibrary)
     click(getRoleName('chef', 'en'))
-    expect(select).toHaveBeenCalledWith('chef')
-    render(
-      <RolesLibrary
-        selectedRoleId='chef'
-        onBack={back}
-        onSelectRole={select}
-        onDeselectRole={deselect}
-      />,
+    expect(container.querySelector('h1')?.textContent).toBe(
+      getRoleName('chef', 'en'),
     )
     click(en.common.back)
-    expect(deselect).toHaveBeenCalledOnce()
+    expect(container.textContent).toContain(en.library.townsfolk)
     expect(isAudienceProtected()).toBe(false)
   })
 })
@@ -352,14 +350,18 @@ describe('real GameScreen public session', () => {
     expect(JSON.stringify(props)).toBe('{"scriptId":"trouble-brewing"}')
     noPrivateControls()
     // Unassigned and unselected characters are still present; no player-role mapping.
+    showCategoryForRole('washerwoman')
     expect(button(getRoleName('washerwoman', 'en'))).toBeTruthy()
+    showCategoryForRole('baron')
     expect(button(getRoleName('baron', 'en'))).toBeTruthy()
   })
   it('Custom game reference includes its full registered catalog, not only assigned characters', () => {
     mountGame(fixture('day', 'custom'))
     click(en.playerReference.title)
-    for (const role of SCRIPTS.custom.roles)
+    for (const role of SCRIPTS.custom.roles) {
+      showCategoryForRole(role)
       expect(button(getRoleName(role, 'en'))).toBeTruthy()
+    }
   })
   it.each(['Grimoire', 'History'])(
     'opening closes previously mounted %s overlay and it stays closed after return',

@@ -1,248 +1,277 @@
-import { useMemo } from 'react'
-import { getRole } from '../../lib/roles'
-import { SCRIPTS, type ScriptId } from '../../lib/scripts'
-import { RoleId } from '../../lib/roles/types'
-import { getTeam, TeamId } from '../../lib/teams'
+import { useLayoutEffect, useRef } from 'react'
+import { getTeam, type TeamId } from '../../lib/teams'
+import type { RoleId } from '../../lib/roles/types'
+import type { ScriptId } from '../../lib/scripts'
 import { useI18n, getRoleName, getRoleDescription } from '../../lib/i18n'
 import { Icon, BackButton } from '../atoms'
 import { RoleCard } from '../items/RoleCard'
 import { TeamBackground } from '../items/TeamBackground'
-import { MysticDivider } from '../items'
 import { cn } from '../../lib/utils'
+import {
+  LIBRARY_TEAMS,
+  useRoleLibraryNavigation,
+} from './roleLibraryNavigation'
 
 type Props = {
+  mode?: 'standalone' | 'player'
   scriptId?: ScriptId
   title?: string
   introduction?: string
   backLabel?: string
-  showAbilityDescription?: boolean
-  selectedRoleId: RoleId | null
+  initialRoleId?: RoleId | null
   onBack: () => void
-  onSelectRole: (roleId: RoleId) => void
-  onDeselectRole: () => void
 }
 
-const TEAM_ORDER: TeamId[] = ['townsfolk', 'outsider', 'minion', 'demon']
-
 export function RolesLibrary({
-  selectedRoleId,
-  onBack,
-  onSelectRole,
-  onDeselectRole,
+  mode = 'standalone',
   scriptId = 'trouble-brewing',
   title,
   introduction,
   backLabel,
+  initialRoleId = null,
+  onBack,
 }: Props) {
   const { t, language } = useI18n()
-
-  // Static catalog only: never selected roles or assigned players.
-  const scriptRoles = SCRIPTS[scriptId].roles
-
-  // Group roles by team
-  const rolesByTeam = TEAM_ORDER.map((teamId) => {
-    const team = getTeam(teamId)
-    const roles = scriptRoles
-      .map((roleId) => getRole(roleId))
-      .filter(
-        (role): role is NonNullable<ReturnType<typeof getRole>> =>
-          role !== undefined && role.team === teamId,
-      )
-    return { teamId, team, roles }
-  }).filter((group) => group.roles.length > 0)
-
-  // Flat ordered list of all role IDs for arrow navigation
-  const allRoleIds = useMemo(
-    () => rolesByTeam.flatMap((group) => group.roles.map((r) => r.id)),
-    [rolesByTeam],
-  )
-
-  // If a role is selected, show its full RoleCard with prev/next navigation
-  if (selectedRoleId) {
-    const selectedRole = getRole(selectedRoleId)
-    const selectedTeamId = selectedRole?.team ?? 'townsfolk'
-    const selectedTeam = getTeam(selectedTeamId)
-
-    const currentIndex = allRoleIds.indexOf(selectedRoleId)
-    const goToPrev = () => {
-      const prevIndex =
-        (currentIndex - 1 + allRoleIds.length) % allRoleIds.length
-      onSelectRole(allRoleIds[prevIndex])
+  const nav = useRoleLibraryNavigation({
+    mode,
+    scriptId,
+    initialRoleId,
+    onExit: onBack,
+  })
+  const { entry } = nav
+  const region = useRef<HTMLDivElement>(null)
+  const groupButtons = useRef(new Map<string, HTMLButtonElement>())
+  const navRef = useRef(nav)
+  navRef.current = nav
+  const restoring = useRef(false)
+  useLayoutEffect(() => {
+    const element = region.current
+    if (!element) return
+    restoring.current = true
+    if (document.activeElement === element.querySelector('select')) {
+      // Keep a keyboard-operated category picker focused while switching.
+    } else if (entry.view === 'category' && navRef.current.lastRole) {
+      groupButtons.current
+        .get(navRef.current.lastRole)
+        ?.focus({ preventScroll: true })
+    } else if (entry.view === 'categories' && entry.focusCategory) {
+      element
+        .querySelector<HTMLButtonElement>(
+          `[data-category="${entry.focusCategory}"]`,
+        )
+        ?.focus({ preventScroll: true })
+    } else if (entry.view === 'category') {
+      element.querySelector<HTMLElement>('h1')?.focus({ preventScroll: true })
     }
-    const goToNext = () => {
-      const nextIndex = (currentIndex + 1) % allRoleIds.length
-      onSelectRole(allRoleIds[nextIndex])
-    }
-
-    return (
-      <div className='min-h-app flex flex-col bg-grimoire-dark'>
-        <div className='screen-navigation'>
-          <BackButton onClick={onDeselectRole} label={t.common.back} />
-          {backLabel && (
-            <button
-              onClick={onBack}
-              className='min-h-11 px-3 py-2 text-sm text-mystic-gold leading-snug'
-            >
-              {backLabel}
-            </button>
+    element.scrollTop = navRef.current.scroll
+    // Layout/font/language changes must not choose another category or reset scroll.
+    restoring.current = false
+  }, [entry.id, entry.view, entry.category, entry.role])
+  const selectedRole = entry.role
+    ? nav.roles.find((role) => role.id === entry.role)
+    : undefined
+  const group = nav.roles.filter((role) => role.team === entry.category)
+  const index = group.findIndex((role) => role.id === entry.role)
+  const count = (n: number) =>
+    `${n} ${n === 1 ? t.library.character : t.library.characters}`
+  const categoryButtons = () =>
+    LIBRARY_TEAMS.map((teamId) => {
+      const team = getTeam(teamId)
+      const roles = nav.roles.filter((role) => role.team === teamId)
+      return (
+        <button
+          key={teamId}
+          type='button'
+          data-category={teamId}
+          onClick={() => nav.selectCategory(teamId)}
+          className={cn(
+            'rounded-xl border text-left p-4 min-h-[120px] flex flex-col gap-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-mystic-gold',
+            team.colors.badge,
           )}
-        </div>
-        <div className='reference-detail-content'>
-          <TeamBackground teamId={selectedTeamId}>
-            {/* Navigation arrows */}
-            <div className='flex justify-between gap-4 w-full max-w-sm mb-4'>
+        >
+          <Icon name={team.icon} size='lg' className={team.colors.accent} />
+          <span className={cn('font-tarot font-medium', team.colors.text)}>
+            {t.library[teamId]}
+          </span>
+          <span className='flex items-center justify-between gap-2 w-full text-xs text-parchment-300'>
+            <span>{count(roles.length)}</span>
+            <Icon name='chevronRight' size='sm' />
+          </span>
+        </button>
+      )
+    })
+  return (
+    <div
+      className='h-full min-h-0 flex flex-col bg-grimoire-dark text-parchment-100'
+      data-library-view={entry.view}
+    >
+      <div className='screen-navigation px-3'>
+        <BackButton
+          onClick={nav.back}
+          label={
+            entry.view === 'category' ? t.library.categories : t.common.back
+          }
+        />
+        {backLabel && (
+          <button
+            type='button'
+            onClick={nav.leave}
+            className='min-h-11 px-3 py-2 text-sm text-mystic-gold leading-snug'
+          >
+            {backLabel}
+          </button>
+        )}
+      </div>
+      <div
+        ref={region}
+        className='role-library-scroll flex-1 min-h-0 overflow-y-auto overscroll-contain'
+        onScroll={(event) => {
+          if (!restoring.current) nav.saveScroll(event.currentTarget.scrollTop)
+        }}
+      >
+        {selectedRole ? (
+          <TeamBackground teamId={selectedRole.team}>
+            <div className='flex justify-between items-center gap-3 w-full max-w-sm mb-4'>
               <button
+                type='button'
+                disabled={group.length < 2}
                 aria-label={t.playerReference.previousCharacter}
-                onClick={goToPrev}
-                className={cn(
-                  'w-12 h-12 rounded-full flex items-center justify-center transition-colors',
-                  selectedTeam.isEvil
-                    ? 'text-red-400/50 hover:text-red-300 hover:bg-red-900/20'
-                    : 'text-parchment-400/50 hover:text-parchment-200 hover:bg-white/10',
-                )}
+                onClick={() =>
+                  nav.selectRole(
+                    group[(index - 1 + group.length) % group.length].id,
+                  )
+                }
+                className='w-12 h-12 shrink-0 rounded-full text-mystic-gold disabled:opacity-30 flex items-center justify-center'
               >
                 <Icon name='chevronLeft' size='xl' />
               </button>
+              <p className='text-sm text-center text-parchment-300'>
+                {entry.category && t.library[entry.category]}
+              </p>
               <button
+                type='button'
+                disabled={group.length < 2}
                 aria-label={t.playerReference.nextCharacter}
-                onClick={goToNext}
-                className={cn(
-                  'w-12 h-12 rounded-full flex items-center justify-center transition-colors',
-                  selectedTeam.isEvil
-                    ? 'text-red-400/50 hover:text-red-300 hover:bg-red-900/20'
-                    : 'text-parchment-400/50 hover:text-parchment-200 hover:bg-white/10',
-                )}
+                onClick={() =>
+                  nav.selectRole(group[(index + 1) % group.length].id)
+                }
+                className='w-12 h-12 shrink-0 rounded-full text-mystic-gold disabled:opacity-30 flex items-center justify-center'
               >
                 <Icon name='chevronRight' size='xl' />
               </button>
             </div>
-
-            <RoleCard roleId={selectedRoleId} />
+            <RoleCard roleId={selectedRole.id} />
           </TeamBackground>
-        </div>
-      </div>
-    )
-  }
-
-  return (
-    <div className='min-h-app bg-gradient-to-b from-grimoire-purple via-grimoire-dark to-grimoire-darker flex flex-col'>
-      {/* Header */}
-      <div className='px-4 pt-6 pb-4'>
-        <div className='screen-navigation mb-3'>
-          <BackButton onClick={onBack} label={backLabel} />
-        </div>
-        <div className='max-w-lg mx-auto mb-4'>
-          <h1 className='font-tarot text-xl text-parchment-100 tracking-wider uppercase'>
-            {title ?? t.mainMenu.rolesLibrary}
-          </h1>
-          <p className='text-sm text-parchment-400'>
-            {introduction ?? t.mainMenu.browseAllRoles}
-          </p>
-          <p className='text-xs text-parchment-500 mt-2'>
-            {scriptRoles.length} {t.common.roles}
-          </p>
-        </div>
-        <MysticDivider />
-      </div>
-
-      {/* Role List */}
-      <div className='flex-1 overflow-y-auto px-4 pb-6'>
-        <div className='space-y-6 max-w-lg mx-auto w-full'>
-          {rolesByTeam.map(({ teamId, team, roles }) => {
-            const teamTranslation = t.teams[teamId as keyof typeof t.teams]
-            const isEvil = team.isEvil
-
-            return (
-              <section
-                key={teamId}
-                aria-label={`${t.teams[teamId].name} (${roles.length})`}
-              >
-                {/* Team Header */}
-                <div className='flex items-center gap-2 mb-3'>
-                  <Icon
-                    name={team.icon}
-                    size='sm'
-                    className={isEvil ? 'text-red-400' : 'text-mystic-gold'}
-                  />
-                  <span
-                    className={cn(
-                      'text-sm font-semibold tracking-wider uppercase',
-                      isEvil ? 'text-red-400' : 'text-mystic-gold',
-                    )}
+        ) : (
+          <div className='max-w-lg mx-auto w-full p-4'>
+            {entry.view === 'categories' ? (
+              <>
+                <h1 className='font-tarot text-xl tracking-wide uppercase mb-2'>
+                  {title ?? t.mainMenu.rolesLibrary}
+                </h1>
+                <p className='text-sm text-parchment-400 mb-5'>
+                  {introduction ?? t.mainMenu.browseAllRoles}
+                </p>
+                <div className='role-category-grid'>{categoryButtons()}</div>
+              </>
+            ) : (
+              <>
+                <h1
+                  tabIndex={-1}
+                  className='font-tarot text-xl tracking-wide uppercase'
+                >
+                  {entry.category && t.library[entry.category]}
+                </h1>
+                <p className='text-sm text-parchment-400 mt-1 mb-4'>
+                  {count(group.length)}
+                </p>
+                <nav
+                  aria-label={t.library.switchCategory}
+                  className='sticky top-0 z-10 mb-4 py-2 bg-grimoire-dark'
+                >
+                  <select
+                    aria-label={t.library.switchCategory}
+                    value={entry.category ?? ''}
+                    onChange={(event) =>
+                      nav.selectCategory(event.target.value as TeamId)
+                    }
+                    className='w-full min-h-11 rounded-lg border border-mystic-gold/30 bg-grimoire-dark px-3 py-2 text-sm text-parchment-100 focus-visible:outline focus-visible:outline-mystic-gold'
                   >
-                    {teamTranslation?.name ?? teamId}
-                  </span>
-                  <span className='text-xs text-parchment-500'>
-                    ({roles.length})
-                  </span>
-                </div>
-
-                {/* Role Items */}
+                    {LIBRARY_TEAMS.map((teamId) => (
+                      <option key={teamId} value={teamId}>
+                        {t.library[teamId]} (
+                        {
+                          nav.roles.filter((role) => role.team === teamId)
+                            .length
+                        }
+                        )
+                      </option>
+                    ))}
+                  </select>
+                </nav>
                 <div className='space-y-1'>
-                  {roles.map((role) => {
-                    const roleName = getRoleName(role.id, language)
-                    const roleDescription = getRoleDescription(
-                      role.id,
-                      language,
-                    )
-
+                  {group.map((role) => {
+                    const team = getTeam(role.team)
                     return (
                       <button
                         key={role.id}
-                        onClick={() => onSelectRole(role.id)}
+                        type='button'
+                        data-role-id={role.id}
+                        ref={(button) => {
+                          if (button) groupButtons.current.set(role.id, button)
+                          else groupButtons.current.delete(role.id)
+                        }}
+                        aria-current={
+                          nav.lastRole === role.id ? 'true' : undefined
+                        }
+                        onClick={() => nav.selectRole(role.id)}
                         className={cn(
-                          'w-full py-3 px-4 text-left rounded-lg transition-colors group',
-                          isEvil
-                            ? 'hover:bg-red-950/30 border border-transparent hover:border-red-900/30'
-                            : 'hover:bg-white/5 border border-transparent hover:border-white/10',
+                          'w-full py-3 px-3 text-left rounded-lg border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-mystic-gold',
+                          nav.lastRole === role.id
+                            ? 'border-mystic-gold/50 bg-white/5'
+                            : 'border-transparent hover:bg-white/5',
                         )}
                       >
-                        <div className='flex items-start gap-3'>
-                          <div
+                        <span className='role-library-row flex items-start gap-3'>
+                          <span
                             className={cn(
-                              'w-10 h-10 rounded-full flex items-center justify-center shrink-0 mt-0.5',
-                              isEvil
-                                ? 'bg-red-900/30 border border-red-600/30'
-                                : 'bg-mystic-gold/10 border border-mystic-gold/20',
+                              'role-library-icon w-10 h-10 rounded-full flex items-center justify-center shrink-0 border',
+                              team.colors.badge,
                             )}
                           >
                             <Icon
                               name={role.icon}
                               size='md'
-                              className={
-                                isEvil ? 'text-red-400' : 'text-mystic-gold'
-                              }
+                              className={team.colors.accent}
                             />
-                          </div>
-                          <div className='flex-1 min-w-0'>
-                            <div
+                          </span>
+                          <span className='role-library-label flex-1 min-w-0'>
+                            <span
                               className={cn(
-                                'font-tarot text-sm uppercase tracking-wider',
-                                isEvil
-                                  ? 'text-red-300 group-hover:text-red-200'
-                                  : 'text-parchment-100 group-hover:text-parchment-50',
+                                'block font-tarot text-sm uppercase tracking-wide',
+                                team.colors.text,
                               )}
                             >
-                              {roleName}
-                            </div>
-                            <p className='text-xs text-parchment-500 mt-0.5 line-clamp-2'>
-                              {roleDescription}
-                            </p>
-                          </div>
+                              {getRoleName(role.id, language)}
+                            </span>
+                            <span className='block text-xs text-parchment-400 mt-1 leading-relaxed'>
+                              {getRoleDescription(role.id, language)}
+                            </span>
+                          </span>
                           <Icon
-                            name='arrowRight'
+                            name='chevronRight'
                             size='sm'
-                            className='text-parchment-600 group-hover:text-parchment-400 transition-colors mt-1 shrink-0'
+                            className='role-library-chevron shrink-0 mt-1 text-parchment-500'
                           />
-                        </div>
+                        </span>
                       </button>
                     )
                   })}
                 </div>
-              </section>
-            )
-          })}
-        </div>
+              </>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
