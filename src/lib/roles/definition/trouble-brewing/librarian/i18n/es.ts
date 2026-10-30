@@ -1,32 +1,33 @@
 const es = {
   name: 'Bibliotecario',
   description:
-    'Empiezas sabiendo que 1 de 2 jugadores es un Forastero en particular. (O que no hay ninguno en juego.)',
+    'La primera noche, conoce 2 jugadores y un personaje Forastero: uno se registra como tal. O conoce que no hay Forasteros.',
   quote: 'Cada nombre tiene una historia. Algunas historias son advertencias.',
   lines: [
     {
       type: 'FIRST_NIGHT',
       text: 'Conoce 2 candidatos y un personaje Forastero como el que uno se registra, o que hay cero Forasteros en juego.',
     },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI
   librarianInfo: 'Tu Información',
   mustIncludeOutsider:
-    'Al menos un candidato debe poder registrarse como el Forastero mostrado',
+    'Incluye un candidato que pueda registrarse como ese personaje.',
   oneOfTheseIsTheOutsider:
     'Uno de estos jugadores es un Forastero. ¡Recuerda quiénes son!',
   noOutsidersInGame: 'Sin Forasteros',
-  noOutsidersMessage:
-    'No hay Forasteros en esta partida. ¡Esta es información valiosa!',
+  noOutsidersMessage: 'Información recibida: cero Forasteros.',
   confirmNoOutsiders: 'Mostrar al Jugador',
   showNoOutsiders: 'Mostrar "Sin Forasteros"',
 
   // History
   history: {
-    discoveredOutsider:
-      '{player} descubrió que {player1} o {player2} es el/la {role}',
+    discoveredOutsider: '{player} recibió: {player1} o {player2}, {role}',
     noOutsiders: '{player} descubrió que no hay Forasteros en esta partida',
   },
 } as const

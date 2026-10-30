@@ -1,17 +1,23 @@
 const es = {
   name: 'Investigador',
   description:
-    'Empiezas sabiendo que 1 de 2 jugadores es un Secuaz en particular.',
+    'La primera noche, conoce 2 jugadores y un personaje Secuaz. Uno se registra como ese personaje.',
   quote: 'Sigue el dinero. Sigue los susurros. Sigue el miedo.',
   lines: [
-    { type: 'NIGHT', text: 'En la primera noche, descubres 2 jugadores y 1 rol de Secuaz — uno de esos jugadores tiene ese rol.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'NIGHT',
+      text: 'La primera noche, conoce 2 candidatos y un personaje Secuaz como el que uno se registra.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI
   investigatorInfo: 'Tu Información',
   mustIncludeMinion:
-    'Al menos uno de los jugadores seleccionados debe ser un Secuaz',
+    'Incluye un candidato que pueda registrarse como ese personaje.',
   oneOfTheseIsTheMinion:
     'Uno de estos jugadores es un Secuaz. ¡Recuerda quiénes son!',
   noMinionsInGame: 'Sin Secuaces',
@@ -22,8 +28,7 @@ const es = {
 
   // History
   history: {
-    discoveredMinion:
-      '{player} descubrió que {player1} o {player2} es el/la {role}',
+    discoveredMinion: '{player} recibió: {player1} o {player2}, {role}',
     noMinions: '{player} descubrió que no hay Secuaces en esta partida',
   },
 } as const

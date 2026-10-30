@@ -86,8 +86,8 @@ it('explains Librarian zero and candidate results while keeping registration not
   click(en.game.showToPlayer)
   expect(container.textContent).not.toContain(en.nightGuide.title)
   click(en.game.tapWhenReady)
-  expect(container.textContent).toContain('zero Outsiders')
-  expect(container.textContent).toContain('Alice or Bob')
+  expect(container.textContent).toContain('No Outsiders')
+  expect(container.textContent).not.toContain('Alice or Bob')
   expect(container.textContent).not.toContain('Spy may register')
   expect(
     container.querySelector('[title="Grimoire"], [title="History"]'),
@@ -101,7 +101,7 @@ it('shows candidate selection guidance when an Outsider is eligible, without inv
   click(en.game.stepSelectPlayers)
   expect(container.textContent).toContain(en.game.selectTwoPlayers)
   expect(container.textContent).toContain('Private seat 6')
-  expect(container.textContent).toContain('select two candidates')
+  expect(container.textContent).toContain(en.nightGuide.roles.librarian.now)
   expect(container.textContent).not.toContain(
     'There are no Outsiders in this game',
   )

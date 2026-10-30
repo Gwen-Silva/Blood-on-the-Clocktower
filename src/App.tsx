@@ -1,3 +1,4 @@
+import { useI18n, interpolate } from './lib/i18n'
 import { useEffect, useMemo, useState, useRef } from 'react'
 import {
   SetupPlayer,
@@ -34,6 +35,7 @@ type SetupStep = 'players' | 'script' | 'roles' | 'assign' | 'review'
 type NewGameScreen = { step: SetupStep; plan: SetupPlan }
 
 function AppRoutes() {
+  const { t, language } = useI18n()
   const { path, navigate, replace } = useRouter()
   const [saveError, setSaveError] = useState<unknown>(null)
 
@@ -141,7 +143,11 @@ function AppRoutes() {
     }
     creating.current = true
     const players = resolveIdentifiedRoleAssignments(plan)
-    const gameName = `Game ${new Date().toLocaleDateString()}`
+    const gameName = interpolate(t.clarity.gameName, {
+      date: new Date().toLocaleDateString(
+        language === 'es' ? 'es-ES' : 'en-US',
+      ),
+    })
     const game = createGame(gameName, plan.scriptId, players)
     try {
       saveGame(game)

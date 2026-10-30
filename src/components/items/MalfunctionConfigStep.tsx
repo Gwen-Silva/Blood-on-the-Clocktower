@@ -105,6 +105,7 @@ function NumberPicker({ numberRange, onComplete }: NumberProps) {
       <div className='flex items-center justify-center gap-6 mb-6'>
         <button
           onClick={() => setValue(Math.max(numberRange.min, value - 1))}
+          aria-label={t.clarity.decrease}
           disabled={value <= numberRange.min}
           className='w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-parchment-200 hover:bg-white/20 active:scale-[0.92] active:bg-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-all'
         >
@@ -117,6 +118,7 @@ function NumberPicker({ numberRange, onComplete }: NumberProps) {
 
         <button
           onClick={() => setValue(Math.min(numberRange.max, value + 1))}
+          aria-label={t.clarity.increase}
           disabled={value >= numberRange.max}
           className='w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-parchment-200 hover:bg-white/20 active:scale-[0.92] active:bg-white/25 disabled:opacity-30 disabled:cursor-not-allowed transition-all'
         >

@@ -1,12 +1,21 @@
 const es = {
   name: 'Adivino',
   description:
-    'Cada noche, elige 2 jugadores: descubres si alguno es un Demonio. Hay un jugador bueno que se registra como Demonio para ti.',
+    'Cada noche, elige a 2 jugadores: sabes si alguno se registra como Demonio. Un jugador bueno también se registra como Demonio para ti.',
   quote: 'Toda visión es verdadera. No toda visión es honesta.',
   lines: [
-    { type: 'NIGHT', text: 'Cada noche, elige 2 jugadores: descubres si alguno de ellos es el Demonio.' },
-    { type: 'CAVEAT', text: 'Un jugador bueno ha sido elegido para registrarse siempre como Demonio para ti.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'NIGHT',
+      text: 'Cada noche, elige 2 jugadores: descubres si alguno de ellos es el Demonio.',
+    },
+    {
+      type: 'CAVEAT',
+      text: 'Un jugador bueno ha sido elegido para registrarse siempre como Demonio para ti.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // SetupAction UI
@@ -21,17 +30,15 @@ const es = {
     'Selecciona un jugador bueno que se registrará como Demonio para este Adivino.',
   selectGoodPlayerAsRedHerring: 'Selecciona un jugador bueno como Pista Falsa',
   selectRandomRedHerring: 'Aleatorio',
-  yesOneIsDemon: 'SÍ — ¡Uno de ellos es un Demonio!',
-  noNeitherIsDemon: 'NO — Ninguno es un Demonio.',
-  fortuneTellerDemonDetected: 'Un Demonio camina entre ellos',
-  fortuneTellerNoDemon: 'Ningún Demonio camina entre ellos',
+  yesOneIsDemon: 'SÍ',
+  noNeitherIsDemon: 'NO',
+  fortuneTellerDemonDetected: 'Resultado: sí',
+  fortuneTellerNoDemon: 'Resultado: no',
 
   // History
   history: {
-    sawDemon:
-      '{player} revisó a {player1} y {player2} — SÍ, uno es un Demonio (o Pista Falsa)',
-    sawNoDemon:
-      '{player} revisó a {player1} y {player2} — NO, ninguno es un Demonio',
+    sawDemon: '{player} consultó a {player1} y {player2}: SÍ',
+    sawNoDemon: '{player} consultó a {player1} y {player2}: NO',
     redHerringAssigned:
       '{redHerring} fue asignado como la Pista Falsa para {player}',
   },

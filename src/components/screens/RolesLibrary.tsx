@@ -33,7 +33,6 @@ export function RolesLibrary({
   title,
   introduction,
   backLabel,
-  showAbilityDescription = false,
 }: Props) {
   const { t, language } = useI18n()
 
@@ -119,11 +118,6 @@ export function RolesLibrary({
             </div>
 
             <RoleCard roleId={selectedRoleId} />
-            {showAbilityDescription && (
-              <p className='max-w-sm text-sm text-parchment-200 leading-relaxed text-center px-4 mt-4'>
-                {getRoleDescription(selectedRoleId, language)}
-              </p>
-            )}
           </TeamBackground>
         </div>
       </div>

@@ -13,9 +13,7 @@ import { Game, PlayerState } from '../../../../types'
 import { DefaultRoleReveal } from '../../../../../components/items/DefaultRoleReveal'
 import { RoleCard } from '../../../../../components/items/RoleCard'
 import { PerceptionConfigStep } from '../../../../../components/items'
-import {
-  TeamBackground,
-} from '../../../../../components/items/TeamBackground'
+import { TeamBackground } from '../../../../../components/items/TeamBackground'
 import {
   NightActionLayout,
   NightStepListLayout,
@@ -33,7 +31,6 @@ import {
 import { isMalfunctioning } from '../../../../effects'
 import { MalfunctionConfigStep } from '../../../../../components/items'
 import { Perception } from '../../../../pipeline/types'
-import { cn } from '../../../../../lib/utils'
 
 import en from './i18n/en'
 import es from './i18n/es'
@@ -312,8 +309,10 @@ const definition: RoleDefinition = {
         <NightActionLayout
           player={player}
           title={roleT.ravenkeeperInfo}
-          description={interpolate(roleT.selectPlayerToSeeRole, { player: player.name })}
-          audience="player_choice"
+          description={interpolate(roleT.selectPlayerToSeeRole, {
+            player: player.name,
+          })}
+          audience='player_choice'
         >
           <div className='mb-6'>
             <PlayerPickerList
@@ -378,16 +377,18 @@ const definition: RoleDefinition = {
     return (
       <PlayerFacingScreen playerName={player.name}>
         <TeamBackground teamId={shownTeamId}>
-          <p
-            className={cn(
-              'text-center text-sm uppercase tracking-widest font-semibold mb-5',
-              shownTeam.isEvil ? 'text-red-300/80' : 'text-parchment-300/80',
-            )}
-          >
-            {roleT.playerRoleIs}
-          </p>
-
-          <RoleCard roleId={displayedRoleId} />
+          <h1 className='font-tarot text-3xl text-center break-words mb-3'>
+            {selectedTargetPlayer?.name ?? t.ui.unknown}
+          </h1>
+          <h2 className='text-xl text-center mb-5'>
+            {getRoleName(displayedRoleId, language)}
+          </h2>
+          <details className='max-w-sm mx-auto w-full mb-4'>
+            <summary className='text-center cursor-pointer'>
+              {t.clarity.shownCharacter}
+            </summary>
+            <RoleCard roleId={displayedRoleId} />
+          </details>
 
           <HandbackCardLink onClick={handleComplete} isEvil={shownTeam.isEvil}>
             {t.common.continue}

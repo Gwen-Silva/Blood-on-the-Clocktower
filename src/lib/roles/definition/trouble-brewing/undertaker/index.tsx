@@ -7,7 +7,6 @@ import {
   useI18n,
   registerRoleTranslations,
   getRoleName,
-  getRoleTranslations,
 } from '../../../../i18n'
 import { DefaultRoleReveal } from '../../../../../components/items/DefaultRoleReveal'
 import { RoleCard } from '../../../../../components/items/RoleCard'
@@ -27,7 +26,6 @@ import {
 import { isMalfunctioning } from '../../../../effects'
 import { MalfunctionConfigStep } from '../../../../../components/items'
 import { Perception } from '../../../../pipeline/types'
-import { cn } from '../../../../../lib/utils'
 
 import en from './i18n/en'
 import es from './i18n/es'
@@ -133,8 +131,6 @@ const definition: RoleDefinition = {
     const [malfunctionConfigDone, setMalfunctionConfigDone] = useState(false)
 
     const malfunctioning = isMalfunctioning(player)
-
-    const roleT = getRoleTranslations('undertaker', language)
 
     // Find the executed player
     const executedPlayerId = findExecutedPlayerId(game)
@@ -335,16 +331,18 @@ const definition: RoleDefinition = {
     return (
       <PlayerFacingScreen playerName={player.name}>
         <TeamBackground teamId={shownTeamId}>
-          <p
-            className={cn(
-              'text-center text-sm uppercase tracking-widest font-semibold mb-5',
-              shownTeam.isEvil ? 'text-red-300/80' : 'text-parchment-300/80',
-            )}
-          >
-            {roleT.executedPlayerRole}
-          </p>
-
-          <RoleCard roleId={displayedRoleId} />
+          <h1 className='font-tarot text-3xl text-center break-words mb-3'>
+            {executedPlayer?.name ?? t.ui.unknown}
+          </h1>
+          <h2 className='text-xl text-center mb-5'>
+            {getRoleName(displayedRoleId, language)}
+          </h2>
+          <details className='max-w-sm mx-auto w-full mb-4'>
+            <summary className='text-center cursor-pointer'>
+              {t.clarity.shownCharacter}
+            </summary>
+            <RoleCard roleId={displayedRoleId} />
+          </details>
 
           <HandbackCardLink onClick={handleComplete} isEvil={shownTeam.isEvil}>
             {t.common.continue}

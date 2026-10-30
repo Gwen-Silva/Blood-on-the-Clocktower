@@ -1,7 +1,7 @@
 const en = {
   name: 'Drunk',
   description:
-    'This player thinks they are a Townsfolk, but they are actually the Drunk. Their ability permanently malfunctions.',
+    'No ability while drunk. The Drunk believes they are a Townsfolk.',
 } as const
 
 export default en

@@ -1,6 +1,6 @@
 const en = {
   name: 'Slayer Shot',
-  description: 'This player can use their Slayer ability to shoot a player.',
+  description: 'One public Slayer shot remains.',
 } as const
 
 export default en

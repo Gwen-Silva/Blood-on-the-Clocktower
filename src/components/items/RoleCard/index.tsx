@@ -3,6 +3,7 @@ import { getTeam, TeamId } from '../../../lib/teams'
 import {
   useI18n,
   interpolate,
+  getRoleDescription,
   getRoleName as getRegistryRoleName,
   getRoleQuote as getRegistryRoleQuote,
   getRoleLines as getRegistryRoleLines,
@@ -11,9 +12,9 @@ import { Icon, type IconName } from '../../atoms'
 import { cn } from '../../../lib/utils'
 import { CardShell } from './CardShell'
 import { CardIcon } from './CardIcon'
-import { NightGuidance } from '../../layouts/NightGuidance'
 
 type Props = {
+  context?: 'own' | 'reference'
   roleId: string
 }
 
@@ -58,7 +59,7 @@ const LINE_TYPE_ICON: Record<string, IconName> = {
  * This is a pure presentational component — it renders only the card itself.
  * Wrap it in a `TeamBackground` and add context text / action links as siblings.
  */
-export function RoleCard({ roleId }: Props) {
+export function RoleCard({ roleId, context = 'reference' }: Props) {
   const { t, language } = useI18n()
   const role = getRole(roleId)
 
@@ -111,50 +112,65 @@ export function RoleCard({ roleId }: Props) {
         </div>
 
         {/* Middle: Divider + Quote + Lines — centered in remaining space */}
-        <div className='flex-1 flex flex-col items-center justify-center p-4 sm:p-2'>
-          {/* Icon-tagged ability/condition lines */}
-          {roleLines.length > 0 && (
-            <div className='w-full space-y-1.5 sm:space-y-2'>
-              {roleLines.map((line, i) => (
-                <div key={i} className='flex items-start gap-2'>
-                  <span className='shrink-0 mt-px'>
-                    <Icon
-                      name={LINE_TYPE_ICON[line.type] ?? 'circle'}
-                      size='sm'
-                      className={cn(team.colors.cardWinAccent, 'opacity-70')}
-                    />
-                  </span>
-                  <span
-                    className={cn(
-                      'text-xs sm:text-sm leading-snug',
-                      team.colors.cardText,
-                      line.type === 'WIN'
-                        ? 'opacity-90 font-medium'
-                        : 'opacity-70',
-                    )}
-                  >
-                    {line.text}
-                  </span>
-                </div>
-              ))}
-            </div>
+        <div
+          className={cn(
+            'flex-1 flex flex-col items-center justify-center p-4 sm:p-2',
+            team.colors.cardText,
           )}
-        </div>
-
-        {/* Flavor Quote */}
-        {roleQuote && (
-          <p
-            className={cn(
-              'text-center text-xs sm:text-sm italic leading-relaxed mb-3 sm:mb-0',
-              team.colors.cardText,
-              'opacity-60',
-            )}
-          >
-            "{roleQuote}"
+        >
+          <p className='text-xs uppercase tracking-wide mb-2'>
+            {context === 'own' ? t.clarity.yourAbility : t.clarity.reference}
           </p>
-        )}
+          <p className='text-sm leading-relaxed text-center'>
+            {getRoleDescription(roleId, language)}
+          </p>
+          <details className='w-full mt-4'>
+            <summary className='cursor-pointer text-sm'>
+              {t.clarity.details}
+            </summary>
+            {/* Optional character rules */}
+            {roleLines.length > 0 && (
+              <div className='w-full space-y-1.5 sm:space-y-2'>
+                {roleLines.map((line, i) => (
+                  <div key={i} className='flex items-start gap-2'>
+                    <span className='shrink-0 mt-px'>
+                      <Icon
+                        name={LINE_TYPE_ICON[line.type] ?? 'circle'}
+                        size='sm'
+                        className={cn(team.colors.cardWinAccent, 'opacity-70')}
+                      />
+                    </span>
+                    <span
+                      className={cn(
+                        'text-xs sm:text-sm leading-snug',
+                        team.colors.cardText,
+                        line.type === 'WIN'
+                          ? 'opacity-90 font-medium'
+                          : 'opacity-70',
+                      )}
+                    >
+                      {line.text}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Flavor Quote */}
+            {roleQuote && (
+              <p
+                className={cn(
+                  'text-center text-xs sm:text-sm italic leading-relaxed mb-3 sm:mb-0',
+                  team.colors.cardText,
+                  'opacity-60',
+                )}
+              >
+                "{roleQuote}"
+              </p>
+            )}
+          </details>
+        </div>
       </CardShell>
-      <NightGuidance roleId={roleId} audience='player' />
     </>
   )
 }

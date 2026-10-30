@@ -1,7 +1,7 @@
 const en = {
   name: 'Drunk',
   description:
-    'You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.',
+    'You think you are a Townsfolk, but have no Townsfolk ability. Information may be true or false.',
   quote: "The warmest nights are the ones you can't quite remember.",
   lines: [
     { type: 'PASSIVE', text: 'You believe you are a Townsfolk. You are not.' },
@@ -13,13 +13,13 @@ const en = {
       type: 'CAVEAT',
       text: 'Whatever ability you think you have does not work. The Storyteller may give you true or false information.',
     },
-    { type: 'WIN', text: 'Execute the Demon to win.' },
+    { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],
 
   // SetupAction UI
   drunkSetupTitle: 'Drunk Setup',
   drunkSetupDescription:
-    'Choose which Townsfolk role the Drunk believes they are. They will see this role during role revelation and play as if they are that role.',
+    'Choose the Townsfolk they believe they are; keep the Drunk secret.',
   chooseBelievedRole: 'Choose the believed Townsfolk role',
 } as const
 

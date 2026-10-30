@@ -1,7 +1,9 @@
 import { Translations } from '../types'
 import { nightGuidanceEs } from '../nightGuidance'
+import { clarityEs } from '../clarity'
 
 const es: Translations = {
+  clarity: clarityEs,
   nightGuide: nightGuidanceEs,
   storageRecovery: {
     title: 'Hay un problema con la partida',
@@ -24,8 +26,7 @@ const es: Translations = {
     previousCharacter: 'Personaje anterior',
     nextCharacter: 'Siguiente personaje',
     title: 'Referencia para jugadores',
-    introduction:
-      'Todos los personajes posibles de este guion. No indica cuáles están en juego ni quién los tiene.',
+    introduction: 'Todos los personajes del guion, no los que están en juego.',
     unavailable:
       'El catálogo público de personajes no está disponible para este guion.',
     returnToStoryteller: 'Volver al Cuentacuentos',
@@ -80,7 +81,7 @@ const es: Translations = {
     allManual: 'Todo manual',
     awaitingRandom: 'Pendiente de asignación al azar',
     notFinalized:
-      'Revisa el plan antes de crear la partida. Las asignaciones al azar se resuelven solo al confirmar.',
+      'Revisa la configuración. El azar se resuelve al crear la partida.',
     editPlayers: 'Editar jugadores',
     editScript: 'Editar libreto',
     editCharacters: 'Editar personajes',
@@ -96,28 +97,26 @@ const es: Translations = {
     playerPlaceholder: 'Jugador',
     minPlayersWarning: 'Añade al menos 5 jugadores para continuar',
     maxPlayersWarning: 'Puedes añadir hasta 15 jugadores',
-    nextSelectRoles: 'Siguiente: Seleccionar Roles',
+    nextSelectRoles: 'Elegir personajes',
     loadedFromLastGame: 'De la última partida',
 
     step2Title: 'Nueva Partida',
     step2Subtitle: 'Paso 2: Seleccionar roles en juego',
     needAtLeastRoles: 'Se necesitan al menos {count} roles',
-    needAtLeastImp: 'Se necesita al menos 1 Imp',
+    needAtLeastImp: 'Se necesita al menos 1 Diablo',
     needExactlyRoles: 'Elige exactamente {count} personajes',
     matchDistribution: 'Iguala las cantidades de equipo mostradas arriba',
-    nextAssignRoles: 'Siguiente: Asignar Roles',
+    nextAssignRoles: 'Asignar personajes',
     suggested: 'Sugerido',
 
     step3Title: 'Nueva Partida',
     step3Subtitle: 'Paso 3: Asignar roles (opcional)',
-    assignmentInfo:
-      'Opcionalmente asigna roles específicos a jugadores. Los jugadores sin asignar reciben roles aleatorios.',
-    resetToRandom: 'Restablecer todo a aleatorio',
+    assignmentInfo: 'Asigna personajes o deja jugadores al azar.',
+    resetToRandom: 'Todo al azar',
     playerAssignments: 'Asignaciones de Jugadores',
-    randomPool: 'Pool Aleatorio',
+    randomPool: 'Grupo al azar',
     rolesForPlayers: '{roles} roles para {players} jugadores',
-    impNotAssignedWarning:
-      '¡El Imp no será asignado! Asegúrate de que al menos un jugador reciba el Imp o deja algunos jugadores en aleatorio.',
+    impNotAssignedWarning: 'Asigna al Diablo o deja un jugador al azar.',
     rolesRandomlyAssigned: 'Los roles se asignarán aleatoriamente',
     customizeAssignments: 'Personalizar Asignaciones',
     tapToAssign: 'Toca un jugador para asignar un rol específico',
@@ -126,31 +125,28 @@ const es: Translations = {
   game: {
     confirmEndDayTitle: '¿Terminar el Día {round}?',
     confirmEndDayBlocked:
-      '{player} está en el bloque. Al confirmar termina el Día {round} y se resuelve la ejecución prevista. La Noche {nextRound} empieza salvo que termine la partida.',
+      '¿Ejecutar a {player} y terminar el Día {round}? Una ejecución puede no causar muerte. Sigue la Noche {nextRound}, salvo fin de partida.',
     confirmEndDayEmpty:
-      'No hay ninguna ejecución prevista. Al confirmar termina el Día {round} y se pasa a la Noche {nextRound} según las reglas, salvo que termine la partida.',
+      '¿Terminar el Día {round} sin ejecución? Sigue la Noche {nextRound}, salvo fin de partida.',
     confirmEndDay: 'Confirmar fin del día',
     actionDoneReview: 'Hecho · Revisar',
 
-    narratorGiveDevice: 'Muestra la pantalla a {player} para que vea su rol.',
-    narratorWakePlayer:
-      'Despierta a {player} ({role}) para su acción nocturna.',
-    narratorRoleChanged:
-      'Despierta a {player} y muéstrale la pantalla — su rol ha cambiado.',
-    readyShowToPlayer: 'Listo - Mostrar al Jugador',
+    narratorGiveDevice: 'Muestra a {player} su personaje.',
+    narratorWakePlayer: 'Despierta a {player} ({role}).',
+    narratorRoleChanged: 'Muestra a {player} su nuevo personaje.',
+    readyShowToPlayer: 'Mostrar al jugador',
     yourRoleHasChanged: '¡Tu rol ha cambiado!',
 
     nightComplete: 'Noche {round} Completa',
-    nightActionsResolved:
-      'Todas las acciones nocturnas han sido resueltas. ¿Listos para comenzar el día?',
+    nightActionsResolved: 'Acciones nocturnas completas. Empieza el día.',
     startDay: 'Comenzar Día',
     choosePlayerToKill: 'Elige un jugador para matar',
-    selectVictim: 'Despierta a {player} y pídele que señale a su víctima.',
+    selectVictim: 'Selecciona la víctima que eligió.',
     confirmKill: 'Confirmar Asesinato',
 
     grimoire: 'Grimorio',
     daytimeActions: 'Acciones de Día',
-    accusePlayerDescription: 'Acusa a un jugador y ponlo a votación',
+    accusePlayerDescription: 'Elige quién nomina y a quién',
 
     nominatesForExecution: '{nominator} nomina a {nominee} para ejecución',
     nominatesVerb: 'nomina a',
@@ -169,14 +165,14 @@ const es: Translations = {
     votesNeeded: '{count} votos necesarios',
     votesCount: 'Votos',
     voteThreshold: 'de {threshold} necesarios',
-    voteAction: 'Votar',
-    dontVote: 'No Votar',
-    goesOnBlock: '¡{player} está en la cuerda floja!',
+    voteAction: 'Votando',
+    dontVote: 'No vota',
+    goesOnBlock: '{player} está a punto de morir.',
     notEnoughVotes: 'No hay suficientes votos',
-    tiedNoExecution: 'Empate \u2014 sin ejecución',
-    currentBlock: '{player} en la cuerda floja ({count} votos)',
+    tiedNoExecution: 'Empate. Nadie está a punto de morir.',
+    currentBlock: '{player} está a punto de morir ({count} votos).',
     needMoreThan: 'Se necesitan más de {count} para reemplazar',
-    noOneOnBlock: 'Nadie en la cuerda floja',
+    noOneOnBlock: 'Nadie está a punto de morir.',
     endDayExecute: 'Terminar Día \u2014 Ejecutar a {player}',
     endDayNoExecution: 'Terminar Día \u2014 Sin Ejecución',
     confirmVotes: 'Confirmar Votos',
@@ -189,20 +185,20 @@ const es: Translations = {
     butlerDeadWarning: 'La regla del amo no aplica estando muerto',
 
     // Slayer
-    slayerAction: 'Disparo del Matador',
-    slayerActionDescription: 'Proclama ser el Matador y dispara a un jugador',
-    selectSlayer: 'Seleccionar Matador',
+    slayerAction: 'Disparo del Verdugo',
+    slayerActionDescription: 'Registra quién declara ser Verdugo y su objetivo',
+    selectSlayer: 'Elegir declarante',
     selectTarget: 'Seleccionar Objetivo',
     confirmSlayerShot: 'Confirmar Disparo',
-    slayerRegistrationTitle: 'Registro del Matador',
+    slayerRegistrationTitle: 'Registro del Verdugo',
     slayerRegistrationDescription:
-      'Este jugador puede registrarse como el Demonio. Decide cómo se registra para este disparo del Matador.',
+      'Este jugador puede registrarse como el Demonio. Decide cómo se registra para este disparo del Verdugo.',
     registerAsDemon: 'Registrar como Demonio',
 
     goodWins: '¡Gana el Bien!',
     evilWins: '¡Gana el Mal!',
-    townVanquishedDemon: '¡El pueblo ha vencido al Demonio!',
-    demonConqueredTown: '¡El Demonio ha conquistado el pueblo!',
+    townVanquishedDemon: 'Ganó el equipo del Bien.',
+    demonConqueredTown: 'Ganó el equipo del Mal.',
     finalRoles: 'Roles Finales',
     backToMainMenu: 'Volver al Menú Principal',
 
@@ -210,18 +206,17 @@ const es: Translations = {
 
     // Shared narrator keys
     narratorSetup: 'Configuración del Cuentacuentos',
-    selectTwoPlayers: 'Selecciona 2 jugadores para mostrar',
-    selectWhichRoleToShow: 'Selecciona qué rol revelar',
+    selectTwoPlayers: 'Elige 2 candidatos',
+    selectWhichRoleToShow: 'Elige el personaje mostrado',
     showToPlayer: 'Mostrar al Jugador',
     oneOfThemIsThe: 'Uno de ellos es el/la...',
 
     // Private reveal interstitial
-    returnDeviceToNarrator: 'Devuelve el dispositivo al Cuentacuentos',
+    returnDeviceToNarrator: 'Volver al Cuentacuentos',
     returnDeviceDescription:
-      'Asegúrate de que solo el Cuentacuentos pueda ver la pantalla antes de continuar.',
+      'Solo el Cuentacuentos debe ver la siguiente pantalla.',
     returnDeviceReady: 'Mantén pulsado para volver al Cuentacuentos',
-    returnDeviceHoldHint:
-      'Mantén pulsado un segundo. Ratón, toque, Espacio o Intro.',
+    returnDeviceHoldHint: 'Mantén un segundo. Teclado: Espacio o Intro.',
     returnDeviceComplete: 'Volviendo al Cuentacuentos…',
 
     // Role Revelation
@@ -239,7 +234,7 @@ const es: Translations = {
     tapToReveal: 'Toca para revelar',
     revealed: 'Revelado',
     startFirstNight: 'Comenzar Noche 1',
-    skipRoleRevelation: 'Omitir y revelar roles después',
+    skipRoleRevelation: 'Omitir revelaciones',
     revealAllFirst: 'Revela todos los roles antes de continuar',
 
     // Night Dashboard
@@ -253,15 +248,12 @@ const es: Translations = {
     actionPending: 'Pendiente',
     allActionsComplete: 'Todas las acciones nocturnas han sido procesadas',
     proceedToDay: 'Proceder al Día',
-    minionStartingInfo: 'Información de Esbirro',
-    minionStartingInfoDescription:
-      'Estos jugadores están en tu equipo malvado. Recuerda quién es tu Demonio.',
+    minionStartingInfo: 'Información de Secuaz',
+    minionStartingInfoDescription: 'Recuerda a tus compañeros del Mal.',
     demonStartingInfo: 'Información de Demonio',
-    demonStartingInfoDescription:
-      'Estos son tus Esbirros y tres personajes buenos que no están en juego.',
+    demonStartingInfoDescription: 'Tus Secuaces y 3 personajes fuera de juego.',
     selectDemonBluffs: 'Elige los Faroles del Demonio',
-    selectDemonBluffsDescription:
-      'Antes de despertar al Demonio, selecciona tres personajes buenos que no estén en juego.',
+    selectDemonBluffsDescription: 'Elige 3 personajes buenos fuera de juego.',
     theseAreYourBluffs: 'Estos personajes no están en juego:',
 
     // Night Steps
@@ -280,7 +272,7 @@ const es: Translations = {
     stepShowMinions: 'Mostrar Secuaces',
     stepSelectBluffs: 'Seleccionar Faroles',
     stepShowBluffs: 'Mostrar Faroles',
-    stepSelectNewImp: 'Seleccionar Nuevo Imp',
+    stepSelectNewImp: 'Elegir nuevo Diablo',
     stepChooseMaster: 'Elegir Amo',
     stepViewGrimoire: 'Ver Grimorio',
     stepShowEvilTeam: 'Tu Equipo Malvado',
@@ -289,7 +281,7 @@ const es: Translations = {
     // Malfunction Config
     stepConfigureMalfunction: 'Configurar Mal Funcionamiento',
     playerIsMalfunctioning:
-      'Este jugador está envenenado o borracho. Elige cualquier información que su habilidad pudiera producir normalmente; puede ser verdadera o falsa.',
+      'Sin habilidad por embriaguez o veneno. La información puede ser verdadera o falsa.',
     chooseFalseNumber: '¿Qué número debería ver?',
     chooseFalseResult: '¿Qué resultado debería ver?',
     chooseFalseTarget: '¿A qué jugador le dirán que es el rol?',
@@ -308,14 +300,14 @@ const es: Translations = {
     // Setup Actions
     setupActions: 'Acciones de Configuración',
     setupActionsSubtitle:
-      'Configura los roles que necesitan preparación del cuentacuentos antes de comenzar',
+      'Completa estas elecciones antes de revelar personajes.',
     allSetupActionsComplete: 'Todas las acciones de configuración completadas',
-    continueToRoleRevelation: 'Continuar a Revelación de Roles',
+    continueToRoleRevelation: 'Revelar personajes',
 
     // Perception Config
     perceptionConfigTitle: 'Configurar Percepciones',
     perceptionConfigDescription:
-      'Algunos jugadores tienen habilidades que causan que se registren falsamente. Antes de mostrar el resultado al jugador, debes decidir cómo deben ser percibidos los jugadores ambiguos para esta habilidad específica.',
+      'Elige cómo se registra cada personaje ante esta habilidad.',
     howShouldRegister: '¿Cómo debe registrarse {player}?',
     registerAsGood: 'Bueno',
     registerAsEvil: 'Malvado',
@@ -335,8 +327,8 @@ const es: Translations = {
     noDeathsLastNight: 'Nadie murió anoche',
 
     // Death Revelation
-    deathRevealTitle: 'Los Muertos se Alzan',
-    deathRevealSubtitle: 'Un alma ha sido reclamada...',
+    deathRevealTitle: 'Muertes',
+    deathRevealSubtitle: 'Anuncia solo los nombres.',
     deathRevealDead: 'Muerto',
     deathRevealNextDeath: 'Siguiente Muerte',
     deathRevealContinue: 'Continuar',
@@ -347,7 +339,7 @@ const es: Translations = {
 
     // Role Revelation narrator hint
     roleRevelationNarratorHint:
-      'Solo tú puedes ver esta pantalla. Toca un jugador, luego entrégale el dispositivo para revelar su rol.',
+      'En privado: selecciona a alguien y muestra solo su revelación.',
 
     // Nomination tracking
     alreadyNominated: 'Ya nominó hoy',
@@ -355,7 +347,7 @@ const es: Translations = {
 
     // Private reveal interstitial
     handDeviceTo: 'Despierta a {player} y muéstrale la pantalla',
-    tapWhenReady: 'Toca cuando esté listo para mirar',
+    tapWhenReady: 'Listo para mirar',
 
     // Audience indicators
     audienceNarrator: 'Cuentacuentos',
@@ -372,22 +364,23 @@ const es: Translations = {
   teams: {
     townsfolk: {
       name: 'Aldeano',
-      winCondition: '¡Ejecuta al Demonio para ganar!',
+      winCondition:
+        'El Bien normalmente gana si no queda ningún Demonio vivo. Las habilidades pueden cambiar el resultado.',
     },
     outsider: {
       name: 'Forastero',
       winCondition:
-        '¡Ejecuta al Demonio para ganar! Pero cuidado, tu habilidad puede perjudicar al pueblo.',
+        'Eres del Bien. Normalmente gana si no queda ningún Demonio vivo; revisa las excepciones.',
     },
     minion: {
       name: 'Secuaz',
       winCondition:
-        '¡Ayuda a tu Demonio a sobrevivir! El mal gana cuando los jugadores malvados igualan o superan a los buenos.',
+        'El Mal normalmente gana con solo 2 jugadores vivos, incluido un Demonio. Revisa las excepciones.',
     },
     demon: {
       name: 'Demonio',
       winCondition:
-        'El mal gana cuando los jugadores malvados igualan o superan a los buenos. ¡Permanece oculto y elimina al pueblo!',
+        'El Mal normalmente gana con solo 2 jugadores vivos, incluido un Demonio. Revisa las excepciones.',
     },
   },
 
@@ -418,12 +411,12 @@ const es: Translations = {
     noActionTonight: '{role} no tiene acción esta noche',
     nominates: '{nominator} nomina a {nominee}',
     voteResult: '{player}: {votes} votos ({threshold} necesarios). ',
-    votePassed: '¡{player} está en la cuerda floja!',
+    votePassed: '{player} está a punto de morir.',
     voteFailed: 'No hay suficientes votos.',
-    voteTied: 'Empate con {player} \u2014 nadie en la cuerda floja.',
-    executed: '{player} ha sido ejecutado/a',
-    goodWins: '¡El Bien gana! El Demonio ha sido derrotado.',
-    evilWins: '¡El Mal gana! El pueblo ha caído.',
+    voteTied: 'Empate con {player}. Nadie está a punto de morir.',
+    executed: '{player}: ejecución realizada.',
+    goodWins: 'Gana el Bien.',
+    evilWins: 'Gana el Mal.',
     effectAdded: 'El Cuentacuentos añadió {effect} a {player}',
     effectUpdated: 'El Cuentacuentos actualizó {effect} en {player}',
     effectRemoved: 'El Cuentacuentos eliminó {effect} de {player}',
@@ -438,7 +431,7 @@ const es: Translations = {
     custom: 'Partida Personalizada',
     selectScript: 'Elige un Guión',
     selectScriptSubtitle:
-      'Selecciona una edición para determinar los roles disponibles',
+      'Elige los personajes disponibles y las reglas de preparación.',
     enforceDistribution: 'Distribución estándar de roles',
     freeformSelection: 'Cualquier rol, cualquier distribución',
     // Generator presets
@@ -455,7 +448,7 @@ const es: Translations = {
     orPickManually: 'o elige manualmente',
     generate: 'Generar',
     manual: 'Manual',
-    useThisPool: 'Usar Este Pool',
+    useThisPool: 'Usar grupo',
     presetApplied: '{preset} aplicado',
     rolesSelected: '{count} roles seleccionados',
   },
@@ -479,21 +472,21 @@ const es: Translations = {
       'Estás en el **equipo del Bien**. No sabes quiénes son los demás, pero tienes una habilidad útil. Habla con la gente, comparte y combina tu información, y confía en tus instintos para encontrar al Demonio.',
     p1_teamTownsfolkExample: 'Por ejemplo, la **Lavandera** es un Aldeano:',
     p1_teamOutsider:
-      'Estás en el **equipo del Bien**, pero tu habilidad es una carga. Podrías tener información falsa, o tu mera presencia podría dificultar las cosas para el pueblo. Debes superar tu desventaja para ayudar a ganar al bien.',
+      'Eres del **Bien**, pero tu habilidad puede perjudicar a tu equipo. Ayuda a encontrar al Demonio.',
     p1_teamOutsiderExample: 'Por ejemplo, el **Borracho** es un Forastero:',
     p1_teamMinion:
       'Estás en el **equipo del Mal**. Protege al Demonio y confunde al pueblo. Con 7 o más jugadores, al empezar conoces al Demonio y a los otros Secuaces.',
     p1_teamMinionExample: 'Por ejemplo, el **Envenenador** es un Secuaz:',
     p1_teamDemon:
       'Estás en el **equipo del Mal**. Usa tu habilidad para matar e intenta sobrevivir. Con 7 o más jugadores, conoces a tus Secuaces y tres personajes que no están en juego y que puedes fingir ser.',
-    p1_teamDemonExample: 'Por ejemplo, el **Diablillo** es un Demonio:',
+    p1_teamDemonExample: 'Por ejemplo, el **Diablo** es un Demonio:',
     p1_roundTitle: 'Cómo Funciona una Ronda',
     p1_roundNight:
-      'Los jugadores cierran los ojos. El Cuentacuentos despierta a los personajes en orden para elegir o recibir información. El Diablillo no mata la primera noche.',
+      'Los jugadores cierran los ojos. El Cuentacuentos despierta a los personajes en orden para elegir o recibir información. El Diablo no mata la primera noche.',
     p1_roundDay:
       'El Cuentacuentos anuncia quién murió durante la noche. Los jugadores discuten, acusan e intentan averiguar quién es malvado.',
     p1_roundNominate:
-      'Los jugadores vivos pueden nominar una vez al día. Cada jugador puede ser nominado una vez al día. Los votos determinan quién queda en el bloque de ejecución; la ejecución habitual ocurre al terminar el día.',
+      'Cada jugador vivo puede nominar una vez al día; cada jugador puede recibir una nominación al día. Los votos deciden quién está a punto de morir. La ejecución ocurre al terminar el día.',
     p1_roundWinGood:
       'El Bien normalmente gana cuando **no queda ningún Demonio vivo**. Resuelve primero las habilidades que puedan cambiar el resultado.',
     p1_roundWinEvil:
@@ -534,13 +527,13 @@ const es: Translations = {
     p2_reveal2:
       'Cada carta muestra: el nombre del rol, la descripción de la habilidad, la alineación y la condición de victoria.',
     p2_reveal3:
-      '**El Cuentacuentos controla el dispositivo en todo momento** — muestra la pantalla a cada jugador y luego ocúltala.',
+      'Muestra cada revelación privada y mantén un segundo para devolver el dispositivo.',
     p2_revealWarning:
       'Mantén el control del dispositivo. Oculta la información privada antes de volver a las pantallas del Cuentacuentos.',
     p2_nightTitle: 'Fase de Noche',
     p2_night1:
       'El **Panel Nocturno** muestra cada rol que necesita actuar, en el orden correcto.',
-    p2_night2: 'Toca un rol para comenzar su acción nocturna.',
+    p2_night2: 'Abre la acción Siguiente y sigue sus pasos.',
     p2_night3:
       'Para **personajes de información**, revisa el resultado y toma las decisiones solicitadas antes de mostrarlo.',
     p2_night4:
@@ -562,12 +555,12 @@ const es: Translations = {
     p2_vote2:
       'Marca a cada jugador cuyo voto se contó. Se vota o no se vota; no hay votos en contra.',
     p2_vote3:
-      'El nominado necesita al menos la mitad de los vivos, redondeada hacia arriba, y más votos que cualquier nominado anterior para quedar en el bloque. Un empate en el máximo válido lo vacía; un nominado posterior debe superar esa cifra.',
+      'Al menos la mitad de los vivos (redondeada hacia arriba) y más votos que cualquier nominado anterior dejan a alguien a punto de morir. Un empate válido anula ese estado; después hay que superar esa cifra.',
     p2_vote4:
       'Continúa las nominaciones si hace falta. La ejecución habitual ocurre al terminar el día. La Virgen puede causar una ejecución inmediata y terminar el día.',
     p2_endTitle: 'Fin del Día y Detección de Victoria',
     p2_end1:
-      'Revisa quién está en el bloque antes de terminar el día. Si no hay nadie, no habrá ejecución habitual.',
+      'Revisa quién está a punto de morir antes de terminar el día. La ejecución no siempre causa muerte.',
     p2_end2: 'La aplicación revisa constantemente las condiciones de victoria.',
     p2_end3:
       '**El Bien normalmente gana** cuando no queda ningún Demonio vivo después de resolver las habilidades.',
@@ -577,7 +570,7 @@ const es: Translations = {
       'Cuando detecta victoria, la partida termina en la pantalla de Fin del Juego.',
     p2_grimTitle: 'El Grimorio',
     p2_grim1:
-      'Abre el panel del Cuentacuentos desde las pantallas de juego. Se oculta durante revelaciones privadas y resoluciones pendientes.',
+      'Usa el Grimorio para detalles privados del Cuentacuentos. El Espía tiene una vista aparte de solo lectura.',
     p2_grim2:
       'Consulta el **rol verdadero** de cada jugador, estado vivo/muerto, y los efectos activos.',
     p2_grim3:
@@ -596,7 +589,7 @@ const es: Translations = {
       'Si eres bueno, ten cuidado en quién confías con tu información. Si eres malvado, ¡miente sobre quién eres y qué haces!',
     p3_tip2Title: 'Habla en privado',
     p3_tip2Desc:
-      'No tengas solo conversaciones públicas con el grupo de jugadores. ¡Apártate con otros jugadores para tener charlas privadas 1 a 1!',
+      'Habla en privado para comparar información sin contársela a todos.',
     p3_tip3Title: '¡Finge!',
     p3_tip3Desc:
       'Puedes fingir ser otro personaje aunque seas bueno. Decide qué compartir según tu personaje y lo que sabe el grupo.',
@@ -620,7 +613,7 @@ const es: Translations = {
     p4_during2:
       '**Día:** Deja que los jugadores hablen e interactúen. Tu deber como Cuentacuentos es dirigir, pero no intervenir en discusiones ajenas.',
     p4_during3:
-      '**Grimorio:** Puedes revisarlo repetidas veces de forma rápida si no tienes en mente algo de cada jugador o los efectos temporales.',
+      '**Grimorio:** Consulta los personajes y efectos activos en privado.',
     p4_during4:
       '**Historial:** Revisa las acciones en privado para aclarar una discrepancia. No reveles información oculta para resolver una discusión pública.',
     p4_pitfallsTitle: 'Errores Comunes',

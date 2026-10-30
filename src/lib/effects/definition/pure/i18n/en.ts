@@ -1,7 +1,7 @@
 const en = {
   name: 'Pure',
   description:
-    'If a Townsfolk nominates this player, that Townsfolk is executed instead.',
+    'On the first nomination, a nominator registering as Townsfolk is executed immediately.',
 } as const
 
 export default en

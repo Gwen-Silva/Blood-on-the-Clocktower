@@ -1,7 +1,7 @@
 const es = {
   name: 'Envenenado',
   description:
-    'La habilidad de este jugador falla esta noche. Los roles de información reciben info errónea, las habilidades pasivas fallan.',
+    'Sin habilidad mientras tenga veneno. La información puede ser verdadera o falsa.',
 } as const
 
 export default es

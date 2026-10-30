@@ -1,12 +1,21 @@
 const es = {
   name: 'Guardacuervos',
   description:
-    'Si mueres de noche, te despiertan para elegir un jugador: descubres su personaje.',
+    'Si mueres de noche, elige a un jugador y conoce su personaje según se registre ante ti.',
   quote: 'Mi último aliento no será en vano. Alguien será nombrado.',
   lines: [
-    { type: 'ON_DEATH', text: 'Si mueres de noche, despiertas para elegir cualquier jugador y descubrir su rol.' },
-    { type: 'INFO', text: 'Solo funciona si mueres de noche, no por ejecución.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'ON_DEATH',
+      text: 'Si mueres de noche, despiertas para elegir cualquier jugador y descubrir su rol.',
+    },
+    {
+      type: 'INFO',
+      text: 'Solo funciona si mueres de noche, no por ejecución.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI

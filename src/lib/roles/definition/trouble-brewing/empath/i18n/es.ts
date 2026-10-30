@@ -1,12 +1,21 @@
 const es = {
   name: 'Empático',
   description:
-    'Cada noche, descubres cuántos de tus 2 vecinos vivos son malvados.',
+    'Cada noche, conoce cuántos de tus 2 vecinos vivos más cercanos se registran como malvados.',
   quote: 'Siento el peso de sus pecados, incluso cuando sonríen.',
   lines: [
-    { type: 'NIGHT', text: 'Cada noche, descubres cuántos de tus vecinos vivos son malvados.' },
-    { type: 'INFO', text: 'Solo cuentan tus dos vecinos vivos más cercanos, saltando jugadores muertos.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'NIGHT',
+      text: 'Cada noche, descubres cuántos de tus vecinos vivos son malvados.',
+    },
+    {
+      type: 'INFO',
+      text: 'Solo cuentan tus dos vecinos vivos más cercanos, saltando jugadores muertos.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI

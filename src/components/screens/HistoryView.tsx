@@ -1,5 +1,5 @@
 import { Game, getCurrentState } from '../../lib/types'
-import { useI18n } from '../../lib/i18n'
+import { useI18n, interpolate } from '../../lib/i18n'
 import { RichMessage } from '../items/RichMessage'
 import { Icon, IconName, BackButton } from '../atoms'
 
@@ -90,6 +90,22 @@ export function HistoryView({ game, onClose }: Props) {
                     <div className='flex-1 min-w-0'>
                       <div className='text-parchment-200 text-sm leading-relaxed'>
                         <RichMessage message={entry.message} state={state} />
+                        {entry.type === 'execution' &&
+                          typeof entry.data.died === 'boolean' && (
+                            <p>
+                              {interpolate(
+                                entry.data.died
+                                  ? t.clarity.died
+                                  : t.clarity.didNotDie,
+                                {
+                                  player:
+                                    entry.stateAfter.players.find(
+                                      (p) => p.id === entry.data.playerId,
+                                    )?.name ?? t.ui.unknown,
+                                },
+                              )}
+                            </p>
+                          )}
                       </div>
                       <div className='text-xs text-parchment-500 mt-1'>
                         {formatTime(entry.timestamp)}

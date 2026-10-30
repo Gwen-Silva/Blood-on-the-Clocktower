@@ -1,12 +1,18 @@
 const en = {
   name: 'Scarlet Woman',
   description:
-    'If there are 5 or more players alive & the Demon dies, you become the Demon.',
+    'If the Demon dies with at least 5 players alive, you become the Demon. Count the dying Demon; not Travellers.',
   quote: 'When the throne falls, I will already be wearing the crown.',
   lines: [
-    { type: 'PASSIVE', text: 'If the Demon dies and 5+ players are alive, you become the new Demon.' },
-    { type: 'TEAM', text: 'You know who the Demon is.' },
-    { type: 'WIN', text: 'Keep a Demon alive to win.' },
+    {
+      type: 'PASSIVE',
+      text: 'If the Demon dies and 5+ players are alive, you become the new Demon.',
+    },
+    { type: 'TEAM', text: 'With 7+ players, you learn your evil teammates.' },
+    {
+      type: 'WIN',
+      text: 'Evil normally wins with 2 players alive, including a Demon.',
+    },
   ],
 
   // First night: evil team

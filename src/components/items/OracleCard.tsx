@@ -5,7 +5,6 @@ import { Icon } from '../atoms'
 import { IconName } from '../atoms/icon'
 import { MysticDivider } from './MysticDivider'
 import { CardShell } from './RoleCard/CardShell'
-import { NightGuidance } from '../layouts/NightGuidance'
 import { CardIcon } from './RoleCard/CardIcon'
 
 // ─── OracleCard ──────────────────────────────────────────────────────────────
@@ -43,6 +42,7 @@ export function OracleCard({
   return (
     <>
       <CardShell teamId={teamId} icon={icon}>
+        {children}
         {/* Icon with arcane seal */}
         <CardIcon icon={icon} teamId={teamId} />
 
@@ -72,11 +72,7 @@ export function OracleCard({
           icon={team.colors.cardDividerIcon}
           iconClassName={cn(team.colors.cardWinAccent, 'opacity-50')}
         />
-
-        {/* Result content */}
-        {children}
       </CardShell>
-      <NightGuidance audience='player' />
     </>
   )
 }

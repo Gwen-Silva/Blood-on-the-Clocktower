@@ -34,7 +34,7 @@ export function DefaultRoleReveal({ player, onContinue }: RoleRevealProps) {
         {t.common.youAreThe}
       </p>
 
-      <RoleCard roleId={player.roleId} />
+      <RoleCard roleId={player.roleId} context='own' />
 
       <CardLink onClick={() => requestHandback(onContinue)} isEvil={isEvil}>
         {t.common.iUnderstandMyRole}

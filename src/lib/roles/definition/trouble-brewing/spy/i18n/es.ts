@@ -1,7 +1,7 @@
 const es = {
   name: 'Espía',
   description:
-    'Cada noche, puedes mirar el Grimorio. Podrías registrarte como bueno y como un Aldeano o Forastero, incluso estando muerto.',
+    'Cada noche, examina el Grimorio. Puedes registrarte como bueno y como Aldeano o Forastero, incluso después de morir.',
   quote: 'Sé lo que ellos saben. Simplemente no saben que yo lo sé.',
   lines: [
     {
@@ -16,7 +16,10 @@ const es = {
       type: 'PASSIVE',
       text: 'Puedes registrarte como bueno, como Aldeano o como Forastero.',
     },
-    { type: 'WIN', text: 'Mantén vivo a tu Demonio para ganar.' },
+    {
+      type: 'WIN',
+      text: 'El mal normalmente gana con 2 jugadores vivos, incluido un Demonio.',
+    },
   ],
 
   // NightAction UI
@@ -24,7 +27,7 @@ const es = {
   spyGrimoireDescription: 'Puedes ver a todos los jugadores y sus roles.',
   spyMalfunctionTitle: 'El Grimorio',
   spyMalfunctionDescription:
-    'El Espía está envenenado o borracho, así que no tiene habilidad y no debería ver el Grimorio real. Para mantener la ilusión, muéstrale un Grimorio físico alternativo que puede contener información verdadera o falsa.',
+    'Sin habilidad: prepara un Grimorio físico con información verdadera o falsa.',
 
   // First night: evil team
   evilTeamTitle: 'Tu Equipo Malvado',

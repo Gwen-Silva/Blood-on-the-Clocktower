@@ -1,7 +1,9 @@
 import { Translations } from '../types'
 import { nightGuidanceEn } from '../nightGuidance'
+import { clarityEn } from '../clarity'
 
 const en: Translations = {
+  clarity: clarityEn,
   nightGuide: nightGuidanceEn,
   storageRecovery: {
     title: 'Your game needs attention',
@@ -24,8 +26,7 @@ const en: Translations = {
     previousCharacter: 'Previous character',
     nextCharacter: 'Next character',
     title: 'Player Reference',
-    introduction:
-      'All possible characters in this script. This does not show which characters are in play or who has them.',
+    introduction: 'All characters in this script, not the characters in play.',
     unavailable: 'The public character catalog is unavailable for this script.',
     returnToStoryteller: 'Return to Storyteller',
   },
@@ -78,8 +79,7 @@ const en: Translations = {
     mixed: 'Mixed manual and random',
     allManual: 'All manual',
     awaitingRandom: 'Awaiting random assignment',
-    notFinalized:
-      'Review the plan before creating the game. Random assignments are resolved only when you confirm.',
+    notFinalized: 'Check the setup. Random assignments happen on Create Game.',
     editPlayers: 'Edit Players',
     editScript: 'Edit Script',
     editCharacters: 'Edit Characters',
@@ -95,7 +95,7 @@ const en: Translations = {
     playerPlaceholder: 'Player',
     minPlayersWarning: 'Add at least 5 players to continue',
     maxPlayersWarning: 'You can add up to 15 players',
-    nextSelectRoles: 'Next: Select Roles',
+    nextSelectRoles: 'Select Characters',
     loadedFromLastGame: 'From last game',
 
     step2Title: 'New Game',
@@ -104,19 +104,17 @@ const en: Translations = {
     needAtLeastImp: 'Need at least 1 Imp',
     needExactlyRoles: 'Choose exactly {count} characters',
     matchDistribution: 'Match the team counts shown above',
-    nextAssignRoles: 'Next: Assign Roles',
+    nextAssignRoles: 'Assign Characters',
     suggested: 'Suggested',
 
     step3Title: 'New Game',
     step3Subtitle: 'Step 3: Assign roles (optional)',
-    assignmentInfo:
-      'Optionally assign specific roles to players. Unassigned players get random roles from the pool.',
-    resetToRandom: 'Reset all to random',
+    assignmentInfo: 'Assign characters or leave players random.',
+    resetToRandom: 'All random',
     playerAssignments: 'Player Assignments',
-    randomPool: 'Random Pool',
+    randomPool: 'Random pool',
     rolesForPlayers: '{roles} roles for {players} players',
-    impNotAssignedWarning:
-      "The Imp won't be assigned! Make sure at least one player gets the Imp or leave some players random.",
+    impNotAssignedWarning: 'Assign the Imp, or leave a player random.',
     rolesRandomlyAssigned: 'Roles will be randomly assigned to players',
     customizeAssignments: 'Customize Assignments',
     tapToAssign: 'Tap a player to assign a specific role',
@@ -125,32 +123,28 @@ const en: Translations = {
   game: {
     confirmEndDayTitle: 'End Day {round}?',
     confirmEndDayBlocked:
-      '{player} is on the block. Confirming ends Day {round} and resolves the scheduled execution. Night {nextRound} begins unless the game ends.',
+      'Execute {player} and end Day {round}? Execution may not cause death. Night {nextRound} follows unless the game ends.',
     confirmEndDayEmpty:
-      'No execution is currently scheduled. Confirming ends Day {round} and proceeds to Night {nextRound} according to the existing rules, unless the game ends.',
+      'End Day {round} without execution? Night {nextRound} follows unless the game ends.',
     confirmEndDay: 'Confirm End Day',
     actionDoneReview: 'Done · Review',
 
-    narratorGiveDevice:
-      'Show the screen to {player} so they can see their role.',
-    narratorWakePlayer: 'Wake {player} ({role}) for their night action.',
-    narratorRoleChanged:
-      'Wake {player} and show them the screen — their role has changed.',
-    readyShowToPlayer: 'Ready - Show to Player',
+    narratorGiveDevice: 'Show {player} their character.',
+    narratorWakePlayer: 'Wake {player} ({role}).',
+    narratorRoleChanged: 'Show {player} their new character.',
+    readyShowToPlayer: 'Show to Player',
     yourRoleHasChanged: 'Your role has changed!',
 
     nightComplete: 'Night {round} Complete',
-    nightActionsResolved:
-      'All night actions have been resolved. Ready to start the day?',
+    nightActionsResolved: 'Night actions complete. Start the day.',
     startDay: 'Start Day',
     choosePlayerToKill: 'Choose a player to kill',
-    selectVictim:
-      'Select the player they pointed to as their victim for tonight.',
+    selectVictim: 'Select the victim they chose.',
     confirmKill: 'Confirm Kill',
 
     grimoire: 'Grimoire',
     daytimeActions: 'Daytime Actions',
-    accusePlayerDescription: 'Accuse a player and put them to vote',
+    accusePlayerDescription: 'Choose a nominator and nominee',
 
     nominatesForExecution: '{nominator} nominates {nominee} for execution',
     nominatesVerb: 'nominates',
@@ -169,29 +163,29 @@ const en: Translations = {
     votesNeeded: '{count} votes needed',
     votesCount: 'Votes',
     voteThreshold: 'of {threshold} needed',
-    voteAction: 'Vote',
-    dontVote: "Don't Vote",
-    goesOnBlock: '{player} goes on the block!',
+    voteAction: 'Voting',
+    dontVote: 'Not voting',
+    goesOnBlock: '{player} is about to die.',
     notEnoughVotes: 'Not enough votes',
-    tiedNoExecution: 'Tied \u2014 no execution',
-    currentBlock: '{player} on the block ({count} votes)',
+    tiedNoExecution: 'Tie. No one is about to die.',
+    currentBlock: '{player} is about to die ({count} votes).',
     needMoreThan: 'Need more than {count} to replace',
-    noOneOnBlock: 'No one on the block',
+    noOneOnBlock: 'No one is about to die.',
     endDayExecute: 'End Day \u2014 Execute {player}',
     endDayNoExecution: 'End Day \u2014 No Execution',
     confirmVotes: 'Confirm Votes',
     cancelNomination: 'Cancel Nomination',
     nominee: 'Nominee',
     ghostVoteAvailable: 'Ghost vote available',
-    ghostVoteSpent: 'Ghost vote spent',
+    ghostVoteSpent: 'Ghost vote used',
     cannotVote: 'Cannot vote',
     butlerCannotVote: 'Cannot vote unless master votes',
     butlerDeadWarning: 'Master rule does not apply while dead',
 
     // Slayer
     slayerAction: 'Slayer Shot',
-    slayerActionDescription: 'Claim to be the Slayer and shoot a player',
-    selectSlayer: 'Select Slayer',
+    slayerActionDescription: 'Record a public Slayer claim and target',
+    selectSlayer: 'Choose Claimant',
     selectTarget: 'Select Target',
     confirmSlayerShot: 'Confirm Shot',
     slayerRegistrationTitle: 'Slayer Registration',
@@ -201,8 +195,8 @@ const en: Translations = {
 
     goodWins: 'Good Wins!',
     evilWins: 'Evil Wins!',
-    townVanquishedDemon: 'The town has vanquished the Demon!',
-    demonConqueredTown: 'The Demon has conquered the town!',
+    townVanquishedDemon: 'The good team won.',
+    demonConqueredTown: 'The evil team won.',
     finalRoles: 'Final Roles',
     backToMainMenu: 'Back to Main Menu',
 
@@ -210,18 +204,16 @@ const en: Translations = {
 
     // Shared narrator keys
     narratorSetup: 'Storyteller Setup',
-    selectTwoPlayers: 'Select 2 players to show',
-    selectWhichRoleToShow: 'Select which role to reveal',
+    selectTwoPlayers: 'Choose 2 candidates',
+    selectWhichRoleToShow: 'Choose the character shown',
     showToPlayer: 'Show to Player',
     oneOfThemIsThe: 'One of them is the...',
 
     // Private reveal interstitial
-    returnDeviceToNarrator: 'Return the device to the Storyteller',
-    returnDeviceDescription:
-      'Make sure only the Storyteller can see the screen before continuing.',
+    returnDeviceToNarrator: 'Return to Storyteller',
+    returnDeviceDescription: 'Only the Storyteller should see the next screen.',
     returnDeviceReady: 'Hold to return to Storyteller',
-    returnDeviceHoldHint:
-      'Hold continuously for one second. Mouse, touch, Space or Enter.',
+    returnDeviceHoldHint: 'Hold for one second. Keyboard: hold Space or Enter.',
     returnDeviceComplete: 'Returning to Storyteller…',
 
     // Role Revelation
@@ -239,7 +231,7 @@ const en: Translations = {
     tapToReveal: 'Tap to reveal',
     revealed: 'Revealed',
     startFirstNight: 'Start Night 1',
-    skipRoleRevelation: 'Skip Role Revelation',
+    skipRoleRevelation: 'Skip Reveals',
     revealAllFirst: 'Reveal all roles before continuing',
 
     // Night Dashboard
@@ -253,14 +245,11 @@ const en: Translations = {
     allActionsComplete: 'All night actions have been processed',
     proceedToDay: 'Proceed to Day',
     minionStartingInfo: 'Minion Information',
-    minionStartingInfoDescription:
-      'These players are on your evil team. Remember who your Demon is.',
+    minionStartingInfoDescription: 'Remember your evil teammates.',
     demonStartingInfo: 'Demon Information',
-    demonStartingInfoDescription:
-      'These are your Minions and three good characters that are not in play.',
+    demonStartingInfoDescription: 'Your Minions and 3 characters not in play.',
     selectDemonBluffs: 'Choose the Demon Bluffs',
-    selectDemonBluffsDescription:
-      'Before waking the Demon, select three out-of-play good characters.',
+    selectDemonBluffsDescription: 'Choose 3 good characters not in play.',
     theseAreYourBluffs: 'These characters are not in play:',
 
     // Night Steps
@@ -279,7 +268,7 @@ const en: Translations = {
     stepShowMinions: 'Show Minions',
     stepSelectBluffs: 'Select Bluffs',
     stepShowBluffs: 'Show Bluffs',
-    stepSelectNewImp: 'Select New Imp',
+    stepSelectNewImp: 'Choose New Imp',
     stepChooseMaster: 'Choose Master',
     stepViewGrimoire: 'View Grimoire',
     stepShowEvilTeam: 'Your Evil Team',
@@ -288,7 +277,7 @@ const en: Translations = {
     // Malfunction Config
     stepConfigureMalfunction: 'Configure Malfunction',
     playerIsMalfunctioning:
-      'This player is poisoned or drunk. Choose any information their ability could normally produce; it may be true or false.',
+      'No ability while drunk or poisoned. Information may be true or false.',
     chooseFalseNumber: 'What number should they see?',
     chooseFalseResult: 'What result should they see?',
     chooseFalseTarget: 'Which player should they be told is the role?',
@@ -306,15 +295,14 @@ const en: Translations = {
 
     // Setup Actions
     setupActions: 'Setup Actions',
-    setupActionsSubtitle:
-      'Configure roles that need storyteller setup before the game begins',
+    setupActionsSubtitle: 'Complete these choices before revealing characters.',
     allSetupActionsComplete: 'All setup actions complete',
-    continueToRoleRevelation: 'Continue to Role Revelation',
+    continueToRoleRevelation: 'Reveal Characters',
 
     // Perception Config
     perceptionConfigTitle: 'Configure Perceptions',
     perceptionConfigDescription:
-      'Some players have abilities that cause them to register falsely. Before showing the result to the player, you must decide how these ambiguous players should be perceived for this specific ability.',
+      'Choose how each character registers for this ability.',
     howShouldRegister: 'How should {player} register?',
     registerAsGood: 'Good',
     registerAsEvil: 'Evil',
@@ -330,8 +318,8 @@ const en: Translations = {
     continueToDay: 'Continue to Day',
 
     // Death Revelation
-    deathRevealTitle: 'The Dead Rise',
-    deathRevealSubtitle: 'A soul has been claimed...',
+    deathRevealTitle: 'Deaths',
+    deathRevealSubtitle: 'Announce only the names.',
     deathRevealDead: 'Dead',
     deathRevealNextDeath: 'Next Death',
     deathRevealContinue: 'Continue',
@@ -346,7 +334,7 @@ const en: Translations = {
 
     // Role Revelation narrator hint
     roleRevelationNarratorHint:
-      'Only you can see this screen. Tap a player, then hand the device to them to reveal their role.',
+      'Private: select a player, then show only their reveal.',
 
     // Nomination tracking
     alreadyNominated: 'Already nominated today',
@@ -354,7 +342,7 @@ const en: Translations = {
 
     // Private reveal interstitial
     handDeviceTo: 'Wake {player} and show them the screen',
-    tapWhenReady: 'Tap when they are ready to look',
+    tapWhenReady: 'Ready to Look',
 
     // Audience indicators
     audienceNarrator: 'Storyteller',
@@ -371,22 +359,23 @@ const en: Translations = {
   teams: {
     townsfolk: {
       name: 'Townsfolk',
-      winCondition: 'Execute the Demon to win!',
+      winCondition:
+        'Good normally wins when no Demon is alive. Character abilities can change the result.',
     },
     outsider: {
       name: 'Outsider',
       winCondition:
-        'Execute the Demon to win! But beware, your ability may hinder the town.',
+        'You are good. Good normally wins when no Demon is alive; check character exceptions.',
     },
     minion: {
       name: 'Minion',
       winCondition:
-        'Help your Demon survive! Evil wins when evil players equal or outnumber the good.',
+        'Evil normally wins with only 2 players alive, including a Demon. Check character exceptions.',
     },
     demon: {
       name: 'Demon',
       winCondition:
-        'Evil wins when evil players equal or outnumber the good. Stay hidden and eliminate the town!',
+        'Evil normally wins with only 2 players alive, including a Demon. Check character exceptions.',
     },
   },
 
@@ -417,12 +406,12 @@ const en: Translations = {
     noActionTonight: '{role} has no action tonight',
     nominates: '{nominator} nominates {nominee}',
     voteResult: '{player}: {votes} votes ({threshold} needed). ',
-    votePassed: '{player} goes on the block!',
+    votePassed: '{player} is about to die.',
     voteFailed: 'Not enough votes.',
-    voteTied: 'Tied with {player} \u2014 block cleared.',
-    executed: '{player} has been executed',
-    goodWins: 'Good wins! The Demon has been defeated.',
-    evilWins: 'Evil wins! The town has fallen.',
+    voteTied: 'Tie with {player}. No one is about to die.',
+    executed: '{player} was executed.',
+    goodWins: 'Good wins.',
+    evilWins: 'Evil wins.',
     effectAdded: 'Storyteller added {effect} to {player}',
     effectUpdated: 'Storyteller updated {effect} on {player}',
     effectRemoved: 'Storyteller removed {effect} from {player}',
@@ -435,8 +424,7 @@ const en: Translations = {
     'trouble-brewing': 'Trouble Brewing',
     custom: 'Custom Game',
     selectScript: 'Choose a Script',
-    selectScriptSubtitle:
-      'Select an edition to determine which roles are available',
+    selectScriptSubtitle: 'Choose the available characters and setup rules.',
     enforceDistribution: 'Standard role distribution',
     freeformSelection: 'Any roles, any distribution',
     // Generator presets
@@ -453,7 +441,7 @@ const en: Translations = {
     orPickManually: 'or pick manually',
     generate: 'Generate',
     manual: 'Manual',
-    useThisPool: 'Use This Pool',
+    useThisPool: 'Use Set',
     presetApplied: '{preset} applied',
     rolesSelected: '{count} roles selected',
   },
@@ -477,7 +465,7 @@ const en: Translations = {
       'You are on the **Good team**. You do not know who anyone else is, but you have a useful ability. Talk to people, share and combine your information, and trust your instincts to find the Demon.',
     p1_teamTownsfolkExample: 'For example, the **Washerwoman** is a Townsfolk:',
     p1_teamOutsider:
-      'You are on the **Good team**, but your ability is a burden. You might have false information, or your mere presence might make things harder for the town. You must overcome your handicap to help good win.',
+      'You are **good**, but your ability can hinder your team. Help find the Demon.',
     p1_teamOutsiderExample: 'For example, the **Drunk** is an Outsider:',
     p1_teamMinion:
       'You are on the **Evil team**. Protect the Demon and mislead the town. In games with 7 or more players, you learn who the Demon and the other Minions are at the start.',
@@ -491,7 +479,7 @@ const en: Translations = {
     p1_roundDay:
       'The Storyteller announces who died overnight. Players discuss, accuse, and try to figure out who is evil.',
     p1_roundNominate:
-      'Living players may nominate once per day. Each player may be nominated once per day. Votes determine who is on the execution block; the usual execution happens when the day ends.',
+      'Each living player may nominate once per day; each player may be nominated once per day. Votes decide who is about to die. Execute at day end.',
     p1_roundWinGood:
       'Good normally wins when **no Demon is alive**. Resolve abilities that can prevent or change this result first.',
     p1_roundWinEvil:
@@ -532,13 +520,13 @@ const en: Translations = {
     p2_reveal2:
       'Each card shows: the role name, ability description, alignment, and win condition.',
     p2_reveal3:
-      '**The Storyteller controls the device at all times** — show the screen to each player, then dismiss.',
+      'Show each private reveal, then use the one-second hold to return the device.',
     p2_revealWarning:
       'Keep control of the device. Hide private information before returning to the Storyteller screens.',
     p2_nightTitle: 'Night Phase',
     p2_night1:
       'The **Night Dashboard** shows every role that needs to act, in the correct wake order.',
-    p2_night2: 'Tap a role to start its night action.',
+    p2_night2: 'Open the Next action and follow its steps.',
     p2_night3:
       'For **information characters**, check the result and make any requested Storyteller choices before showing it.',
     p2_night4:
@@ -560,12 +548,12 @@ const en: Translations = {
     p2_vote2:
       'Mark each player whose vote was counted. Players either vote or do not vote; there are no votes against.',
     p2_vote3:
-      'A nominee needs at least half the living players, rounded up, and more votes than any earlier nominee to go on the block. A tie at the highest qualifying count clears the block; a later nominee must beat that count.',
+      'At least half the living players (round up) and more votes than every earlier nominee makes someone about to die. A qualifying tie clears that status; later votes must beat the tied count.',
     p2_vote4:
       'Continue nominations as needed. The usual execution happens at the end of the day. The Virgin can cause an immediate execution and end the day.',
     p2_endTitle: 'End of Day & Win Detection',
     p2_end1:
-      'Review who is on the block before ending the day. If nobody is on the block, there is no normal execution.',
+      'Check who is about to die before ending the day. Execution does not always cause death.',
     p2_end2: 'The app continuously checks win conditions.',
     p2_end3:
       '**Good normally wins** when no Demon remains alive after resolving abilities.',
@@ -574,7 +562,7 @@ const en: Translations = {
     p2_end5: 'When a win is detected, the game ends with a Game Over screen.',
     p2_grimTitle: 'The Grimoire',
     p2_grim1:
-      'Open the Storyteller reference panel from the game screens. It is hidden during private reveals and pending resolutions.',
+      'Use Grimoire for private Storyteller details. The Spy has a separate read-only view.',
     p2_grim2:
       "See every player's **true role**, alive/dead status, and active effects.",
     p2_grim3:
@@ -592,7 +580,7 @@ const en: Translations = {
       'If you are good, be careful who you trust with your information. If you are evil, lie about who your character is and what they do!',
     p3_tip2Title: 'Talk to people privately',
     p3_tip2Desc:
-      "Don't only have public conversations in the town square. Take players aside for 1-on-1 private chats to share information discreetly.",
+      'Talk privately to compare information without telling everyone.',
     p3_tip3Title: 'Bluff!',
     p3_tip3Desc:
       'You may bluff even if you are good. Decide what to share based on your character and what the group knows.',
@@ -614,8 +602,7 @@ const en: Translations = {
       '**Night:** Follow the dashboard and check that each player received the intended information before continuing.',
     p4_during2:
       '**Day:** Let players talk. Your job is to facilitate, not control the discussion.',
-    p4_during3:
-      '**Grimoire:** Check it whenever you need a reminder of who has what status.',
+    p4_during3: '**Grimoire:** Check characters and active effects in private.',
     p4_during4:
       '**History:** Check recorded actions privately when you need to resolve a discrepancy. Do not reveal hidden information to settle a public argument.',
     p4_pitfallsTitle: 'Common Pitfalls',

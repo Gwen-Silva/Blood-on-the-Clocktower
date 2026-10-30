@@ -1,7 +1,7 @@
 const es = {
   name: 'Verdugo',
   description:
-    'Una vez por partida, durante el día, elige públicamente a un jugador: si es el Demonio, muere.',
+    'Una vez por partida y de día, elige públicamente a alguien: si se registra como Demonio, muere.',
   quote: 'Un disparo. Que cuente.',
   lines: [
     {
@@ -10,10 +10,13 @@ const es = {
     },
     {
       type: 'INFO',
-      text: 'Si es el Demonio, muere instantáneamente. Si no, no pasa nada.',
+      text: 'Si se registra como Demonio, muere. Si no, no pasa nada.',
     },
     { type: 'CAVEAT', text: 'Sólo tienes un disparo.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // History

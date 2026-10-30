@@ -46,16 +46,12 @@ export function NightGuidance({
             </details>
           )}
           {!isPrivate && guide.example && (
-            <p className='mt-3'>
-              <strong>{t.nightGuide.example}: </strong>
-              {guide.example}
-            </p>
-          )}
-          {isPrivate && (
-            <p className='mt-3 text-parchment-400'>
-              <strong>{t.nightGuide.nextTitle}: </strong>
-              {t.nightGuide.next}
-            </p>
+            <details className='mt-3'>
+              <summary className='cursor-pointer min-h-11 py-3'>
+                {t.nightGuide.example}
+              </summary>
+              <p>{guide.example}</p>
+            </details>
           )}
         </>
       )}

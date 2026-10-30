@@ -11,11 +11,10 @@ import {
   NightActionLayout,
   NightStepListLayout,
   PlayerFacingScreen,
-  HandbackButton,
 } from '../../../../../components/layouts'
 import type { NightStep } from '../../../../../components/layouts'
 import { Button, Icon } from '../../../../../components/atoms'
-import { Grimoire } from '../../../../../components/items/Grimoire'
+import { SpyGrimoireView } from '../../../../../components/items/SpyGrimoireView'
 import { isAlive } from '../../../../types'
 import { isMalfunctioning } from '../../../../effects'
 
@@ -56,7 +55,7 @@ const definition: RoleDefinition = {
   ],
   RoleReveal: DefaultRoleReveal,
 
-  NightAction: ({ state, player, onComplete, onOpenGrimoire }) => {
+  NightAction: ({ state, player, onComplete }) => {
     const { t, language } = useI18n()
     const [viewingGrimoire, setViewingGrimoire] = useState(false)
     const malfunctioning = isMalfunctioning(player)
@@ -134,33 +133,11 @@ const definition: RoleDefinition = {
 
     return (
       <PlayerFacingScreen playerName={player.name}>
-        <NightActionLayout
-          player={player}
-          title={roleT.spyGrimoireTitle}
-          description={roleT.spyGrimoireDescription}
-        >
-          <div className='mb-6'>
-            <Grimoire
-              state={state}
-              onPlayerSelect={(target) =>
-                onOpenGrimoire?.(
-                  { view: 'player_detail', player: target },
-                  true,
-                )
-              }
-            />
-          </div>
-
-          <HandbackButton
-            onClick={handleComplete}
-            fullWidth
-            size='lg'
-            variant='evil'
-          >
-            <Icon name='check' size='md' className='mr-2' />
-            {t.common.continue}
-          </HandbackButton>
-        </NightActionLayout>
+        <SpyGrimoireView
+          state={state}
+          playerId={player.id}
+          onComplete={handleComplete}
+        />
       </PlayerFacingScreen>
     )
   },

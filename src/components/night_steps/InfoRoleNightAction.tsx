@@ -7,11 +7,15 @@ import {
 } from '../../lib/roles/types'
 import { getRole, getAllRoles } from '../../lib/roles/index'
 import { getTeam, TeamId } from '../../lib/teams'
-import { useI18n, getRoleName, getRoleTranslations } from '../../lib/i18n'
+import {
+  useI18n,
+  interpolate,
+  getRoleName,
+  getRoleTranslations,
+} from '../../lib/i18n'
 import { RoleCard } from '../items/RoleCard'
 import { TeamBackground } from '../items/TeamBackground'
 import {
-  NightActionLayout,
   NarratorSetupLayout,
   NightStepListLayout,
   PlayerFacingScreen,
@@ -19,13 +23,12 @@ import {
   HandbackButton,
 } from '../layouts'
 import type { NightStep } from '../layouts'
-import { StepSection, AlertBox, InfoBox, RoleRevealBadge } from '../items'
+import { StepSection, AlertBox, InfoBox } from '../items'
 import { PlayerPickerList, RolePickerGrid } from '../inputs'
 import { Icon } from '../atoms'
 import { IconName } from '../atoms/icon'
 import { perceive, canRegisterAsTeam } from '../../lib/pipeline'
 import { isMalfunctioning } from '../../lib/effects'
-import { NightGuidance } from '../layouts/NightGuidance'
 
 // ============================================================================
 // CONFIG TYPE
@@ -380,7 +383,7 @@ export function InfoRoleNightAction({
   const targetTeamName =
     t.teams[config.targetTeam as keyof typeof t.teams]?.name ??
     config.targetTeam
-  const otherGroupLabel = t.game.otherPlayers ?? 'Other Players'
+  const otherGroupLabel = t.game.otherPlayers
 
   // ================================================================
   // Build steps
@@ -654,24 +657,22 @@ export function InfoRoleNightAction({
   if (phase === 'no_target_view') {
     return (
       <PlayerFacingScreen playerName={player.name}>
-        <NightActionLayout
-          player={player}
-          title={labels.infoTitle}
-          description={labels.noTargetMessage}
-        >
-          <NightGuidance roleId={config.roleId} audience='player' />
-          <RoleRevealBadge icon='sparkles' roleName={labels.noTargetTitle} />
-
+        <TeamBackground teamId={config.targetTeam}>
+          <h1 className='font-tarot text-3xl text-center'>
+            {labels.noTargetTitle}
+          </h1>
+          <p className='text-center text-sm my-4'>
+            {t.clarity.startingInformation}
+          </p>
           <HandbackButton
             onClick={handleCompleteNoTarget}
             fullWidth
             size='lg'
             variant='night'
           >
-            <Icon name='check' size='md' className='mr-2' />
-            {t.common.iUnderstandMyRole}
+            {t.common.continue}
           </HandbackButton>
-        </NightActionLayout>
+        </TeamBackground>
       </PlayerFacingScreen>
     )
   }
@@ -691,30 +692,26 @@ export function InfoRoleNightAction({
   return (
     <PlayerFacingScreen playerName={player.name}>
       <TeamBackground teamId={shownTeamId}>
-        <NightGuidance roleId={config.roleId} audience='player' />
-        <div
-          className={`text-center text-sm mb-5 max-w-sm mx-auto ${shownTeam.isEvil ? 'text-red-300/80' : 'text-parchment-300/80'}`}
-        >
-          <p className='uppercase tracking-widest font-semibold mb-3'>
-            {t.game.oneOfThemIsThe}
+        <h1 className='text-center font-tarot text-3xl text-balance break-words mb-4'>
+          {interpolate(t.clarity.candidates, {
+            first: player1?.name ?? t.ui.unknown,
+            second: player2?.name ?? t.ui.unknown,
+          })}
+        </h1>
+        <h2 className='text-center text-xl mb-6'>
+          {interpolate(t.clarity.oneIs, {
+            role: getLocalRoleName(selectedRoleId),
+          })}
+        </h2>
+        <details className='max-w-sm mx-auto w-full mb-4'>
+          <summary className='cursor-pointer text-center'>
+            {t.clarity.shownCharacter}
+          </summary>
+          <p className='text-sm text-center my-3'>
+            {t.clarity.shownCharacterHint}
           </p>
-          <div className='flex items-center justify-center gap-2 flex-wrap'>
-            {player1 && (
-              <span className='inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-base'>
-                <Icon name='user' size='sm' />
-                <span className='font-medium'>{player1.name}</span>
-              </span>
-            )}
-            {player2 && (
-              <span className='inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-base'>
-                <Icon name='user' size='sm' />
-                <span className='font-medium'>{player2.name}</span>
-              </span>
-            )}
-          </div>
-        </div>
-
-        <RoleCard roleId={selectedRoleId} />
+          <RoleCard roleId={selectedRoleId} />
+        </details>
 
         <HandbackCardLink onClick={handleComplete} isEvil={shownTeam.isEvil}>
           {t.common.continue}

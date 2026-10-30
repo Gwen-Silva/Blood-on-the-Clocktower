@@ -1,7 +1,9 @@
 import type { NightGuidanceTranslations } from './nightGuidance'
+import type { clarityEn } from './clarity'
 export type Language = 'en' | 'es'
 
 export type Translations = {
+  clarity: typeof clarityEn
   nightGuide: NightGuidanceTranslations
   storageRecovery: {
     title: string

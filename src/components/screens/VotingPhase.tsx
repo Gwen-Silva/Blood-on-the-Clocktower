@@ -227,6 +227,8 @@ export function VotingPhase({
             return (
               <div
                 key={player.id}
+                role='group'
+                aria-label={player.name}
                 className={cn(
                   'rounded-lg p-3',
                   butlerMaster
@@ -296,17 +298,25 @@ export function VotingPhase({
                 <button
                   onClick={() => handleToggleVote(player.id)}
                   disabled={!canVote}
+                  aria-pressed={!!voted}
+                  aria-label={`${player.name}: ${!canVote ? t.game.cannotVote : voted ? t.game.voteAction : t.game.dontVote}`}
                   className={cn(
                     'w-full py-2.5 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-2 active:scale-[0.97] min-h-[48px]',
                     voted
-                      ? 'bg-red-600 text-white'
+                      ? 'bg-emerald-700 text-white'
                       : canVote
                         ? 'bg-white/5 text-parchment-400 hover:bg-white/10'
                         : 'bg-transparent text-parchment-500/30 border border-white/5 cursor-not-allowed',
                   )}
                 >
                   <Icon name={voted ? 'check' : 'minus'} size='sm' />
-                  <span>{voted ? t.game.voteAction : t.game.dontVote}</span>
+                  <span>
+                    {!canVote
+                      ? t.game.cannotVote
+                      : voted
+                        ? t.game.voteAction
+                        : t.game.dontVote}
+                  </span>
                 </button>
               </div>
             )

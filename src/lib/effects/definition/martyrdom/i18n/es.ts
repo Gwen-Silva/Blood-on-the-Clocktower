@@ -1,6 +1,7 @@
 const es = {
   name: 'Martirio',
-  description: 'Si este jugador es ejecutado, el equipo malvado gana.',
+  description:
+    'Si muere por ejecución mientras funciona la habilidad, su equipo pierde.',
 } as const
 
 export default es

@@ -1,7 +1,7 @@
 const es = {
   name: 'Diablo',
   description:
-    'Cada noche*, elige un jugador: muere. Si te matas a ti mismo, un Secuaz se convierte en el Diablo.',
+    'Cada noche salvo la primera, elige a alguien para matar. Si te matas así, un Secuaz se convierte en Diablo.',
   quote: 'No conquista. Simplemente perdura.',
   lines: [
     {
@@ -10,13 +10,16 @@ const es = {
     },
     {
       type: 'KILL',
-      text: 'Si te eliges a ti mismo, mueres. Pero uno de tus Secuaces se convierte en el nuevo Diablo.',
+      text: 'Si te matas con esta habilidad, un Secuaz vivo se convierte en Diablo.',
     },
     {
       type: 'TEAM',
-      text: 'La primera noche, descubres quiénes son tus Secuaces.',
+      text: 'Con 7+ jugadores, conoces a tus Secuaces y 3 personajes buenos fuera de juego.',
     },
-    { type: 'WIN', text: 'Mantén vivo a un Diablo para ganar.' },
+    {
+      type: 'WIN',
+      text: 'El mal normalmente gana con 2 jugadores vivos, incluido un Demonio.',
+    },
   ],
 
   // DeflectRedirectUI

@@ -1,7 +1,6 @@
 const en = {
   name: 'Poisoned',
-  description:
-    "This player's ability malfunctions tonight. Information roles get wrong info, passive abilities fail.",
+  description: 'No ability while poisoned. Information may be true or false.',
 } as const
 
 export default en

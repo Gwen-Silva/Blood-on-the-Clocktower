@@ -1,11 +1,22 @@
 const es = {
   name: 'Chef',
-  description: 'Empiezas sabiendo cuántas parejas de jugadores malvados hay.',
-  quote: 'Demasiados cocineros arruinan el caldo. Pero un buen chef cuenta los cuchillos.',
+  description:
+    'La primera noche, conoce el número de parejas malvadas adyacentes en el círculo.',
+  quote:
+    'Demasiados cocineros arruinan el caldo. Pero un buen chef cuenta los cuchillos.',
   lines: [
-    { type: 'NIGHT', text: 'En la primera noche, descubres cuántas parejas de jugadores malvados están sentados juntos.' },
-    { type: 'INFO', text: 'Una "pareja" son dos jugadores malvados sentados uno al lado del otro.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'NIGHT',
+      text: 'En la primera noche, descubres cuántas parejas de jugadores malvados están sentados juntos.',
+    },
+    {
+      type: 'INFO',
+      text: 'Una "pareja" son dos jugadores malvados sentados uno al lado del otro.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI

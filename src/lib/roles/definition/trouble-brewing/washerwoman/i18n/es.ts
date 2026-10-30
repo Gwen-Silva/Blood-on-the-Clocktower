@@ -1,17 +1,23 @@
 const es = {
   name: 'Lavandera',
   description:
-    'Empiezas sabiendo que 1 de 2 jugadores es un Aldeano en particular.',
+    'La primera noche, conoce 2 jugadores y un personaje Aldeano. Uno se registra como ese personaje.',
   quote: 'Hasta las sábanas más sucias guardan rastros de quien las vistió.',
   lines: [
-    { type: 'NIGHT', text: 'En la primera noche, descubres 2 jugadores y 1 rol de Aldeano — uno de esos jugadores tiene ese rol.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'NIGHT',
+      text: 'La primera noche, conoce 2 candidatos y un personaje Aldeano como el que uno se registra.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI
   washerwomanInfo: 'Tu Información',
   mustIncludeTownsfolk:
-    'Al menos uno de los jugadores seleccionados debe ser un Aldeano',
+    'Incluye un candidato que pueda registrarse como ese personaje.',
   oneOfTheseIsTheTownsfolk:
     'Uno de estos jugadores es un Aldeano. ¡Recuerda quiénes son!',
   noTownsfolkInGame: 'Sin Aldeanos',
@@ -22,8 +28,7 @@ const es = {
 
   // History
   history: {
-    discoveredTownsfolk:
-      '{player} descubrió que {player1} o {player2} es el/la {role}',
+    discoveredTownsfolk: '{player} recibió: {player1} o {player2}, {role}',
     noTownsfolk: '{player} descubrió que no hay otros Aldeanos en esta partida',
   },
 } as const

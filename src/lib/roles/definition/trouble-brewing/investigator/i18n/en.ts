@@ -1,15 +1,20 @@
 const en = {
   name: 'Investigator',
-  description: 'You start knowing that 1 of 2 players is a particular Minion.',
+  description:
+    'On Night 1, learn 2 players and a Minion character. One registers as that character.',
   quote: 'Follow the money. Follow the whispers. Follow the fear.',
   lines: [
-    { type: 'NIGHT', text: 'In the first night, you learn 2 players and 1 Minion role — one of those players holds that role.' },
-    { type: 'WIN', text: 'Execute the Demon to win.' },
+    {
+      type: 'NIGHT',
+      text: 'On Night 1, learn 2 candidates and a Minion character one registers as.',
+    },
+    { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],
 
   // NightAction UI
   investigatorInfo: 'Your Information',
-  mustIncludeMinion: 'At least one selected player must be a Minion',
+  mustIncludeMinion:
+    'Include a candidate who can register as the shown character.',
   oneOfTheseIsTheMinion:
     'One of these players is a Minion. Remember who they are!',
   noMinionsInGame: 'No Minions',
@@ -20,8 +25,7 @@ const en = {
 
   // History
   history: {
-    discoveredMinion:
-      '{player} discovered that either {player1} or {player2} is the {role}',
+    discoveredMinion: '{player} was shown {player1} or {player2}: {role}',
     noMinions: '{player} learned there are no Minions in this game',
   },
 } as const

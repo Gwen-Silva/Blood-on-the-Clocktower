@@ -1,7 +1,7 @@
 const es = {
   name: 'Pura',
   description:
-    'Si un Aldeano nomina a este jugador, ese Aldeano es ejecutado en su lugar.',
+    'En la primera nominación, quien nomina recibe una ejecución inmediata si se registra como Aldeano.',
 } as const
 
 export default es

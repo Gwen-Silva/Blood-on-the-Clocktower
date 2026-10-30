@@ -1,19 +1,31 @@
 const es = {
   name: 'Mayordomo',
   description:
-    'Cada noche, elige un jugador (no tú): mañana, solo puedes votar si ellos también están votando.',
+    'Cada noche, elige a otro jugador. Mañana solo puedes votar mientras también vote.',
   quote: 'Sirvo a voluntad de mi amo. Él decide cuándo puedo hablar.',
   lines: [
-    { type: 'NIGHT', text: 'Cada noche, elige un jugador para que sea tu amo.' },
-    { type: 'CAVEAT', text: 'Solo puedes votar en ejecuciones si tu amo también vota.' },
-    { type: 'ADVICE', text: 'Puedes abstenerte de votar incluso si tu amo vota.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'NIGHT',
+      text: 'Cada noche, elige un jugador para que sea tu amo.',
+    },
+    {
+      type: 'CAVEAT',
+      text: 'Solo puedes votar en ejecuciones si tu amo también vota.',
+    },
+    {
+      type: 'ADVICE',
+      text: 'Puedes abstenerte de votar incluso si tu amo vota.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 
   // NightAction UI
   info: 'Elige a tu Amo',
   selectPlayerAsMaster:
-    'Despierta a {player} y pídele que señale a un jugador para que sea su amo. Mañana, solo podrá votar si su amo vota.',
+    'Despierta a {player} y registra a otro jugador como amo.',
   masterLabel: 'Amo: {player}',
   voteRestriction: 'Solo puede votar si su amo vota',
 

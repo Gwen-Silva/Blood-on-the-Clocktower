@@ -1,7 +1,7 @@
 const en = {
   name: 'Spy',
   description:
-    'Each night, you may look at the Grimoire. You might register as good & as a Townsfolk or Outsider, even if you are dead.',
+    'Each night, inspect the Grimoire. You may register as good and as a Townsfolk or Outsider, even while dead.',
   quote: "I know what they know. They just don't know I know.",
   lines: [
     {
@@ -16,7 +16,10 @@ const en = {
       type: 'PASSIVE',
       text: 'You may register as good, as a Townsfolk, or as an Outsider to other players.',
     },
-    { type: 'WIN', text: 'Keep your Demon alive to win.' },
+    {
+      type: 'WIN',
+      text: 'Evil normally wins with 2 players alive, including a Demon.',
+    },
   ],
 
   // NightAction UI
@@ -24,7 +27,7 @@ const en = {
   spyGrimoireDescription: 'You may see all players and their roles.',
   spyMalfunctionTitle: 'The Grimoire',
   spyMalfunctionDescription:
-    'The Spy is poisoned or drunk, so they have no ability and should not see the true Grimoire. To maintain the illusion, show them an alternate physical Grimoire that may contain true or false information.',
+    'No ability: prepare a physical Grimoire with true or false information.',
 
   // First night: evil team
   evilTeamTitle: 'Your Evil Team',

@@ -1,12 +1,21 @@
 const es = {
   name: 'Recluso',
   description:
-    'Podrías registrarte como malvado y como un Secuaz o Demonio, incluso estando muerto.',
+    'Puedes registrarte como malvado, Secuaz o Demonio, incluso después de morir. Sigues siendo del Bien.',
   quote: 'Me evitan. Quizás tienen razón.',
   lines: [
-    { type: 'PASSIVE', text: 'Puedes aparecer como malvado, como Secuaz o como Demonio ante otros.' },
-    { type: 'CAVEAT', text: 'Otros roles con la habilidad de ver tu rol podrían ver un rol falso en su lugar.' },
-    { type: 'WIN', text: 'Ejecuta al Demonio para ganar.' },
+    {
+      type: 'PASSIVE',
+      text: 'Puedes registrarte como malvado, Secuaz o Demonio, incluso después de morir. Sigues siendo del Bien.',
+    },
+    {
+      type: 'CAVEAT',
+      text: 'Otros roles con la habilidad de ver tu rol podrían ver un rol falso en su lugar.',
+    },
+    {
+      type: 'WIN',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
+    },
   ],
 } as const
 
