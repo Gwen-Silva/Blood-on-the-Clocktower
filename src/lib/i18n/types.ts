@@ -14,6 +14,15 @@ export type Translations = {
     retryFailed: string
   }
 
+  playerReference: {
+    previousCharacter: string
+    nextCharacter: string
+    title: string
+    introduction: string
+    unavailable: string
+    returnToStoryteller: string
+  }
+
   // Common
   common: {
     continue: string
@@ -52,6 +61,27 @@ export type Translations = {
   }
 
   // New Game Flow
+  setupReview: {
+    reviewSetup: string
+    composition: string
+    playerCount: string
+    clockwise: string
+    characters: string
+    selectedCount: string
+    largerPool: string
+    assignments: string
+    allRandom: string
+    mixed: string
+    allManual: string
+    awaitingRandom: string
+    notFinalized: string
+    editPlayers: string
+    editScript: string
+    editCharacters: string
+    editAssignments: string
+    createGame: string
+    invalidPlan: string
+  }
   newGame: {
     step1Title: string
     step1Subtitle: string
@@ -86,6 +116,12 @@ export type Translations = {
 
   // Game Phases
   game: {
+    confirmEndDayTitle: string
+    confirmEndDayBlocked: string
+    confirmEndDayEmpty: string
+    confirmEndDay: string
+    actionDoneReview: string
+
     // Narrator prompts
     narratorGiveDevice: string
     narratorWakePlayer: string
@@ -176,8 +212,16 @@ export type Translations = {
     returnDeviceToNarrator: string
     returnDeviceDescription: string
     returnDeviceReady: string
+    returnDeviceHoldHint: string
+    returnDeviceComplete: string
 
     // Role Revelation
+    revealedShowAgain: string
+    skipRevelationOne: string
+    skipRevelationMany: string
+    skipRevelationExplanation: string
+    confirmSkipRevelation: string
+
     roleRevelation: string
     roleRevelationDescription: string
     tapToReveal: string

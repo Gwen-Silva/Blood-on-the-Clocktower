@@ -18,6 +18,15 @@ const en: Translations = {
     retryFailed:
       'Saving still failed. Download the recovery copy before closing the app.',
   },
+  playerReference: {
+    previousCharacter: 'Previous character',
+    nextCharacter: 'Next character',
+    title: 'Player Reference',
+    introduction:
+      'All possible characters in this script. This does not show which characters are in play or who has them.',
+    unavailable: 'The public character catalog is unavailable for this script.',
+    returnToStoryteller: 'Return to Storyteller',
+  },
   common: {
     continue: 'Continue',
     confirm: 'Confirm',
@@ -53,6 +62,30 @@ const en: Translations = {
     language: 'Language',
   },
 
+  setupReview: {
+    reviewSetup: 'Review Setup',
+    composition: 'Game composition',
+    playerCount: '{count} players',
+    clockwise: 'Clockwise seating, starting at seat 1',
+    characters: 'Characters by team',
+    selectedCount: '{count} selected characters for {players} players.',
+    largerPool:
+      'Character pool: {count} options for {players} players. Only some will be assigned.',
+    assignments: 'Assignment plan',
+    allRandom: 'All random',
+    mixed: 'Mixed manual and random',
+    allManual: 'All manual',
+    awaitingRandom: 'Awaiting random assignment',
+    notFinalized:
+      'Review the plan before creating the game. Random assignments are resolved only when you confirm.',
+    editPlayers: 'Edit Players',
+    editScript: 'Edit Script',
+    editCharacters: 'Edit Characters',
+    editAssignments: 'Edit Assignments',
+    createGame: 'Create Game',
+    invalidPlan:
+      'This plan is incomplete or incompatible. Edit the setup before creating the game.',
+  },
   newGame: {
     step1Title: 'New Game',
     step1Subtitle: 'Step 1: Add players',
@@ -88,6 +121,14 @@ const en: Translations = {
   },
 
   game: {
+    confirmEndDayTitle: 'End Day {round}?',
+    confirmEndDayBlocked:
+      '{player} is on the block. Confirming ends Day {round} and resolves the scheduled execution. Night {nextRound} begins unless the game ends.',
+    confirmEndDayEmpty:
+      'No execution is currently scheduled. Confirming ends Day {round} and proceeds to Night {nextRound} according to the existing rules, unless the game ends.',
+    confirmEndDay: 'Confirm End Day',
+    actionDoneReview: 'Done · Review',
+
     narratorGiveDevice:
       'Show the screen to {player} so they can see their role.',
     narratorWakePlayer: 'Wake {player} ({role}) for their night action.',
@@ -173,18 +214,30 @@ const en: Translations = {
     oneOfThemIsThe: 'One of them is the...',
 
     // Private reveal interstitial
-    returnDeviceToNarrator: 'Hide the screen from the player',
+    returnDeviceToNarrator: 'Return the device to the Storyteller',
     returnDeviceDescription:
       'Make sure only the Storyteller can see the screen before continuing.',
-    returnDeviceReady: 'Screen Is Private',
+    returnDeviceReady: 'Hold to return to Storyteller',
+    returnDeviceHoldHint:
+      'Hold continuously for one second. Mouse, touch, Space or Enter.',
+    returnDeviceComplete: 'Returning to Storyteller…',
 
     // Role Revelation
+    revealedShowAgain: 'Revealed · Tap to show again',
+    skipRevelationOne:
+      "{count} player hasn't seen their role yet. Start Night 1 anyway?",
+    skipRevelationMany:
+      "{count} players haven't seen their roles yet. Start Night 1 anyway?",
+    skipRevelationExplanation:
+      'Confirming starts the night without showing the remaining roles.',
+    confirmSkipRevelation: 'Confirm Skip',
+
     roleRevelation: 'Role Revelation',
     roleRevelationDescription: 'Tap each player to show them their role',
     tapToReveal: 'Tap to reveal',
     revealed: 'Revealed',
     startFirstNight: 'Start Night 1',
-    skipRoleRevelation: 'Skip and reveal roles later',
+    skipRoleRevelation: 'Skip Role Revelation',
     revealAllFirst: 'Reveal all roles before continuing',
 
     // Night Dashboard

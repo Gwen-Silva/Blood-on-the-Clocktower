@@ -27,6 +27,7 @@ import { cn } from '../../lib/utils'
 type Props = {
   players: string[]
   scriptId: ScriptId
+  initialSelectedRoles?: string[]
   onNext: (selectedRoles: string[]) => void
   onBack: () => void
 }
@@ -53,17 +54,28 @@ export function isOfficialRoleSelectionValid(
   )
 }
 
-export function RoleSelection({ players, scriptId, onNext, onBack }: Props) {
+export function RoleSelection({
+  players,
+  scriptId,
+  initialSelectedRoles = [],
+  onNext,
+  onBack,
+}: Props) {
   const { t, language } = useI18n()
   const script = SCRIPTS[scriptId]
   const isCustomMode = scriptId === 'custom'
 
   // ── State ──────────────────────────────────────────────────────────
   const [roleCounts, setRoleCounts] = useState<Record<string, number>>(() => {
-    return { imp: 1 }
+    if (!initialSelectedRoles.length) return { imp: 1 }
+    const counts: Record<string, number> = {}
+    initialSelectedRoles.forEach((id) => {
+      counts[id] = (counts[id] ?? 0) + 1
+    })
+    return counts
   })
   const [mode, setMode] = useState<SelectionMode>(
-    isCustomMode ? 'manual' : 'generate',
+    isCustomMode || initialSelectedRoles.length ? 'manual' : 'generate',
   )
   const [selectedPreset, setSelectedPreset] =
     useState<GeneratorPreset>('interesting')

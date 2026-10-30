@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { getRole } from '../../lib/roles'
-import { SCRIPTS } from '../../lib/scripts'
+import { SCRIPTS, type ScriptId } from '../../lib/scripts'
 import { RoleId } from '../../lib/roles/types'
 import { getTeam, TeamId } from '../../lib/teams'
 import { useI18n, getRoleName, getRoleDescription } from '../../lib/i18n'
@@ -11,6 +11,11 @@ import { MysticDivider } from '../items'
 import { cn } from '../../lib/utils'
 
 type Props = {
+  scriptId?: ScriptId
+  title?: string
+  introduction?: string
+  backLabel?: string
+  showAbilityDescription?: boolean
   selectedRoleId: RoleId | null
   onBack: () => void
   onSelectRole: (roleId: RoleId) => void
@@ -24,11 +29,16 @@ export function RolesLibrary({
   onBack,
   onSelectRole,
   onDeselectRole,
+  scriptId = 'trouble-brewing',
+  title,
+  introduction,
+  backLabel,
+  showAbilityDescription = false,
 }: Props) {
   const { t, language } = useI18n()
 
-  // Get all roles from the Trouble Brewing script (currently the only one)
-  const scriptRoles = SCRIPTS['trouble-brewing'].roles
+  // Static catalog only: never selected roles or assigned players.
+  const scriptRoles = SCRIPTS[scriptId].roles
 
   // Group roles by team
   const rolesByTeam = TEAM_ORDER.map((teamId) => {
@@ -69,6 +79,7 @@ export function RolesLibrary({
       <TeamBackground teamId={selectedTeamId}>
         {/* Navigation arrows */}
         <button
+          aria-label={t.playerReference.previousCharacter}
           onClick={goToPrev}
           className={cn(
             'absolute left-1 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-colors',
@@ -80,6 +91,7 @@ export function RolesLibrary({
           <Icon name='chevronLeft' size='xl' />
         </button>
         <button
+          aria-label={t.playerReference.nextCharacter}
           onClick={goToNext}
           className={cn(
             'absolute right-1 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-colors',
@@ -92,6 +104,11 @@ export function RolesLibrary({
         </button>
 
         <RoleCard roleId={selectedRoleId} />
+        {showAbilityDescription && (
+          <p className='max-w-sm text-sm text-parchment-200 leading-relaxed text-center px-4 mt-4'>
+            {getRoleDescription(selectedRoleId, language)}
+          </p>
+        )}
         <CardLink onClick={onDeselectRole} isEvil={selectedTeam.isEvil}>
           {t.common.back}
         </CardLink>
@@ -104,13 +121,16 @@ export function RolesLibrary({
       {/* Header */}
       <div className='px-4 pt-6 pb-4'>
         <div className='flex items-center gap-3 mb-4'>
-          <BackButton onClick={onBack} />
+          <BackButton onClick={onBack} label={backLabel} />
           <div>
             <h1 className='font-tarot text-xl text-parchment-100 tracking-wider uppercase'>
-              {t.mainMenu.rolesLibrary}
+              {title ?? t.mainMenu.rolesLibrary}
             </h1>
             <p className='text-sm text-parchment-400'>
-              {t.mainMenu.browseAllRoles}
+              {introduction ?? t.mainMenu.browseAllRoles}
+            </p>
+            <p className='text-xs text-parchment-500 mt-2'>
+              {scriptRoles.length} {t.common.roles}
             </p>
           </div>
         </div>
@@ -125,7 +145,10 @@ export function RolesLibrary({
             const isEvil = team.isEvil
 
             return (
-              <div key={teamId}>
+              <section
+                key={teamId}
+                aria-label={`${t.teams[teamId].name} (${roles.length})`}
+              >
                 {/* Team Header */}
                 <div className='flex items-center gap-2 mb-3'>
                   <Icon
@@ -208,7 +231,7 @@ export function RolesLibrary({
                     )
                   })}
                 </div>
-              </div>
+              </section>
             )
           })}
         </div>

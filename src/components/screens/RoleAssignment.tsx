@@ -2,22 +2,24 @@ import { useState, useMemo } from 'react'
 import { getRole } from '../../lib/roles'
 import { getTeam } from '../../lib/teams'
 import { useI18n, interpolate, getRoleName } from '../../lib/i18n'
-import { resolveRoleAssignments } from '../../lib/roleAssignment'
+import { SetupPlayer } from '../../lib/roleAssignment'
 import { Button, Icon, Badge, BackButton } from '../atoms'
 import { ScreenFooter } from '../layouts/ScreenFooter'
 import { cn } from '../../lib/utils'
 
 type Props = {
-  players: string[]
+  players: SetupPlayer[]
   selectedRoles: string[]
-  onStart: (assignments: { name: string; roleId: string }[]) => void
-  onBack: () => void
+  initialAssignments?: Record<string, string | null>
+  onNext: (assignments: Record<string, string | null>) => void
+  onBack: (assignments: Record<string, string | null>) => void
 }
 
 export function RoleAssignment({
   players,
   selectedRoles,
-  onStart,
+  onNext,
+  initialAssignments = {},
   onBack,
 }: Props) {
   const { t, language } = useI18n()
@@ -25,8 +27,8 @@ export function RoleAssignment({
   const [assignments, setAssignments] = useState<Record<string, string | null>>(
     () => {
       const initial: Record<string, string | null> = {}
-      players.forEach((name) => {
-        initial[name] = null
+      players.forEach(({ id }) => {
+        initial[id] = initialAssignments[id] ?? null
       })
       return initial
     },
@@ -73,21 +75,14 @@ export function RoleAssignment({
 
   const handleRandomizeAll = () => {
     const reset: Record<string, string | null> = {}
-    players.forEach((name) => {
-      reset[name] = null
+    players.forEach(({ id }) => {
+      reset[id] = null
     })
     setAssignments(reset)
     setExpandedPlayer(null)
   }
 
-  const handleStart = () => {
-    const finalAssignments = resolveRoleAssignments({
-      players,
-      selectedRoles,
-      manualAssignments: assignments,
-    })
-    onStart(finalAssignments)
-  }
+  const handleStart = () => onNext({ ...assignments })
 
   const manuallyAssignedCount = Object.values(assignments).filter(
     (r) => r !== null,
@@ -130,7 +125,7 @@ export function RoleAssignment({
       {/* Header */}
       <div className='sticky top-0 z-10 bg-grimoire-dark/95 backdrop-blur-sm border-b border-mystic-gold/20 px-4 py-3'>
         <div className='flex items-center gap-3 max-w-lg mx-auto'>
-          <BackButton onClick={onBack} />
+          <BackButton onClick={() => onBack({ ...assignments })} />
           <div>
             <h1 className='font-tarot text-lg text-parchment-100 tracking-wider uppercase'>
               {t.newGame.step3Title}
@@ -171,9 +166,13 @@ export function RoleAssignment({
 
           {/* Players list */}
           <div className='flex items-start gap-2 mb-2'>
-            <Icon name='users' size='sm' className='text-parchment-500 mt-0.5 flex-shrink-0' />
+            <Icon
+              name='users'
+              size='sm'
+              className='text-parchment-500 mt-0.5 flex-shrink-0'
+            />
             <span className='text-xs text-parchment-400 line-clamp-2'>
-              {players.join(', ')}
+              {players.map((player) => player.name).join(', ')}
             </span>
           </div>
 
@@ -230,7 +229,8 @@ export function RoleAssignment({
 
             {/* Player list */}
             <div className='space-y-2 mb-4'>
-              {players.map((playerName) => {
+              {players.map((player, seat) => {
+                const playerName = player.id
                 const isExpanded = expandedPlayer === playerName
                 const currentRole = assignments[playerName]
                 const role = currentRole ? getRole(currentRole) : null
@@ -238,7 +238,7 @@ export function RoleAssignment({
 
                 return (
                   <div
-                    key={playerName}
+                    key={player.id}
                     className={cn(
                       'rounded-xl border transition-all',
                       isExpanded
@@ -257,7 +257,7 @@ export function RoleAssignment({
                       className='w-full flex items-center justify-between p-3 text-left'
                     >
                       <span className='text-parchment-100 font-medium text-sm'>
-                        {playerName}
+                        {seat + 1}. {player.name}
                       </span>
                       {role ? (
                         <Badge
@@ -383,7 +383,7 @@ export function RoleAssignment({
       <ScreenFooter>
         <Button onClick={handleStart} fullWidth size='lg' variant='gold'>
           <Icon name='play' size='md' className='mr-2' />
-          {t.common.startGame}
+          {t.setupReview.reviewSetup}
         </Button>
       </ScreenFooter>
     </div>
