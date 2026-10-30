@@ -5,6 +5,7 @@ import { ScreenFooter } from './ScreenFooter'
 import { useI18n, interpolate } from '../../lib/i18n'
 import { cn } from '../../lib/utils'
 import type { NightStepAudience } from '../../lib/roles/types'
+import { NightGuidance } from './NightGuidance'
 
 type NarratorSetupLayoutProps = {
   icon: IconName
@@ -53,7 +54,11 @@ export function NarratorSetupLayout({
       {audience === 'narrator' && (
         <div className='mx-4 mt-4 mb-0 max-w-lg self-center w-full'>
           <div className='flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-900/30 border border-blue-500/30'>
-            <Icon name='eye' size='sm' className='text-blue-400 flex-shrink-0' />
+            <Icon
+              name='eye'
+              size='sm'
+              className='text-blue-400 flex-shrink-0'
+            />
             <span className='text-blue-300 text-xs'>
               {t.game.storytellerDecision}
             </span>
@@ -95,7 +100,9 @@ export function NarratorSetupLayout({
             <Icon
               name={icon}
               size='2xl'
-              className={cn(isPlayerChoice ? 'text-amber-300' : 'text-blue-300')}
+              className={cn(
+                isPlayerChoice ? 'text-amber-300' : 'text-blue-300',
+              )}
             />
           </div>
         </div>
@@ -109,6 +116,7 @@ export function NarratorSetupLayout({
 
       {/* Content */}
       <div className='flex-1 px-4 pb-4 max-w-lg mx-auto w-full overflow-y-auto'>
+        <NightGuidance />
         {children}
       </div>
 

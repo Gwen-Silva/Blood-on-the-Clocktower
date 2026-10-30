@@ -63,7 +63,8 @@ import { VotingPhase } from './VotingPhase'
 import { GameOver } from './GameOver'
 import { HistoryView } from './HistoryView'
 import { GrimoireModal, type GrimoireIntent } from '../items/GrimoireModal'
-import { Icon, LanguagePicker } from '../atoms'
+import { Icon, LanguagePicker, BackButton } from '../atoms'
+import { NightRoleContext } from '../layouts/NightGuidance'
 import { EndDayConfirmation } from './EndDayConfirmation'
 import { NightActionResult, SetupActionResult } from '../../lib/roles/types'
 import type { FC } from 'react'
@@ -658,7 +659,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   const playerReferenceEntry = canOpenPlayerReference ? (
     <button
       onClick={openPlayerReference}
-      className='min-h-12 px-4 rounded-full bg-grimoire-dark/90 border border-mystic-gold/30 text-mystic-gold shadow-lg text-sm'
+      className='min-h-11 px-3 py-2 rounded-lg border border-mystic-gold/30 text-mystic-gold text-xs leading-snug'
     >
       {t.playerReference.title}
     </button>
@@ -683,13 +684,13 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     screen.type !== 'dawn'
   ) {
     return (
-      <div className='relative'>
-        <HistoryView game={game} onClose={() => setShowHistory(false)} />
-        <div className='fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4'>
+      <div className='game-shell'>
+        <div className='game-tools'>
           {playerReferenceEntry}
+          <LanguagePicker />
         </div>
-        <div className='fixed top-4 right-4 z-50'>
-          <LanguagePicker variant='floating' />
+        <div className='game-content'>
+          <HistoryView game={game} onClose={() => setShowHistory(false)} />
         </div>
       </div>
     )
@@ -956,40 +957,48 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     !isPlayerFacing
 
   return (
-    <div className='relative'>
-      <PlayerFacingContext.Provider value={playerFacingCtx}>
-        {renderScreen()}
-      </PlayerFacingContext.Provider>
-
-      {/* Floating Language Toggle */}
-      <div className='fixed top-4 right-4 z-50'>
-        <LanguagePicker variant='floating' />
-      </div>
-
-      {/* Floating Action Buttons */}
+    <div className='game-shell'>
       {showFloatingButtons && (
-        <div className='fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 flex flex-col gap-2'>
+        <nav className='game-tools' aria-label={t.nightGuide.actions}>
+          {screen.type === 'night_action' && (
+            <BackButton
+              label={t.common.back}
+              onClick={() => setScreen({ type: 'night_dashboard' })}
+            />
+          )}
           {playerReferenceEntry}
           <button
             onClick={() => {
               setGrimoireIntent({ view: 'list' })
               setShowGrimoire(true)
             }}
-            className='w-12 h-12 rounded-full bg-grimoire-dark/90 border border-mystic-gold/30 text-mystic-gold flex items-center justify-center shadow-lg hover:bg-grimoire-dark hover:border-mystic-gold/50 transition-colors'
+            className='game-tool'
             title={t.game.grimoire}
           >
             <Icon name='bookUser' size='md' />
+            <span>{t.game.grimoire}</span>
           </button>
 
           <button
             onClick={() => setShowHistory(true)}
-            className='w-12 h-12 rounded-full bg-grimoire-dark/90 border border-parchment-500/30 text-parchment-400 flex items-center justify-center shadow-lg hover:bg-grimoire-dark hover:border-parchment-400/50 hover:text-parchment-300 transition-colors'
+            className='game-tool'
             title={t.common.history}
           >
             <Icon name='history' size='md' />
+            <span>{t.common.history}</span>
           </button>
-        </div>
+          <LanguagePicker variant='floating' />
+        </nav>
       )}
+      <div className='game-content'>
+        <PlayerFacingContext.Provider value={playerFacingCtx}>
+          <NightRoleContext.Provider
+            value={screen.type === 'night_action' ? screen.roleId : null}
+          >
+            {renderScreen()}
+          </NightRoleContext.Provider>
+        </PlayerFacingContext.Provider>
+      </div>
 
       <EndDayConfirmation
         open={

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { GameState, PlayerState } from '../../lib/types'
 import { AvailableDayAction } from '../../lib/pipeline/types'
 import { useI18n, interpolate } from '../../lib/i18n'
-import { Button, Icon } from '../atoms'
+import { Button, Icon, BackButton } from '../atoms'
 import { Grimoire } from '../items/Grimoire'
 import { MysticDivider } from '../items'
 import { ScreenFooter } from '../layouts/ScreenFooter'
@@ -49,8 +49,8 @@ export function DayPhase({
 
   const deadPlayers = nightSummary
     ? nightSummary.deaths
-      .map((id) => state.players.find((p) => p.id === id))
-      .filter(Boolean)
+        .map((id) => state.players.find((p) => p.id === id))
+        .filter(Boolean)
     : []
 
   return (
@@ -60,12 +60,7 @@ export function DayPhase({
         <div className='max-w-lg mx-auto'>
           {/* Menu button row */}
           <div className='flex items-center mb-4'>
-            <button
-              onClick={onMainMenu}
-              className='p-3 -ml-3 text-parchment-500 hover:text-parchment-200 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center'
-            >
-              <Icon name='menu' size='md' />
-            </button>
+            <BackButton onClick={onMainMenu} label={t.common.mainMenu} />
           </div>
 
           {/* Title section */}
@@ -182,11 +177,7 @@ export function DayPhase({
               )}
             >
               <div className='w-12 h-12 rounded-full flex items-center justify-center transition-transform bg-red-900/40 border border-red-500/40 group-hover:scale-105'>
-                <Icon
-                  name='userX'
-                  size='lg'
-                  className='text-red-400'
-                />
+                <Icon name='userX' size='lg' className='text-red-400' />
               </div>
               <div className='flex-1 text-left'>
                 <div className='font-tarot text-parchment-100 tracking-wider uppercase'>
@@ -278,7 +269,9 @@ export function DayPhase({
         <Button onClick={onEndDay} fullWidth size='lg' variant='dawn'>
           <Icon name='moon' size='md' className='mr-2' />
           {blockStatus
-            ? interpolate(t.game.endDayExecute, { player: blockStatus.playerName })
+            ? interpolate(t.game.endDayExecute, {
+                player: blockStatus.playerName,
+              })
             : t.game.endDayNoExecution}
         </Button>
       </ScreenFooter>

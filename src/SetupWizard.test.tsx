@@ -64,7 +64,9 @@ function input(el: HTMLInputElement, value: string) {
   })
 }
 function back() {
-  clickElement(container.querySelector('button')!)
+  clickElement(
+    container.querySelector(`button[aria-label="${en.common.back}"]`)!,
+  )
 }
 
 it('real setup keeps duplicate-name identities across touch reorder, rename, back and persisted assignments', () => {

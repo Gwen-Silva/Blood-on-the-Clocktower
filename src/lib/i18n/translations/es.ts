@@ -1,6 +1,8 @@
 import { Translations } from '../types'
+import { nightGuidanceEs } from '../nightGuidance'
 
 const es: Translations = {
+  nightGuide: nightGuidanceEs,
   storageRecovery: {
     title: 'Hay un problema con la partida',
     read: 'No se pudieron leer las partidas. Comprueba que el navegador permita guardar datos y vuelve a cargar. No borres los datos del sitio.',

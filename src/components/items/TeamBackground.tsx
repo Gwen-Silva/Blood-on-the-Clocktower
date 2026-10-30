@@ -543,7 +543,7 @@ export function CardLink({ onClick, isEvil, children }: CardLinkProps) {
     <button
       onClick={onClick}
       className={cn(
-        'mt-5 text-sm underline underline-offset-4 decoration-1 transition-colors',
+        'mt-5 min-h-11 px-4 py-3 shrink-0 text-sm underline underline-offset-4 decoration-1 transition-colors',
         isEvil
           ? 'text-red-300/70 hover:text-red-200 decoration-red-400/40'
           : 'text-parchment-300/70 hover:text-parchment-100 decoration-parchment-400/40',

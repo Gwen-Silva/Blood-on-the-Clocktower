@@ -1,6 +1,8 @@
 import { Translations } from '../types'
+import { nightGuidanceEn } from '../nightGuidance'
 
 const en: Translations = {
+  nightGuide: nightGuidanceEn,
   storageRecovery: {
     title: 'Your game needs attention',
     read: 'The app could not read saved games. Check that this browser allows site storage, then reload. Do not clear site data.',

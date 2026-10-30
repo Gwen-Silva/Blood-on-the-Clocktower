@@ -25,6 +25,7 @@ import { Icon } from '../atoms'
 import { IconName } from '../atoms/icon'
 import { perceive, canRegisterAsTeam } from '../../lib/pipeline'
 import { isMalfunctioning } from '../../lib/effects'
+import { NightGuidance } from '../layouts/NightGuidance'
 
 // ============================================================================
 // CONFIG TYPE
@@ -658,6 +659,7 @@ export function InfoRoleNightAction({
           title={labels.infoTitle}
           description={labels.noTargetMessage}
         >
+          <NightGuidance roleId={config.roleId} audience='player' />
           <RoleRevealBadge icon='sparkles' roleName={labels.noTargetTitle} />
 
           <HandbackButton
@@ -689,6 +691,7 @@ export function InfoRoleNightAction({
   return (
     <PlayerFacingScreen playerName={player.name}>
       <TeamBackground teamId={shownTeamId}>
+        <NightGuidance roleId={config.roleId} audience='player' />
         <div
           className={`text-center text-sm mb-5 max-w-sm mx-auto ${shownTeam.isEvil ? 'text-red-300/80' : 'text-parchment-300/80'}`}
         >

@@ -81,7 +81,15 @@ const DialogContent = React.forwardRef<
   }, [])
 
   const bind = useDrag(
-    ({ movement: [, my], velocity: [, vy], direction: [, dy], first, last, cancel, memo }) => {
+    ({
+      movement: [, my],
+      velocity: [, vy],
+      direction: [, dy],
+      first,
+      last,
+      cancel,
+      memo,
+    }) => {
       if (first) {
         const scrollable = bodyRef.current
         if (scrollable && scrollable.scrollTop > 0) {
@@ -95,7 +103,10 @@ const DialogContent = React.forwardRef<
 
       if (last) {
         setIsDragging(false)
-        if (clampedY > DISMISS_THRESHOLD || (vy > VELOCITY_THRESHOLD && dy > 0)) {
+        if (
+          clampedY > DISMISS_THRESHOLD ||
+          (vy > VELOCITY_THRESHOLD && dy > 0)
+        ) {
           dismiss()
         } else {
           setDragY(0)
@@ -137,7 +148,8 @@ const DialogContent = React.forwardRef<
           // When drag-dismissing, skip the keyframe animation — it would
           // flash the overlay back to opacity 1 (its first keyframe).
           // Instead, we use a CSS transition to fade from current opacity to 0.
-          !dragDismissing && 'data-[state=open]:animate-overlay-in data-[state=closed]:animate-overlay-out',
+          !dragDismissing &&
+            'data-[state=open]:animate-overlay-in data-[state=closed]:animate-overlay-out',
         )}
         style={
           dragDismissing
@@ -166,15 +178,18 @@ const DialogContent = React.forwardRef<
         {...props}
       >
         {/* Drag handle area — main drag target */}
-        <div {...bind()} className='flex justify-center py-3 cursor-grab active:cursor-grabbing touch-none'>
-          <div className={cn(
-            'w-12 h-1 rounded-full transition-all duration-150',
-            isDragging ? 'bg-parchment-500/60 w-16' : 'bg-parchment-500/30',
-          )} />
+        <div
+          {...bind()}
+          className='flex justify-center py-3 cursor-grab active:cursor-grabbing touch-none'
+        >
+          <div
+            className={cn(
+              'w-12 h-1 rounded-full transition-all duration-150',
+              isDragging ? 'bg-parchment-500/60 w-16' : 'bg-parchment-500/30',
+            )}
+          />
         </div>
-        <DialogContentInner bodyRef={bodyRef}>
-          {children}
-        </DialogContentInner>
+        <DialogContentInner bodyRef={bodyRef}>{children}</DialogContentInner>
         <DialogPrimitive.Close
           ref={closeRef}
           className='absolute right-3 top-3 p-3 rounded-full text-parchment-400 hover:text-parchment-100 hover:bg-white/10 active:bg-white/20 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center'
@@ -192,7 +207,8 @@ DialogContent.displayName = DialogPrimitive.Content.displayName
  * Inner wrapper that passes the body ref to DialogBody children via context.
  * This lets the drag handler know when the body is scrolled.
  */
-const DialogBodyRefContext = React.createContext<React.RefObject<HTMLDivElement | null> | null>(null)
+const DialogBodyRefContext =
+  React.createContext<React.RefObject<HTMLDivElement | null> | null>(null)
 
 function DialogContentInner({
   children,
@@ -212,7 +228,10 @@ const DialogHeader = ({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('px-6 pb-4 text-center', className)} {...props} />
+  <div
+    className={cn('pl-6 pr-16 pb-4 text-center shrink-0', className)}
+    {...props}
+  />
 )
 DialogHeader.displayName = 'DialogHeader'
 
@@ -252,7 +271,8 @@ const DialogBody = ({
   const setRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (bodyRef) {
-        ;(bodyRef as React.MutableRefObject<HTMLDivElement | null>).current = node
+        ;(bodyRef as React.MutableRefObject<HTMLDivElement | null>).current =
+          node
       }
     },
     [bodyRef],
@@ -261,7 +281,10 @@ const DialogBody = ({
   return (
     <div
       ref={setRef}
-      className={cn('flex-1 overflow-y-auto px-6 pb-6', className)}
+      className={cn(
+        'flex-1 min-h-0 overflow-y-auto px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]',
+        className,
+      )}
       {...props}
     />
   )

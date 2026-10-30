@@ -139,10 +139,7 @@ export function VotingPhase({
         <div className='max-w-lg mx-auto'>
           {/* Back button row */}
           <div className='flex items-center mb-4'>
-            <BackButton onClick={onCancel} />
-            <span className='text-parchment-500 text-xs ml-1'>
-              {t.game.cancelNomination}
-            </span>
+            <BackButton onClick={onCancel} label={t.game.cancelNomination} />
           </div>
 
           {/* Title section */}

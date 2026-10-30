@@ -4,6 +4,7 @@ import { IconName } from '../atoms/icon'
 import { cn } from '../../lib/utils'
 import { useI18n } from '../../lib/i18n'
 import type { NightStepAudience } from '../../lib/roles/types'
+import { NightGuidance } from './NightGuidance'
 
 // ============================================================================
 // STEP TYPE
@@ -119,6 +120,7 @@ export function NightStepListLayout({
 
       {/* Steps List */}
       <div className='flex-1 px-4 pb-6 max-w-lg mx-auto w-full'>
+        <NightGuidance />
         <div className='flex items-center gap-2 mb-3 px-1'>
           <Icon
             name='listOrdered'

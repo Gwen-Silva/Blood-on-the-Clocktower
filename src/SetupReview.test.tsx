@@ -67,7 +67,13 @@ function click(text: string) {
   act(() => button(text).click())
 }
 function back() {
-  act(() => container.querySelector<HTMLButtonElement>('button')!.click())
+  act(() =>
+    container
+      .querySelector<HTMLButtonElement>(
+        `button[aria-label="${en.common.back}"]`,
+      )!
+      .click(),
+  )
 }
 function inputs() {
   return [...container.querySelectorAll<HTMLInputElement>('input[type="text"]')]

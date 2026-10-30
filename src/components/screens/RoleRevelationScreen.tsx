@@ -56,10 +56,7 @@ export function RoleRevelationScreen({
         <div className='max-w-lg mx-auto'>
           {/* Back button row */}
           <div className='flex items-center mb-4'>
-            <BackButton onClick={onMainMenu} />
-            <span className='text-parchment-500 text-xs ml-1'>
-              {t.common.mainMenu}
-            </span>
+            <BackButton onClick={onMainMenu} label={t.common.mainMenu} />
           </div>
 
           {/* Title section */}
@@ -71,7 +68,7 @@ export function RoleRevelationScreen({
                 className='text-mystic-gold text-glow-gold'
               />
             </div>
-            <h1 className='font-tarot text-2xl text-parchment-100 tracking-widest-xl uppercase'>
+            <h1 className='font-tarot text-xl sm:text-2xl text-parchment-100 tracking-wider leading-tight uppercase'>
               {t.game.roleRevelation}
             </h1>
             <p className='text-parchment-400 text-sm'>

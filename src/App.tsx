@@ -196,15 +196,17 @@ function AppRoutes() {
     }
 
     return (
-      <div className='relative'>
-        <RolesLibrary
-          selectedRoleId={selectedRoleId}
-          onBack={() => navigate('/')}
-          onSelectRole={(id) => navigate(`/roles/${id}`)}
-          onDeselectRole={() => navigate('/roles')}
-        />
-        <div className='fixed top-4 right-4 z-50'>
-          <LanguagePicker variant='floating' />
+      <div className='game-shell'>
+        <div className='game-tools'>
+          <LanguagePicker />
+        </div>
+        <div className='game-content'>
+          <RolesLibrary
+            selectedRoleId={selectedRoleId}
+            onBack={() => navigate('/')}
+            onSelectRole={(id) => navigate(`/roles/${id}`)}
+            onDeselectRole={() => navigate('/roles')}
+          />
         </div>
       </div>
     )
@@ -216,10 +218,12 @@ function AppRoutes() {
 
   if (routeType === 'how-to-play') {
     return (
-      <div className='relative'>
-        <HowToPlayScreen onBack={() => navigate('/')} />
-        <div className='fixed top-4 right-4 z-50'>
-          <LanguagePicker variant='floating' />
+      <div className='game-shell'>
+        <div className='game-tools'>
+          <LanguagePicker />
+        </div>
+        <div className='game-content'>
+          <HowToPlayScreen onBack={() => navigate('/')} />
         </div>
       </div>
     )
@@ -310,11 +314,11 @@ function AppRoutes() {
   }
 
   return (
-    <div className='relative'>
-      {renderHome()}
-      <div className='fixed top-4 right-4 z-50'>
-        <LanguagePicker variant='floating' />
+    <div className='game-shell'>
+      <div className='game-tools'>
+        <LanguagePicker />
       </div>
+      <div className='game-content'>{renderHome()}</div>
     </div>
   )
 }

@@ -1,6 +1,8 @@
+import type { NightGuidanceTranslations } from './nightGuidance'
 export type Language = 'en' | 'es'
 
 export type Translations = {
+  nightGuide: NightGuidanceTranslations
   storageRecovery: {
     title: string
     read: string

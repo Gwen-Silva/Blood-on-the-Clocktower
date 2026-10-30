@@ -6,7 +6,7 @@ import { getTeam, TeamId } from '../../lib/teams'
 import { useI18n, getRoleName, getRoleDescription } from '../../lib/i18n'
 import { Icon, BackButton } from '../atoms'
 import { RoleCard } from '../items/RoleCard'
-import { TeamBackground, CardLink } from '../items/TeamBackground'
+import { TeamBackground } from '../items/TeamBackground'
 import { MysticDivider } from '../items'
 import { cn } from '../../lib/utils'
 
@@ -76,43 +76,57 @@ export function RolesLibrary({
     }
 
     return (
-      <TeamBackground teamId={selectedTeamId}>
-        {/* Navigation arrows */}
-        <button
-          aria-label={t.playerReference.previousCharacter}
-          onClick={goToPrev}
-          className={cn(
-            'absolute left-1 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-colors',
-            selectedTeam.isEvil
-              ? 'text-red-400/50 hover:text-red-300 hover:bg-red-900/20'
-              : 'text-parchment-400/50 hover:text-parchment-200 hover:bg-white/10',
+      <div className='min-h-app flex flex-col bg-grimoire-dark'>
+        <div className='screen-navigation'>
+          <BackButton onClick={onDeselectRole} label={t.common.back} />
+          {backLabel && (
+            <button
+              onClick={onBack}
+              className='min-h-11 px-3 py-2 text-sm text-mystic-gold leading-snug'
+            >
+              {backLabel}
+            </button>
           )}
-        >
-          <Icon name='chevronLeft' size='xl' />
-        </button>
-        <button
-          aria-label={t.playerReference.nextCharacter}
-          onClick={goToNext}
-          className={cn(
-            'absolute right-1 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-colors',
-            selectedTeam.isEvil
-              ? 'text-red-400/50 hover:text-red-300 hover:bg-red-900/20'
-              : 'text-parchment-400/50 hover:text-parchment-200 hover:bg-white/10',
-          )}
-        >
-          <Icon name='chevronRight' size='xl' />
-        </button>
+        </div>
+        <div className='reference-detail-content'>
+          <TeamBackground teamId={selectedTeamId}>
+            {/* Navigation arrows */}
+            <div className='flex justify-between gap-4 w-full max-w-sm mb-4'>
+              <button
+                aria-label={t.playerReference.previousCharacter}
+                onClick={goToPrev}
+                className={cn(
+                  'w-12 h-12 rounded-full flex items-center justify-center transition-colors',
+                  selectedTeam.isEvil
+                    ? 'text-red-400/50 hover:text-red-300 hover:bg-red-900/20'
+                    : 'text-parchment-400/50 hover:text-parchment-200 hover:bg-white/10',
+                )}
+              >
+                <Icon name='chevronLeft' size='xl' />
+              </button>
+              <button
+                aria-label={t.playerReference.nextCharacter}
+                onClick={goToNext}
+                className={cn(
+                  'w-12 h-12 rounded-full flex items-center justify-center transition-colors',
+                  selectedTeam.isEvil
+                    ? 'text-red-400/50 hover:text-red-300 hover:bg-red-900/20'
+                    : 'text-parchment-400/50 hover:text-parchment-200 hover:bg-white/10',
+                )}
+              >
+                <Icon name='chevronRight' size='xl' />
+              </button>
+            </div>
 
-        <RoleCard roleId={selectedRoleId} />
-        {showAbilityDescription && (
-          <p className='max-w-sm text-sm text-parchment-200 leading-relaxed text-center px-4 mt-4'>
-            {getRoleDescription(selectedRoleId, language)}
-          </p>
-        )}
-        <CardLink onClick={onDeselectRole} isEvil={selectedTeam.isEvil}>
-          {t.common.back}
-        </CardLink>
-      </TeamBackground>
+            <RoleCard roleId={selectedRoleId} />
+            {showAbilityDescription && (
+              <p className='max-w-sm text-sm text-parchment-200 leading-relaxed text-center px-4 mt-4'>
+                {getRoleDescription(selectedRoleId, language)}
+              </p>
+            )}
+          </TeamBackground>
+        </div>
+      </div>
     )
   }
 
@@ -120,19 +134,19 @@ export function RolesLibrary({
     <div className='min-h-app bg-gradient-to-b from-grimoire-purple via-grimoire-dark to-grimoire-darker flex flex-col'>
       {/* Header */}
       <div className='px-4 pt-6 pb-4'>
-        <div className='flex items-center gap-3 mb-4'>
+        <div className='screen-navigation mb-3'>
           <BackButton onClick={onBack} label={backLabel} />
-          <div>
-            <h1 className='font-tarot text-xl text-parchment-100 tracking-wider uppercase'>
-              {title ?? t.mainMenu.rolesLibrary}
-            </h1>
-            <p className='text-sm text-parchment-400'>
-              {introduction ?? t.mainMenu.browseAllRoles}
-            </p>
-            <p className='text-xs text-parchment-500 mt-2'>
-              {scriptRoles.length} {t.common.roles}
-            </p>
-          </div>
+        </div>
+        <div className='max-w-lg mx-auto mb-4'>
+          <h1 className='font-tarot text-xl text-parchment-100 tracking-wider uppercase'>
+            {title ?? t.mainMenu.rolesLibrary}
+          </h1>
+          <p className='text-sm text-parchment-400'>
+            {introduction ?? t.mainMenu.browseAllRoles}
+          </p>
+          <p className='text-xs text-parchment-500 mt-2'>
+            {scriptRoles.length} {t.common.roles}
+          </p>
         </div>
         <MysticDivider />
       </div>

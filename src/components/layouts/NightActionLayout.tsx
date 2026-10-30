@@ -6,6 +6,7 @@ import { Icon } from '../atoms'
 import { MysticDivider } from '../items'
 import { cn } from '../../lib/utils'
 import type { NightStepAudience } from '../../lib/roles/types'
+import { NightGuidance } from './NightGuidance'
 
 type Props = {
   player: PlayerState
@@ -80,7 +81,11 @@ export function NightActionLayout({
       {audience === 'narrator' && (
         <div className='mx-4 mt-4 mb-0 max-w-lg self-center w-full'>
           <div className='flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-900/30 border border-blue-500/30'>
-            <Icon name='eye' size='sm' className='text-blue-400 flex-shrink-0' />
+            <Icon
+              name='eye'
+              size='sm'
+              className='text-blue-400 flex-shrink-0'
+            />
             <span className='text-blue-300 text-xs'>
               {t.game.storytellerDecision}
             </span>
@@ -169,7 +174,12 @@ export function NightActionLayout({
       </div>
 
       {/* Content */}
-      <div className='flex-1 px-4 pb-6 max-w-lg mx-auto w-full'>{children}</div>
+      <div className='flex-1 px-4 pb-6 max-w-lg mx-auto w-full'>
+        {(audience === 'narrator' || audience === 'player_choice') && (
+          <NightGuidance roleId={player.roleId} />
+        )}
+        {children}
+      </div>
     </div>
   )
 }

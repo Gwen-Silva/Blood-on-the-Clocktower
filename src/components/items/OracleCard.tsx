@@ -5,6 +5,7 @@ import { Icon } from '../atoms'
 import { IconName } from '../atoms/icon'
 import { MysticDivider } from './MysticDivider'
 import { CardShell } from './RoleCard/CardShell'
+import { NightGuidance } from '../layouts/NightGuidance'
 import { CardIcon } from './RoleCard/CardIcon'
 
 // ─── OracleCard ──────────────────────────────────────────────────────────────
@@ -40,40 +41,43 @@ export function OracleCard({
   const team = getTeam(teamId)
 
   return (
-    <CardShell teamId={teamId} icon={icon}>
-      {/* Icon with arcane seal */}
-      <CardIcon icon={icon} teamId={teamId} />
+    <>
+      <CardShell teamId={teamId} icon={icon}>
+        {/* Icon with arcane seal */}
+        <CardIcon icon={icon} teamId={teamId} />
 
-      {/* Title */}
-      <h1
-        className={cn(
-          'font-tarot text-xl sm:text-3xl font-bold text-center uppercase tracking-widest-xl mb-2',
-          team.colors.cardText,
-        )}
-        style={{ textShadow: team.colors.cardIconGlow }}
-      >
-        {title}
-      </h1>
+        {/* Title */}
+        <h1
+          className={cn(
+            'font-tarot text-xl sm:text-3xl font-bold text-center uppercase tracking-widest-xl mb-2',
+            team.colors.cardText,
+          )}
+          style={{ textShadow: team.colors.cardIconGlow }}
+        >
+          {title}
+        </h1>
 
-      {/* Subtitle (role name) */}
-      <p
-        className={cn(
-          'text-center text-xs tracking-widest uppercase mb-3 sm:mb-6',
-          team.colors.cardTeamBadge,
-        )}
-      >
-        {subtitle}
-      </p>
+        {/* Subtitle (role name) */}
+        <p
+          className={cn(
+            'text-center text-xs tracking-widest uppercase mb-3 sm:mb-6',
+            team.colors.cardTeamBadge,
+          )}
+        >
+          {subtitle}
+        </p>
 
-      {/* Divider — team-specific icon */}
-      <MysticDivider
-        icon={team.colors.cardDividerIcon}
-        iconClassName={cn(team.colors.cardWinAccent, 'opacity-50')}
-      />
+        {/* Divider — team-specific icon */}
+        <MysticDivider
+          icon={team.colors.cardDividerIcon}
+          iconClassName={cn(team.colors.cardWinAccent, 'opacity-50')}
+        />
 
-      {/* Result content */}
-      {children}
-    </CardShell>
+        {/* Result content */}
+        {children}
+      </CardShell>
+      <NightGuidance audience='player' />
+    </>
   )
 }
 

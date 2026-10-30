@@ -12,7 +12,7 @@ import {
 import { getAvailableNightFollowUps } from '../../lib/pipeline'
 import { AvailableNightFollowUp } from '../../lib/pipeline/types'
 import { useI18n, getRoleName } from '../../lib/i18n'
-import { Button, Icon } from '../atoms'
+import { Button, Icon, BackButton } from '../atoms'
 import {
   Dialog,
   DialogContent,
@@ -25,6 +25,7 @@ import { Grimoire } from '../items/Grimoire'
 import { MysticDivider } from '../items'
 import { ScreenFooter } from '../layouts/ScreenFooter'
 import { cn } from '../../lib/utils'
+import { NightGuidance } from '../layouts/NightGuidance'
 
 // ============================================================================
 // UNIFIED NIGHT DASHBOARD ITEM
@@ -118,12 +119,7 @@ export function NightDashboard({
         <div className='max-w-lg mx-auto'>
           {/* Menu button row */}
           <div className='flex items-center mb-4'>
-            <button
-              onClick={onMainMenu}
-              className='p-3 -ml-3 text-parchment-500 hover:text-parchment-200 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center'
-            >
-              <Icon name='menu' size='md' />
-            </button>
+            <BackButton onClick={onMainMenu} label={t.common.mainMenu} />
           </div>
 
           {/* Title section */}
@@ -143,6 +139,12 @@ export function NightDashboard({
 
       {/* Content */}
       <div className='flex-1 px-4 pb-4 max-w-lg mx-auto w-full overflow-y-auto'>
+        <p className='text-sm leading-relaxed text-parchment-300 mb-4'>
+          {t.nightGuide.dashboard}
+        </p>
+        {items[nextPendingIndex]?.type === 'night_action' && (
+          <NightGuidance roleId={items[nextPendingIndex].data.roleId} compact />
+        )}
         {/* Night Actions List */}
         <div className='mb-6'>
           <div className='flex items-center gap-2 mb-3 px-1'>

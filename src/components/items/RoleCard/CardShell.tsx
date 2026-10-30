@@ -82,7 +82,7 @@ export function CardShell({ teamId, icon, children }: CardShellProps) {
     >
       <div
         className={cn(
-          'animate-card-float card-border-glow relative rounded-xl border-2 overflow-hidden aspect-[2.5/3.5] flex flex-col',
+          'animate-card-float card-border-glow relative rounded-xl border-2 overflow-hidden min-h-[26rem] sm:aspect-[2.5/3.5] flex flex-col',
           team.colors.cardBg,
           team.colors.cardBorder,
         )}
