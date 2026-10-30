@@ -1,7 +1,7 @@
 const en = {
   name: 'Butler',
   description:
-    'Each night, choose another player. Tomorrow you may vote only while they are voting.',
+    'Each night, choose another player as your master. Tomorrow you may vote only if they are also voting.',
   quote: 'I serve at the pleasure of my master. They say when I speak.',
   lines: [
     {
@@ -14,7 +14,7 @@ const en = {
     },
     {
       type: 'ADVICE',
-      text: 'You can abstain from voting even if your master votes.',
+      text: 'Even if your master votes, you may choose not to vote.',
     },
     { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],

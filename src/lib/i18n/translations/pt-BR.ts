@@ -4,6 +4,9 @@ import { aboutPtBR } from '../about'
 const ptBR: Translations = {
   about: aboutPtBR,
   clarity: {
+    rules: 'Ver regras',
+    officialWiki: 'Consultar wiki oficial',
+    saintNote: 'A morte à noite não aciona essa derrota.',
     details: 'Detalhes',
     notes: 'Notas do Narrador',
     yourAbility: 'Sua habilidade',

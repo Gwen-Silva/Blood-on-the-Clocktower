@@ -1,3 +1,4 @@
+import { formatGamePhase, displayGameName } from '../../lib/gamePresentation'
 import { useCallback, useRef, useState } from 'react'
 import {
   getGameSummaries,
@@ -230,11 +231,7 @@ export function MainMenu({
     })
   }
 
-  const formatPhase = (game: GameSummary) => {
-    if (game.phase === 'ended') return t.mainMenu.completed
-    if (game.phase === 'setup') return t.mainMenu.settingUp
-    return `${t.mainMenu.round} ${game.round} - ${game.phase}`
-  }
+  const formatPhase = (game: GameSummary) => formatGamePhase(game, t)
 
   // ── Render ──────────────────────────────────────────────────────────────
 
@@ -416,7 +413,8 @@ export function MainMenu({
                             {t.mainMenu.continueGame}
                           </div>
                           <div className='text-sm text-parchment-400 mt-1'>
-                            {currentGame.name} • {formatPhase(currentGame)}
+                            {displayGameName(currentGame, language, t)} •{' '}
+                            {formatPhase(currentGame)}
                           </div>
                         </div>
                         <Icon
@@ -575,7 +573,7 @@ export function MainMenu({
                       />
                       <div className='flex-1 min-w-0'>
                         <div className='text-parchment-200 group-hover:text-parchment-100 truncate'>
-                          {game.name}
+                          {displayGameName(game, language, t)}
                         </div>
                         <div className='text-xs text-parchment-500'>
                           {game.playerCount} {t.common.players.toLowerCase()} •{' '}

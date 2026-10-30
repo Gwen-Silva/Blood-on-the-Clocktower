@@ -1,4 +1,7 @@
 export const clarityEn = {
+  rules: 'View rules',
+  officialWiki: 'Consult official wiki',
+  saintNote: 'Dying at night does not trigger this loss.',
   details: 'Details',
   notes: 'Storyteller notes',
   yourAbility: 'Your ability',
@@ -18,6 +21,9 @@ export const clarityEn = {
   decrease: 'Decrease number',
 }
 export const clarityEs: typeof clarityEn = {
+  rules: 'Ver reglas',
+  officialWiki: 'Consultar wiki oficial',
+  saintNote: 'Morir de noche no provoca esta derrota.',
   details: 'Detalles',
   notes: 'Notas del Cuentacuentos',
   yourAbility: 'Tu habilidad',

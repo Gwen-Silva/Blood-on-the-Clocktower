@@ -561,3 +561,40 @@
 .grimoire-seal-fade {
   animation: sealFadeOut 400ms ease-out both;
 }
+
+/* Role names wrap only at word boundaries; individual words fit measured width. */
+.min-h-app .role-card-name,
+.role-card-name {
+  width: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  font-size: clamp(1.25rem, 6vw, 1.875rem);
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+.role-rules-dialog {
+  max-width: none;
+  max-height: 90vh;
+  max-height: 90dvh;
+}
+.role-rules-name {
+  overflow-wrap: normal;
+  word-break: normal;
+  letter-spacing: 0.025em;
+}
+@media (min-width: 640px) {
+  .role-rules-dialog {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: min(42rem, calc(100% - 3rem));
+    max-height: 85vh;
+    max-height: 85dvh;
+    border: 1px solid rgb(212 175 55 / 0.3);
+    border-radius: 1rem;
+    transform: translate(-50%, -50%);
+    animation: none;
+  }
+}

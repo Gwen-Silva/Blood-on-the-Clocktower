@@ -1,7 +1,7 @@
 const es = {
   name: 'Mayordomo',
   description:
-    'Cada noche, elige a otro jugador. Mañana solo puedes votar mientras también vote.',
+    'Cada noche, elige a otro jugador como tu amo. Al día siguiente, solo puedes votar si también vota.',
   quote: 'Sirvo a voluntad de mi amo. Él decide cuándo puedo hablar.',
   lines: [
     {
@@ -14,7 +14,7 @@ const es = {
     },
     {
       type: 'ADVICE',
-      text: 'Puedes abstenerte de votar incluso si tu amo vota.',
+      text: 'Aunque tu amo vote, puedes elegir no votar.',
     },
     {
       type: 'WIN',

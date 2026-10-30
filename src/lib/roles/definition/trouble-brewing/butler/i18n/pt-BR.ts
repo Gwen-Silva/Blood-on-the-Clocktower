@@ -1,7 +1,7 @@
 const ptBR = {
   name: 'Mordomo',
   description:
-    'A cada noite, escolha outro jogador. Amanhã, você só pode votar enquanto essa pessoa também vota.',
+    'A cada noite, escolha outro jogador como mestre. No dia seguinte, você só pode votar se ele também votar.',
   quote: 'Sirvo ao meu mestre. Ele decide quando posso falar.',
   lines: [
     {
@@ -14,7 +14,7 @@ const ptBR = {
     },
     {
       type: 'ADVICE',
-      text: 'Você pode não votar, mesmo que seu mestre vote.',
+      text: 'Mesmo que seu mestre vote, você pode escolher não votar.',
     },
     {
       type: 'WIN',
