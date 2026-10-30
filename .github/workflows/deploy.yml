@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [release/weekend-2026-10-31]
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -15,10 +15,11 @@ permissions:
 # Allow only one concurrent deployment
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/release/weekend-2026-10-31'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -36,8 +37,13 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Typecheck
+        run: npm run tc
+
       - name: Build
         run: npm run build
+        env:
+          VITE_BASE_PATH: /Blood-on-the-Clocktower/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
