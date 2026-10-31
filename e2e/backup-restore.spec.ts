@@ -214,6 +214,9 @@ test('conflict preview requires a choice; cancel, replace and keep both preserve
     page.getByRole('button', { name: t.backup.confirm }),
   ).toBeDisabled()
   await expect(page.getByText(t.backup.conflict)).toBeVisible()
+  await expect(
+    page.getByRole('heading', { name: t.backup.foundOne, exact: true }),
+  ).toBeVisible()
   await page.getByLabel(t.backup.choose).selectOption('replace')
   await activate(
     page.getByRole('button', { name: t.common.cancel, exact: true }),

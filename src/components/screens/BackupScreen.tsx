@@ -123,7 +123,11 @@ export function BackupScreen({ onBack }: { onBack: () => void }) {
       {message && <p role='status'>{message}</p>}
       {preview && (
         <section aria-label={copy.restore} className='space-y-4'>
-          <h3>{interpolate(copy.found, { count: preview.games.length })}</h3>
+          <h3>
+            {preview.games.length === 1
+              ? copy.foundOne
+              : interpolate(copy.found, { count: preview.games.length })}
+          </h3>
           {!preview.games.length && <p>{copy.empty}</p>}
           {preview.games.map((game) => {
             const state = game.history.at(-1)!.stateAfter
