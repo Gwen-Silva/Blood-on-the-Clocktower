@@ -23,7 +23,12 @@ export function VoteCorrectionControl({
     return (
       <section className='rounded-xl border border-mystic-gold/30 p-4 mb-4 space-y-3'>
         <p>{copy.pending}</p>
-        <Button variant='gold' fullWidth onClick={onResume}>
+        <Button
+          variant='gold'
+          className='whitespace-normal h-auto min-h-12 py-3'
+          fullWidth
+          onClick={onResume}
+        >
           {copy.resume}
         </Button>
       </section>

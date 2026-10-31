@@ -184,6 +184,18 @@ for (const language of ['pt-BR', 'en', 'es'] as const)
     await activate(
       page.getByRole('button', { name: t.voteCorrection.action, exact: true }),
     )
+    const confirmation = page.getByRole('button', {
+      name: t.voteCorrection.confirm,
+      exact: true,
+    })
+    expect(
+      await confirmation.evaluate(
+        (button) => button.scrollWidth <= button.clientWidth,
+      ),
+    ).toBe(true)
+    const box = await confirmation.boundingBox()
+    expect(box!.height).toBeGreaterThanOrEqual(44)
+    expect(box!.width).toBeGreaterThanOrEqual(44)
     await page.screenshot({
       path: info.outputPath(`vote-${language}-confirmation.png`),
       animations: 'disabled',

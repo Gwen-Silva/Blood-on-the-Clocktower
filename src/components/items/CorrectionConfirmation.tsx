@@ -52,6 +52,7 @@ export function CorrectionConfirmation({
           )}
           <Button
             variant='gold'
+            className='whitespace-normal h-auto min-h-12 py-3'
             fullWidth
             disabled={failed}
             onClick={() => {
