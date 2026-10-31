@@ -157,3 +157,23 @@ export function getGameSummaries(): GameSummary[] {
     })
     .sort((a, b) => b.createdAt - a.createdAt)
 }
+
+/** Backup import only: compare the preview snapshot and commit the whole collection.
+ * localStorage.setItem is atomic on failure. Do not delete, migrate or retry a
+ * stale import, and never touch the current-game, language or audience keys. */
+export function getRawGames(): string | null {
+  return read(STORAGE_KEY)
+}
+export function replaceGamesFromBackup(
+  expected: string | null,
+  serialized: string,
+): void {
+  parseSavedGames(serialized)
+  if (read(STORAGE_KEY) !== expected)
+    throw new Error('Saved games changed since preview')
+  try {
+    localStorage.setItem(STORAGE_KEY, serialized)
+  } catch {
+    throw new GameStorageError('write')
+  }
+}

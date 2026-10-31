@@ -1,3 +1,4 @@
+import { backupEs } from '../backup'
 import { refinementEs } from '../refinement'
 import { libraryEs } from '../library'
 import { Translations } from '../types'
@@ -6,6 +7,7 @@ import { clarityEs } from '../clarity'
 import { aboutEs } from '../about'
 
 const es: Translations = {
+  backup: backupEs,
   refinement: refinementEs,
   library: libraryEs,
   about: aboutEs,

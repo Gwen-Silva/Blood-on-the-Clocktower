@@ -11,11 +11,11 @@ The app is for personal use. Keep the existing visual design. Work in small chan
 - Validate old saves and introduce an explicit save-format version.
 - Stop on failed writes and offer a private recovery download.
 
-Interrupted decisions restart from the last committed action. Unfinished choices are not restored. The recovery download is a safeguard, not yet a general import/export interface.
+Interrupted decisions restart from the last committed action. Unfinished choices are not restored. The recovery download remains a safeguard. Task 016 now adds a separate validated general backup/restore interface on the weekend release; see [release tracking](releases/TASKS.md).
 
 ## Next
 
-- Add normal export/import, with validation and a preview before replacing a game.
+- Delivered on the weekend release: normal backup/restore with validation, preview and explicit conflict confirmation ([Task 016](releases/TASK016.md)).
 - Test full browser journeys, reloads, private reveals and failed saves.
 - Review Butler voting against the table procedure, including Storyteller corrections.
 - Design corrections/undo with explicit consequences for history and revealed information.

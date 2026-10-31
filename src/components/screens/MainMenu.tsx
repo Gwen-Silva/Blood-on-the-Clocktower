@@ -152,6 +152,7 @@ type Props = {
   onContinue: (gameId: string) => void
   onLoadGame: (gameId: string) => void
   onRolesLibrary: () => void
+  onBackup: () => void
   onHowToPlay: () => void
 }
 
@@ -180,6 +181,7 @@ export function MainMenu({
   onLoadGame,
   onRolesLibrary,
   onHowToPlay,
+  onBackup,
 }: Props) {
   const { language, t } = useI18n()
   const games = getGameSummaries()
@@ -489,6 +491,13 @@ export function MainMenu({
                   className='text-sm text-parchment-400 hover:text-parchment-200 underline underline-offset-4 decoration-1 decoration-parchment-500/40 transition-colors tracking-wider'
                 >
                   {t.mainMenu.rolesLibrary}
+                </button>
+
+                <button
+                  onClick={onBackup}
+                  className='min-h-11 text-sm text-parchment-400 hover:text-parchment-200 underline underline-offset-4'
+                >
+                  {t.backup.title}
                 </button>
 
                 {games.length > 0 && (

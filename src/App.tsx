@@ -1,3 +1,4 @@
+import { BackupScreen } from './components/screens/BackupScreen'
 import { useI18n, interpolate, getLocale } from './lib/i18n'
 import { useEffect, useMemo, useState, useRef } from 'react'
 import {
@@ -219,6 +220,9 @@ function AppRoutes() {
   // Route: /how-to-play
   // ========================================================================
 
+  if (routeType === 'backup')
+    return <BackupScreen onBack={() => navigate('/')} />
+
   if (routeType === 'how-to-play') {
     return (
       <div className='game-shell'>
@@ -307,6 +311,7 @@ function AppRoutes() {
     // Main menu
     return (
       <MainMenu
+        onBackup={() => navigate('/backup')}
         onNewGame={handleNewGame}
         onContinue={(gameId) => navigate(`/game/${gameId}`)}
         onLoadGame={(gameId) => navigate(`/game/${gameId}`)}

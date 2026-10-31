@@ -1,3 +1,4 @@
+import type { backupEn } from './backup'
 import type { refinementEn } from './refinement'
 import type { libraryEn } from './library'
 import type { NightGuidanceTranslations } from './nightGuidance'
@@ -6,6 +7,7 @@ import type { aboutEn } from './about'
 export type Language = 'en' | 'es' | 'pt-BR'
 
 export type Translations = {
+  backup: typeof backupEn
   refinement: typeof refinementEn
   library: typeof libraryEn
   about: typeof aboutEn
