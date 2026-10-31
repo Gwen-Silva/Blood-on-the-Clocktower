@@ -158,7 +158,7 @@ export function getGameSummaries(): GameSummary[] {
     .sort((a, b) => b.createdAt - a.createdAt)
 }
 
-/** Backup import only: compare the preview snapshot and commit the whole collection.
+/** Import/correction transaction: compare the snapshot and commit the whole collection.
  * localStorage.setItem is atomic on failure. Do not delete, migrate or retry a
  * stale import, and never touch the current-game, language or audience keys. */
 export function getRawGames(): string | null {
@@ -176,4 +176,21 @@ export function replaceGamesFromBackup(
   } catch {
     throw new GameStorageError('write')
   }
+}
+
+/** Persist a correction only if the stored game is still the version confirmed
+ * by the Storyteller. No stale retry and no writes to selection or preferences. */
+export function saveGameIfUnchanged(game: Game, expected: Game): void {
+  const snapshot = read(STORAGE_KEY)
+  if (snapshot === null) throw new Error('Missing game')
+  const games = parseSavedGames(snapshot)
+  const index = games.findIndex((item) => item.id === expected.id)
+  if (
+    index < 0 ||
+    game.id !== expected.id ||
+    JSON.stringify(games[index]) !== JSON.stringify(expected)
+  )
+    throw new Error('Game changed since confirmation')
+  games[index] = game
+  replaceGamesFromBackup(snapshot, serializeGames(games))
 }

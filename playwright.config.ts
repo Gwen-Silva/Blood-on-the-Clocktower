@@ -18,7 +18,7 @@ export default defineConfig({
   projects: [
     {
       name: 'mobile-320',
-      testMatch: /(ui-refinement|backup-restore)\.spec\.ts/,
+      testMatch: /(ui-refinement|backup-restore|effect-correction)\.spec\.ts/,
       use: { viewport: { width: 320, height: 568 } },
     },
     ...[
@@ -31,7 +31,8 @@ export default defineConfig({
     })),
     {
       name: 'desktop',
-      testMatch: /(role-library|ui-refinement|backup-restore)\.spec\.ts/,
+      testMatch:
+        /(role-library|ui-refinement|backup-restore|effect-correction)\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1400, height: 900 },

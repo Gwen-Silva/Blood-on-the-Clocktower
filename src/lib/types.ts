@@ -74,6 +74,7 @@ export type EventType =
   | 'slayer_shot'
   | 'effect_added'
   | 'effect_removed'
+  | 'effect_corrected'
   | 'role_changed'
   | 'role_change_revealed'
   | 'setup_action'

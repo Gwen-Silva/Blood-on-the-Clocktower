@@ -1,3 +1,4 @@
+import { effectCorrectionPtBR } from '../effectCorrection'
 import { backupPtBR } from '../backup'
 import { refinementPtBR } from '../refinement'
 import { libraryPtBR } from '../library'
@@ -5,6 +6,7 @@ import type { Translations } from '../types'
 import { aboutPtBR } from '../about'
 
 const ptBR: Translations = {
+  effectCorrection: effectCorrectionPtBR,
   backup: backupPtBR,
   refinement: refinementPtBR,
   library: libraryPtBR,

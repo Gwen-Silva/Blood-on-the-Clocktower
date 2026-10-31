@@ -1,3 +1,4 @@
+import { effectCorrectionEs } from '../effectCorrection'
 import { backupEs } from '../backup'
 import { refinementEs } from '../refinement'
 import { libraryEs } from '../library'
@@ -7,6 +8,7 @@ import { clarityEs } from '../clarity'
 import { aboutEs } from '../about'
 
 const es: Translations = {
+  effectCorrection: effectCorrectionEs,
   backup: backupEs,
   refinement: refinementEs,
   library: libraryEs,

@@ -1,9 +1,11 @@
+import type { ReactNode } from 'react'
 import { Game, getCurrentState } from '../../lib/types'
 import { useI18n, interpolate, getLocale } from '../../lib/i18n'
 import { RichMessage } from '../items/RichMessage'
 import { Icon, IconName, BackButton } from '../atoms'
 
 type Props = {
+  correction?: ReactNode
   game: Game
   onClose: () => void
 }
@@ -21,10 +23,11 @@ const eventIcons: Record<string, { name: IconName; className: string }> = {
   execution: { name: 'skull', className: 'text-red-500' },
   effect_added: { name: 'sparkles', className: 'text-cyan-400' },
   effect_removed: { name: 'x', className: 'text-parchment-500' },
+  effect_corrected: { name: 'checkCircle', className: 'text-mystic-gold' },
   game_ended: { name: 'trophy', className: 'text-mystic-gold' },
 }
 
-export function HistoryView({ game, onClose }: Props) {
+export function HistoryView({ game, onClose, correction }: Props) {
   const { t, language } = useI18n()
   const state = getCurrentState(game)
 
@@ -53,6 +56,7 @@ export function HistoryView({ game, onClose }: Props) {
 
       {/* Event List - Simple, no cards */}
       <div className='max-w-lg mx-auto px-4 py-4'>
+        {correction}
         <div className='space-y-0'>
           {game.history
             .filter((entry) => entry.message.length > 0) // Hide entries with no message

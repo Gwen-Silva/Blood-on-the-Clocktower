@@ -1,3 +1,4 @@
+import { effectCorrectionEn } from '../effectCorrection'
 import { backupEn } from '../backup'
 import { refinementEn } from '../refinement'
 import { libraryEn } from '../library'
@@ -7,6 +8,7 @@ import { clarityEn } from '../clarity'
 import { aboutEn } from '../about'
 
 const en: Translations = {
+  effectCorrection: effectCorrectionEn,
   backup: backupEn,
   refinement: refinementEn,
   library: libraryEn,

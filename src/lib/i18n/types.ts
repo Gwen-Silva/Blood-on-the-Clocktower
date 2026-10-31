@@ -1,3 +1,4 @@
+import type { effectCorrectionEn } from './effectCorrection'
 import type { backupEn } from './backup'
 import type { refinementEn } from './refinement'
 import type { libraryEn } from './library'
@@ -7,6 +8,7 @@ import type { aboutEn } from './about'
 export type Language = 'en' | 'es' | 'pt-BR'
 
 export type Translations = {
+  effectCorrection: typeof effectCorrectionEn
   backup: typeof backupEn
   refinement: typeof refinementEn
   library: typeof libraryEn

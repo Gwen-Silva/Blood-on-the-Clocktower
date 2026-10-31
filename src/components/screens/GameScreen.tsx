@@ -1,3 +1,9 @@
+import {
+  recordManualEffectEdit,
+  correctLatestEffectEdit,
+} from '../../lib/manualEffectCorrection'
+import { EffectCorrectionControl } from '../items/EffectCorrectionControl'
+import { saveGameIfUnchanged } from '../../lib/storage'
 import { AudienceRecoveryBoundary } from '../layouts/AudienceRecoveryBoundary'
 import { useState, useCallback, useMemo, useRef } from 'react'
 import { isAudienceProtected } from '../../lib/audienceProtection'
@@ -602,12 +608,20 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     effectType: string,
     data?: Record<string, unknown>,
   ) => {
-    const newGame = addEffectToPlayer(game, playerId, effectType, data)
+    const newGame = recordManualEffectEdit(
+      game,
+      addEffectToPlayer(game, playerId, effectType, data),
+      'add',
+    )
     if (!updateGame(newGame)) return
   }
 
   const handleRemoveEffect = (playerId: string, effectType: string) => {
-    const newGame = removeEffectFromPlayer(game, playerId, effectType)
+    const newGame = recordManualEffectEdit(
+      game,
+      removeEffectFromPlayer(game, playerId, effectType),
+      'remove',
+    )
     if (!updateGame(newGame)) return
   }
 
@@ -616,7 +630,11 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     effectType: string,
     data: Record<string, unknown>,
   ) => {
-    const newGame = updateEffectData(game, playerId, effectType, data)
+    const newGame = recordManualEffectEdit(
+      game,
+      updateEffectData(game, playerId, effectType, data),
+      'update',
+    )
     if (!updateGame(newGame)) return
   }
 
@@ -693,7 +711,46 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
           <LanguagePicker variant='compact' />
         </div>
         <div className='game-content'>
-          <HistoryView game={game} onClose={() => setShowHistory(false)} />
+          <HistoryView
+            game={game}
+            onClose={() => setShowHistory(false)}
+            correction={
+              !pipelineUI &&
+              !isAudienceProtected() &&
+              [
+                'setup_actions',
+                'role_revelation',
+                'night_dashboard',
+                'day',
+                'game_over',
+              ].includes(screen.type) ? (
+                <EffectCorrectionControl
+                  key={game.history.at(-1)?.id}
+                  game={game}
+                  onConfirm={(eventId) => {
+                    if (
+                      liveView.current.game !== game ||
+                      liveView.current.screen !== screen ||
+                      isPlayerFacing ||
+                      pipelineUI ||
+                      isAudienceProtected()
+                    )
+                      return false
+                    try {
+                      const corrected = correctLatestEffectEdit(game, eventId)
+                      saveGameIfUnchanged(corrected, game)
+                      setGame(corrected)
+                      setScreen(getInitialScreen(corrected))
+                      setShowGrimoire(false)
+                      return true
+                    } catch {
+                      return false
+                    }
+                  }}
+                />
+              ) : null
+            }
+          />
         </div>
       </div>
     )
