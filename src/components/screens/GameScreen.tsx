@@ -1,4 +1,10 @@
 import {
+  recordVoteOperation,
+  correctLatestVote,
+  getPendingVoteCorrection,
+} from '../../lib/voteHistory'
+import { VoteCorrectionControl } from '../items/VoteCorrectionControl'
+import {
   recordManualEffectEdit,
   correctLatestEffectEdit,
 } from '../../lib/manualEffectCorrection'
@@ -123,6 +129,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     getInitialScreen(initialGame),
   )
   const firstNightStarted = useRef(false)
+  const lastVoteSubmission = useRef<Game | null>(null)
   const liveView = useRef({ game, screen })
   liveView.current = { game, screen }
   const [endDayConfirmation, setEndDayConfirmation] = useState<{
@@ -162,6 +169,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   const [saveError, setSaveError] = useState<unknown>(null)
 
   const state = getCurrentState(game)
+  const pendingVoteCorrection = getPendingVoteCorrection(game)
 
   const updateGame = useCallback((newGame: Game) => {
     try {
@@ -408,13 +416,29 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   }
 
   const handleVoteComplete = (voteCount: number, votedIds?: string[]) => {
-    if (screen.type !== 'voting') return
-
-    const newGame = resolveVote(game, screen.nomineeId, voteCount, votedIds)
-    if (!updateGame(newGame)) return
-
-    // No execution here — deferred to end of day
-    setScreen({ type: 'day' })
+    if (
+      screen.type !== 'voting' ||
+      lastVoteSubmission.current === game ||
+      liveView.current.game !== game ||
+      liveView.current.screen !== screen ||
+      isPlayerFacing ||
+      pipelineUI ||
+      isAudienceProtected()
+    )
+      return
+    lastVoteSubmission.current = game
+    try {
+      const newGame = recordVoteOperation(
+        game,
+        resolveVote(game, screen.nomineeId, voteCount, votedIds),
+      )
+      saveGameIfUnchanged(newGame, game)
+      setGame(newGame)
+      // Execution remains deferred until the end of day.
+      setScreen({ type: 'day' })
+    } catch (error) {
+      setSaveError(error)
+    }
   }
 
   const requestEndDay = () => {
@@ -505,6 +529,10 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   }
 
   const handleCancelVote = () => {
+    if (pendingVoteCorrection) {
+      setShowHistory(true)
+      return
+    }
     setScreen({ type: 'day' })
   }
 
@@ -665,7 +693,8 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     ) &&
     !pipelineUI &&
     !isPlayerFacing &&
-    !showPlayerReference
+    !showPlayerReference &&
+    !pendingVoteCorrection
   const openPlayerReference = () => {
     if (!canOpenPlayerReference || isAudienceProtected()) return
     setShowHistory(false)
@@ -716,6 +745,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
             onClose={() => setShowHistory(false)}
             correction={
               !pipelineUI &&
+              !endDayConfirmation &&
               !isAudienceProtected() &&
               [
                 'setup_actions',
@@ -723,31 +753,84 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
                 'night_dashboard',
                 'day',
                 'game_over',
+                ...(pendingVoteCorrection ? ['voting'] : []),
               ].includes(screen.type) ? (
-                <EffectCorrectionControl
-                  key={game.history.at(-1)?.id}
-                  game={game}
-                  onConfirm={(eventId) => {
-                    if (
-                      liveView.current.game !== game ||
-                      liveView.current.screen !== screen ||
-                      isPlayerFacing ||
-                      pipelineUI ||
-                      isAudienceProtected()
-                    )
-                      return false
-                    try {
-                      const corrected = correctLatestEffectEdit(game, eventId)
-                      saveGameIfUnchanged(corrected, game)
-                      setGame(corrected)
-                      setScreen(getInitialScreen(corrected))
-                      setShowGrimoire(false)
-                      return true
-                    } catch {
-                      return false
-                    }
-                  }}
-                />
+                <>
+                  {(screen.type === 'day' || pendingVoteCorrection) && (
+                    <VoteCorrectionControl
+                      key={'vote-' + game.history.at(-1)?.id}
+                      game={game}
+                      onResume={() => {
+                        if (
+                          pendingVoteCorrection &&
+                          !isAudienceProtected() &&
+                          !isPlayerFacing &&
+                          !pipelineUI &&
+                          !endDayConfirmation
+                        ) {
+                          setScreen({
+                            type: 'voting',
+                            nomineeId: pendingVoteCorrection.nomineeId,
+                          })
+                          setShowHistory(false)
+                        }
+                      }}
+                      onConfirm={(operationId) => {
+                        if (
+                          screen.type !== 'day' ||
+                          liveView.current.game !== game ||
+                          liveView.current.screen !== screen ||
+                          isPlayerFacing ||
+                          pipelineUI ||
+                          endDayConfirmation ||
+                          isAudienceProtected()
+                        )
+                          return false
+                        try {
+                          const corrected = correctLatestVote(game, operationId)
+                          const target = getPendingVoteCorrection(corrected)
+                          if (!target) return false
+                          saveGameIfUnchanged(corrected, game)
+                          setGame(corrected)
+                          setScreen({
+                            type: 'voting',
+                            nomineeId: target.nomineeId,
+                          })
+                          setShowHistory(false)
+                          setShowGrimoire(false)
+                          return true
+                        } catch {
+                          return false
+                        }
+                      }}
+                    />
+                  )}
+                  <EffectCorrectionControl
+                    key={game.history.at(-1)?.id}
+                    game={game}
+                    onConfirm={(eventId) => {
+                      if (
+                        liveView.current.game !== game ||
+                        liveView.current.screen !== screen ||
+                        isPlayerFacing ||
+                        pipelineUI ||
+                        endDayConfirmation ||
+                        isAudienceProtected()
+                      )
+                        return false
+                      try {
+                        const corrected = correctLatestEffectEdit(game, eventId)
+                        saveGameIfUnchanged(corrected, game)
+                        setGame(corrected)
+                        setScreen(getInitialScreen(corrected))
+                        setShowGrimoire(false)
+                        return true
+                      } catch {
+                        return false
+                      }
+                    }}
+                  />
+                </>
               ) : null
             }
           />
@@ -980,6 +1063,10 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
       case 'voting':
         return (
           <VotingPhase
+            key={game.history.at(-1)?.id}
+            cancelLabel={
+              pendingVoteCorrection ? t.voteCorrection.back : undefined
+            }
             state={state}
             nomineeId={screen.nomineeId}
             blockStatus={getBlockStatus(game)}
@@ -1014,6 +1101,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
     screen.type !== 'game_over' &&
     screen.type !== 'grimoire_role_card' &&
     screen.type !== 'pipeline_input' &&
+    !pendingVoteCorrection &&
     !isPlayerFacing
 
   return (
@@ -1113,6 +1201,9 @@ function getInitialScreen(game: Game): Screen {
   const state = getCurrentState(game)
 
   // Check win conditions
+  const pendingVote = getPendingVoteCorrection(game)
+  if (pendingVote && state.phase === 'day')
+    return { type: 'voting', nomineeId: pendingVote.nomineeId }
   if (state.phase === 'ended') {
     return { type: 'game_over' }
   }

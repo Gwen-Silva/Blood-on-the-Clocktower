@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 import { GameState, PlayerState, hasEffect } from '../../lib/types'
-import { getEffect } from '../../lib/effects'
 import { useI18n, interpolate, getRoleTranslations } from '../../lib/i18n'
 import { Button, Icon, BackButton } from '../atoms'
 import { ScreenFooter } from '../layouts/ScreenFooter'
@@ -13,21 +12,12 @@ type Props = {
   blockStatus: BlockStatus
   voteBenchmark: number
   onVoteComplete: (voteCount: number, votedIds?: string[]) => void
+  cancelLabel?: string
   onCancel: () => void
 }
 
-export function canPlayerVote(
-  player: PlayerState,
-  state: GameState,
-  currentVotes?: Record<string, boolean>,
-): boolean {
-  for (const effect of player.effects) {
-    const def = getEffect(effect.type)
-    if (!def?.preventsVoting) continue
-    if (!def.canVote || !def.canVote(player, state, currentVotes)) return false
-  }
-  return true
-}
+export { canPlayerVote } from '../../lib/votingEligibility'
+import { canPlayerVote } from '../../lib/votingEligibility'
 
 /**
  * Get the Butler's master player name, if this player has the butler_master effect.
@@ -49,6 +39,7 @@ export function VotingPhase({
   voteBenchmark,
   onVoteComplete,
   onCancel,
+  cancelLabel,
 }: Props) {
   const { t, language } = useI18n()
   const butlerT = getRoleTranslations('butler', language)
@@ -139,7 +130,10 @@ export function VotingPhase({
         <div className='max-w-lg mx-auto'>
           {/* Back button row */}
           <div className='flex items-center mb-4'>
-            <BackButton onClick={onCancel} label={t.game.cancelNomination} />
+            <BackButton
+              onClick={onCancel}
+              label={cancelLabel ?? t.game.cancelNomination}
+            />
           </div>
 
           {/* Title section */}
@@ -367,7 +361,7 @@ export function VotingPhase({
             variant='ghost'
             className='text-parchment-400'
           >
-            {t.game.cancelNomination}
+            {cancelLabel ?? t.game.cancelNomination}
           </Button>
         </div>
       </ScreenFooter>

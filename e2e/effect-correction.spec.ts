@@ -398,6 +398,12 @@ test('eligible correction controls never appear in public reference, private rol
           exact: true,
         }),
       ).toHaveCount(0)
+      await expect(
+        page.getByRole('button', {
+          name: en.voteCorrection.action,
+          exact: true,
+        }),
+      ).toHaveCount(0)
       await expect(page.locator('nav.game-tools')).toHaveCount(0)
       expect(await saved(page)).toEqual(game)
       await page.reload()
@@ -410,6 +416,12 @@ test('eligible correction controls never appear in public reference, private rol
       await expect(
         page.getByRole('button', {
           name: en.effectCorrection.action,
+          exact: true,
+        }),
+      ).toHaveCount(0)
+      await expect(
+        page.getByRole('button', {
+          name: en.voteCorrection.action,
           exact: true,
         }),
       ).toHaveCount(0)

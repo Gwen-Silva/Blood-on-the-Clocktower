@@ -68,6 +68,7 @@ export type EventType =
   | 'day_started'
   | 'nomination'
   | 'vote'
+  | 'vote_corrected'
   | 'execution'
   | 'virgin_execution'
   | 'virgin_spent'

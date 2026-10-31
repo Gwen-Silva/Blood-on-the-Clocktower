@@ -1,3 +1,4 @@
+import { getEffectiveVoteHistory } from './voteHistory'
 import {
   getCurrentState,
   isAlive,
@@ -110,7 +111,16 @@ function projectVoting(game: Game, state: GameState): PublicVotingState | null {
   if (!validState(day) || day.phase !== 'day' || day.round !== state.round)
     return null
   const ids = new Set(state.players.map((player) => player.id))
-  for (const entry of game.history.slice(start + 1)) {
+  let effective: typeof game.history
+  try {
+    effective = getEffectiveVoteHistory(game)
+  } catch {
+    return null
+  }
+  const effectiveStart = effective.findIndex(
+    (entry) => entry.id === game.history[start].id,
+  )
+  for (const entry of effective.slice(effectiveStart + 1)) {
     if (entry.type !== 'vote') continue
     const data = entry.data
     const snapshot = entry.stateAfter

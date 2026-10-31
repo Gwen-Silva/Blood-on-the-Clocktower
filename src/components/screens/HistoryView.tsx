@@ -20,6 +20,7 @@ const eventIcons: Record<string, { name: IconName; className: string }> = {
   day_started: { name: 'sun', className: 'text-orange-400' },
   nomination: { name: 'userPlus', className: 'text-orange-300' },
   vote: { name: 'vote', className: 'text-purple-300' },
+  vote_corrected: { name: 'checkCircle', className: 'text-mystic-gold' },
   execution: { name: 'skull', className: 'text-red-500' },
   effect_added: { name: 'sparkles', className: 'text-cyan-400' },
   effect_removed: { name: 'x', className: 'text-parchment-500' },

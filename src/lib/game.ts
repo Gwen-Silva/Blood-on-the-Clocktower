@@ -1,3 +1,4 @@
+import { inspectVoteHistory } from './voteHistory'
 import {
   Game,
   GameState,
@@ -639,25 +640,7 @@ export type BlockStatus = {
  * Scans vote entries since the last day_started.
  */
 export function getBlockStatus(game: Game): BlockStatus {
-  const dayStartIndex = findLastEventIndex(game, 'day_started')
-  if (dayStartIndex === -1) return null
-
-  let block: BlockStatus = null
-
-  for (let i = dayStartIndex + 1; i < game.history.length; i++) {
-    const entry = game.history[i]
-    if (entry.type === 'vote' && entry.data.replacesBlock === true) {
-      block = {
-        playerId: entry.data.nomineeId as string,
-        playerName: entry.data.nomineeName as string,
-        voteCount: entry.data.voteCount as number,
-      }
-    } else if (entry.type === 'vote' && entry.data.clearsBlock === true) {
-      block = null
-    }
-  }
-
-  return block
+  return inspectVoteHistory(game.history).block
 }
 
 /**
@@ -665,17 +648,7 @@ export function getBlockStatus(game: Game): BlockStatus {
  * from the block, but the tally remains the number later nominees must beat.
  */
 export function getVoteBenchmark(game: Game): number {
-  const dayStartIndex = findLastEventIndex(game, 'day_started')
-  if (dayStartIndex === -1) return 0
-
-  let benchmark = 0
-  for (let i = dayStartIndex + 1; i < game.history.length; i++) {
-    const entry = game.history[i]
-    if (entry.type === 'vote' && entry.data.meetsThreshold === true) {
-      benchmark = Math.max(benchmark, entry.data.voteCount as number)
-    }
-  }
-  return benchmark
+  return inspectVoteHistory(game.history).benchmark
 }
 
 /**
@@ -854,29 +827,6 @@ export function resolveVote(
 export function executeAtEndOfDay(game: Game): Game {
   const block = getBlockStatus(game)
   if (!block) return game
-
-  // Check for a tie-clear that happened after the block was set
-  const dayStartIndex = findLastEventIndex(game, 'day_started')
-  for (let i = game.history.length - 1; i > dayStartIndex; i--) {
-    const entry = game.history[i]
-    if (entry.type === 'vote' && entry.data.clearsBlock === true) {
-      // The most recent clear is after the most recent block replacement
-      // Check if any replacesBlock entry comes after this clear
-      let hasBlockAfterClear = false
-      for (let j = i + 1; j < game.history.length; j++) {
-        if (
-          game.history[j].type === 'vote' &&
-          game.history[j].data.replacesBlock === true
-        ) {
-          hasBlockAfterClear = true
-          break
-        }
-      }
-      if (!hasBlockAfterClear) {
-        return game // Block was cleared by a tie, no execution
-      }
-    }
-  }
 
   const executeIntent: ExecuteIntent = {
     type: 'execute',

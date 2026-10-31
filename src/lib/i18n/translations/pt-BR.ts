@@ -1,3 +1,4 @@
+import { voteCorrectionPtBR } from '../voteCorrection'
 import { effectCorrectionPtBR } from '../effectCorrection'
 import { backupPtBR } from '../backup'
 import { refinementPtBR } from '../refinement'
@@ -6,6 +7,7 @@ import type { Translations } from '../types'
 import { aboutPtBR } from '../about'
 
 const ptBR: Translations = {
+  voteCorrection: voteCorrectionPtBR,
   effectCorrection: effectCorrectionPtBR,
   backup: backupPtBR,
   refinement: refinementPtBR,

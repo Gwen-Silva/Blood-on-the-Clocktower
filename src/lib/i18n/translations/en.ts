@@ -1,3 +1,4 @@
+import { voteCorrectionEn } from '../voteCorrection'
 import { effectCorrectionEn } from '../effectCorrection'
 import { backupEn } from '../backup'
 import { refinementEn } from '../refinement'
@@ -8,6 +9,7 @@ import { clarityEn } from '../clarity'
 import { aboutEn } from '../about'
 
 const en: Translations = {
+  voteCorrection: voteCorrectionEn,
   effectCorrection: effectCorrectionEn,
   backup: backupEn,
   refinement: refinementEn,

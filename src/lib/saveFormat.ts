@@ -1,3 +1,4 @@
+import { validateVoteHistoryMetadata } from './voteHistory'
 import type { Game } from './types'
 
 const phases = new Set(['setup', 'night', 'day', 'ended'])
@@ -13,6 +14,7 @@ const events = new Set([
   'day_started',
   'nomination',
   'vote',
+  'vote_corrected',
   'execution',
   'virgin_execution',
   'virgin_spent',
@@ -108,7 +110,8 @@ export function isSavedGame(x: unknown): x is Game {
         Array.isArray(e.message) &&
         e.message.every(validMessage) &&
         validState(e.stateAfter),
-    )
+    ) &&
+    validateVoteHistoryMetadata(x as Game)
   )
 }
 

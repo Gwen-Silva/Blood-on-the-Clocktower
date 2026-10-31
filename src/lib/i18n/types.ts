@@ -1,3 +1,4 @@
+import type { voteCorrectionEn } from './voteCorrection'
 import type { effectCorrectionEn } from './effectCorrection'
 import type { backupEn } from './backup'
 import type { refinementEn } from './refinement'
@@ -8,6 +9,7 @@ import type { aboutEn } from './about'
 export type Language = 'en' | 'es' | 'pt-BR'
 
 export type Translations = {
+  voteCorrection: typeof voteCorrectionEn
   effectCorrection: typeof effectCorrectionEn
   backup: typeof backupEn
   refinement: typeof refinementEn

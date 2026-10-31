@@ -21,21 +21,8 @@ export type EligibleEffectEdit = {
 }
 const record = (value: unknown): value is Record<string, unknown> =>
   value !== null && typeof value === 'object' && !Array.isArray(value)
-// Saves contain JSON values. Object order is not semantic; effect/player order is.
-export function sameSavedValue(a: unknown, b: unknown): boolean {
-  const canonical = (value: unknown): unknown => {
-    if (Array.isArray(value)) return value.map(canonical)
-    if (record(value))
-      return Object.fromEntries(
-        Object.keys(value)
-          .sort()
-          .filter((key) => value[key] !== undefined)
-          .map((key) => [key, canonical(value[key])]),
-      )
-    return value
-  }
-  return JSON.stringify(canonical(a)) === JSON.stringify(canonical(b))
-}
+export { sameSavedValue } from './correctionShared'
+import { sameSavedValue } from './correctionShared'
 const copy = <T>(value: T): T => structuredClone(value)
 
 /** No scan backwards, legacy inference, snapshot rewriting or general Undo. */
