@@ -1,7 +1,7 @@
 export const voteCorrectionEn = {
   action: 'Correct latest vote',
   title: 'Correct recorded vote',
-  summary: '{player} — recorded tally: {votes}.',
+  summary: '{player}, recorded tally: {votes}.',
   restore:
     'Cancel this tally and restore the exact state before the vote, including any unused ghost votes. Repeat voting for the same nominee; the nomination is kept.',
   limit:
@@ -20,7 +20,7 @@ export const voteCorrectionEn = {
 export const voteCorrectionPtBR: typeof voteCorrectionEn = {
   action: 'Corrigir última votação',
   title: 'Corrigir votação registrada',
-  summary: '{player} — contagem registrada: {votes}.',
+  summary: '{player}, contagem registrada: {votes}.',
   restore:
     'Cancelar esta contagem e restaurar o estado exato anterior à votação, incluindo os votos de mortos disponíveis. Repetir a votação para o mesmo indicado, mantendo a indicação original.',
   limit:
@@ -40,7 +40,7 @@ export const voteCorrectionPtBR: typeof voteCorrectionEn = {
 export const voteCorrectionEs: typeof voteCorrectionEn = {
   action: 'Corregir última votación',
   title: 'Corregir votación registrada',
-  summary: '{player} — recuento registrado: {votes}.',
+  summary: '{player}, recuento registrado: {votes}.',
   restore:
     'Cancelar este recuento y restaurar el estado exacto anterior a la votación, incluidos los votos de muertos disponibles. Repetir la votación para el mismo nominado, conservando la nominación original.',
   limit:
