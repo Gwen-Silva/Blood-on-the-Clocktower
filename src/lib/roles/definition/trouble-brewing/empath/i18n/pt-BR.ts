@@ -10,7 +10,7 @@ const ptBR = {
     },
     {
       type: 'INFO',
-      text: 'Conte apenas os dois vizinhos vivos mais próximos, pulando os mortos.',
+      text: 'Se um vizinho morrer, conte o próximo jogador vivo naquela direção.',
     },
     {
       type: 'WIN',

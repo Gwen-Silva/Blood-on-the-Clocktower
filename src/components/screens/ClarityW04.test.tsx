@@ -161,8 +161,23 @@ it.each(['investigator', 'librarian'])(
     expect(container.querySelector('h2')?.textContent).toBe(
       `One is the ${target === 'spy' ? 'Spy' : 'Saint'}.`,
     )
-    expect(container.querySelector('details')?.open).toBe(false)
+    expect(
+      container.querySelector('[aria-expanded="false"][aria-controls]'),
+    ).not.toBeNull()
     expect(container.textContent).not.toContain(en.clarity.yourAbility)
+    const toggle = container.querySelector<HTMLButtonElement>(
+      '[aria-expanded="false"][aria-controls]',
+    )!
+    for (let i = 0; i < 3; i++) {
+      act(() => toggle.click())
+      expect(toggle.getAttribute('aria-expanded')).toBe('true')
+      expect(toggle.textContent).toContain(en.refinement.hideCharacter)
+      expect(container.querySelector('h1')?.textContent).toBe('Alice or Bob')
+      privateOnly()
+      expect(localStorage.getItem('grimoire_games')).toBeNull()
+      act(() => toggle.click())
+      expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    }
     privateOnly()
     expect(localStorage.getItem('grimoire_games')).toBeNull()
   },

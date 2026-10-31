@@ -7,6 +7,8 @@ import {
   getRoleDescription,
   getRoleLines,
 } from '../../../lib/i18n'
+import { getAllRoles } from '../../../lib/roles'
+import { getRoleSupplementaryLines } from '../../../lib/roles/presentation'
 import { getRoleWikiUrl, ROLE_WIKI_PAGES } from '../../../lib/roles/wiki'
 import { RoleCard } from './index'
 import { RoleName } from './RoleName'
@@ -57,8 +59,11 @@ it('keeps complete ability and curated facts on card, with extensive Imp rules o
   const storage = JSON.stringify(localStorage)
   click('Ver regras')
   const dialog = document.querySelector('[role=dialog]')!
-  for (const line of getRoleLines('imp', 'pt-BR'))
+  for (const line of getRoleSupplementaryLines('imp', 'pt-BR'))
     expect(dialog.textContent).toContain(line.text)
+  expect(dialog.textContent).not.toContain(getRoleLines('imp', 'pt-BR')[0].text)
+  expect(dialog.textContent).not.toContain(getRoleLines('imp', 'pt-BR')[1].text)
+  expect(dialog.textContent).not.toContain(getRoleDescription('imp', 'pt-BR'))
   expect(dialog.textContent).not.toContain('Escolha um novo Diabrete')
   const link = dialog.querySelector('a')!
   expect(link.href).toBe(getRoleWikiUrl('imp'))
@@ -73,6 +78,37 @@ it('keeps long names complete and grouped into unbroken words', () => {
     'Bibliotecário',
   )
 })
+it.each(['en', 'es', 'pt-BR'] as const)(
+  '%s retains key exceptions when duplicate ability lines are omitted',
+  (language) => {
+    expect(getRoleDescription('imp', language)).toMatch(
+      /living Minion|Secuaz vivo|Lacaio vivo/,
+    )
+    const imp = getRoleSupplementaryLines('imp', language)
+      .map((line) => line.text)
+      .join(' ')
+    expect(imp).toContain('7')
+    expect(imp).toContain('3')
+    expect(imp).not.toContain(getRoleLines('imp', language)[0].text)
+    expect(imp).not.toContain(getRoleLines('imp', language)[1].text)
+    for (const role of ['washerwoman', 'investigator', 'librarian'] as const)
+      expect(getRoleDescription(role, language)).toMatch(/register|registra/)
+    expect(getRoleDescription('scarlet_woman', language)).toContain('5')
+    expect(getRoleDescription('scarlet_woman', language)).toMatch(
+      /Travellers|Viajeros|Viajantes/,
+    )
+    const slayer = getRoleSupplementaryLines('slayer', language)
+      .map((line) => line.text)
+      .join(' ')
+    expect(slayer).toMatch(/spent even if|se gasta aunque|gasto mesmo/)
+    const virgin = getRoleSupplementaryLines('virgin', language)
+      .map((line) => line.text)
+      .join(' ')
+    expect(virgin).toMatch(
+      /regardless of the result|sin importar el resultado|qualquer que seja o resultado/,
+    )
+  },
+)
 it('fits names using layout widths even while the entrance animation scales visual bounds', () => {
   vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(100)
   vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(200)
@@ -145,3 +181,40 @@ it('maps all 22 official characters and never invents custom or inherited pages'
   click('Ver regras')
   expect(document.querySelector('[role=dialog] a')).toBeNull()
 })
+
+it.each(
+  (['en', 'es', 'pt-BR'] as const).flatMap((language) =>
+    getAllRoles().map((role) => [language, role.id] as const),
+  ),
+)(
+  '%s %s preserves the complete ability and selected supplementary rules without repeating it',
+  (language, roleId) => {
+    localStorage.setItem('grimoire_language', language)
+    render(roleId)
+    const description = getRoleDescription(roleId, language)
+    expect(host.textContent).toContain(description)
+    const rules = getRoleSupplementaryLines(roleId, language)
+    expect(rules.length).toBeGreaterThan(0)
+    expect(
+      rules.every(
+        (line) => typeof line?.text === 'string' && line.text.length > 0,
+      ),
+    ).toBe(true)
+    const label =
+      language === 'en'
+        ? 'View rules'
+        : language === 'es'
+          ? 'Ver reglas'
+          : 'Ver regras'
+    click(label)
+    const dialog = document.querySelector('[role=dialog]')!
+    expect(dialog.textContent).not.toContain(description)
+    for (const line of rules) expect(dialog.textContent).toContain(line.text)
+    expect(dialog.querySelectorAll('[data-supplementary-rule]')).toHaveLength(
+      rules.length,
+    )
+    expect(dialog.querySelector('a')?.getAttribute('href')).toBe(
+      getRoleWikiUrl(roleId),
+    )
+  },
+)

@@ -14,7 +14,7 @@ const es = {
     },
     {
       type: 'WIN',
-      text: 'El bien gana sin Demonios vivos o con tu habilidad al final del día.',
+      text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',
     },
   ],
 } as const

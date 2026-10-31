@@ -11,7 +11,7 @@ const es = {
     },
     {
       type: 'INFO',
-      text: 'Una "pareja" son dos jugadores malvados sentados uno al lado del otro.',
+      text: 'Tres jugadores malvados consecutivos forman 2 parejas.',
     },
     {
       type: 'WIN',

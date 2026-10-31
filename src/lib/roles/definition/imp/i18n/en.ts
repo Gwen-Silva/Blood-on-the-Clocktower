@@ -1,7 +1,7 @@
 const en = {
   name: 'Imp',
   description:
-    'Each night except the first, choose a player to kill. If you kill yourself this way, a Minion becomes the Imp.',
+    'Each night except the first, choose a player to kill. If you kill yourself this way, a living Minion becomes the Imp.',
   quote: 'It does not conquer. It merely outlasts.',
   lines: [
     {

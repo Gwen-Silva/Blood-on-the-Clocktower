@@ -1,7 +1,7 @@
 const ptBR = {
   name: 'Investigador',
   description:
-    'Na Noite 1, você descobre que um de dois jogadores é um Lacaio específico.',
+    'Na Noite 1, conheça 2 jogadores e um personagem Lacaio. Um deles se registra como esse personagem.',
   quote: 'Siga o dinheiro. Siga os sussurros. Siga o medo.',
   lines: [
     {

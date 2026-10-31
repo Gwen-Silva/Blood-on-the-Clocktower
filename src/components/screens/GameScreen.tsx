@@ -659,9 +659,12 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   const playerReferenceEntry = canOpenPlayerReference ? (
     <button
       onClick={openPlayerReference}
-      className='min-h-11 px-3 py-2 rounded-lg border border-mystic-gold/30 text-mystic-gold text-xs leading-snug'
+      aria-label={t.playerReference.title}
+      title={t.playerReference.title}
+      className='game-tool border border-mystic-gold/30 rounded-lg'
     >
-      {t.playerReference.title}
+      <Icon name='users' size='md' />
+      <span className='game-tool-label'>{t.refinement.referenceCompact}</span>
     </button>
   ) : null
   if (showPlayerReference) {
@@ -685,9 +688,9 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   ) {
     return (
       <div className='game-shell'>
-        <div className='game-tools'>
+        <div className='game-tools game-tools--compact'>
           {playerReferenceEntry}
-          <LanguagePicker />
+          <LanguagePicker variant='compact' />
         </div>
         <div className='game-content'>
           <HistoryView game={game} onClose={() => setShowHistory(false)} />
@@ -959,7 +962,10 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
   return (
     <div className='game-shell'>
       {showFloatingButtons && (
-        <nav className='game-tools' aria-label={t.nightGuide.actions}>
+        <nav
+          className='game-tools game-tools--compact'
+          aria-label={t.nightGuide.actions}
+        >
           {screen.type === 'night_action' && (
             <BackButton
               label={t.common.back}
@@ -976,7 +982,7 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
             title={t.game.grimoire}
           >
             <Icon name='bookUser' size='md' />
-            <span>{t.game.grimoire}</span>
+            <span className='game-tool-label'>{t.game.grimoire}</span>
           </button>
 
           <button
@@ -985,9 +991,9 @@ function GameScreenContent({ initialGame, onMainMenu }: Props) {
             title={t.common.history}
           >
             <Icon name='history' size='md' />
-            <span>{t.common.history}</span>
+            <span className='game-tool-label'>{t.common.history}</span>
           </button>
-          <LanguagePicker variant='floating' />
+          <LanguagePicker variant='compact' />
         </nav>
       )}
       <div className='game-content'>

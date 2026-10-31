@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useId } from 'react'
 import { GameState, PlayerState } from '../../lib/types'
 import {
   EffectToAdd,
@@ -107,6 +107,8 @@ export function InfoRoleNightAction({
   const { t, language } = useI18n()
   const roleT = getRoleTranslations(config.roleId, language)
   const labels = config.getLabels(roleT)
+  const [showCharacter, setShowCharacter] = useState(false)
+  const characterPanelId = useId()
   const [phase, setPhase] = useState<Phase>('step_list')
   const [selectedPlayers, setSelectedPlayers] = useState<string[]>([])
   const [selectedTargetPlayer, setSelectedTargetPlayer] = useState<
@@ -703,15 +705,43 @@ export function InfoRoleNightAction({
             role: getLocalRoleName(selectedRoleId),
           })}
         </h2>
-        <details className='max-w-sm mx-auto w-full mb-4'>
-          <summary className='cursor-pointer text-center'>
-            {t.clarity.shownCharacter}
-          </summary>
-          <p className='text-sm text-center my-3'>
-            {t.clarity.shownCharacterHint}
-          </p>
-          <RoleCard roleId={selectedRoleId} />
-        </details>
+        <div className='max-w-sm mx-auto w-full mb-4'>
+          <button
+            type='button'
+            aria-expanded={showCharacter}
+            aria-controls={characterPanelId}
+            onClick={() => setShowCharacter((value) => !value)}
+            className='w-full min-h-12 flex items-center justify-between gap-3 rounded-xl border border-mystic-gold/30 bg-grimoire-dark/80 px-4 py-3 text-left text-sm text-parchment-100 hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-mystic-gold'
+          >
+            <Icon
+              name={shownRole?.icon ?? 'bookUser'}
+              size='md'
+              className='shrink-0 text-mystic-gold'
+            />
+            <span className='flex-1'>
+              {showCharacter
+                ? t.refinement.hideCharacter
+                : interpolate(t.refinement.viewCharacter, {
+                    role: getLocalRoleName(selectedRoleId),
+                  })}
+            </span>
+            <Icon
+              name={showCharacter ? 'chevronUp' : 'chevronDown'}
+              size='sm'
+              className='shrink-0'
+            />
+          </button>
+          <div id={characterPanelId} hidden={!showCharacter}>
+            {showCharacter && (
+              <>
+                <p className='text-sm text-center my-3'>
+                  {t.clarity.shownCharacterHint}
+                </p>
+                <RoleCard roleId={selectedRoleId} />
+              </>
+            )}
+          </div>
+        </div>
 
         <HandbackCardLink onClick={handleComplete} isEvil={shownTeam.isEvil}>
           {t.common.continue}

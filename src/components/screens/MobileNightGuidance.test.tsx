@@ -29,7 +29,10 @@ afterEach(() => {
 })
 function click(text: string) {
   const target = [...container.querySelectorAll('button')].find(
-    (el) => el.textContent?.includes(text) || el.title === text,
+    (el) =>
+      el.textContent?.includes(text) ||
+      el.getAttribute('aria-label') === text ||
+      el.title === text,
   )
   expect(target, text).toBeTruthy()
   expect(target?.disabled).toBe(false)
@@ -63,7 +66,9 @@ function renderGame(outsider = false) {
 it('puts contextual controls in an action region and unmounts it for public browsing', () => {
   renderGame()
   const nav = container.querySelector('nav[aria-label="Game tools"]')!
-  expect(nav.textContent).toContain(en.playerReference.title)
+  expect(
+    nav.querySelector(`[aria-label="${en.playerReference.title}"]`),
+  ).not.toBeNull()
   expect(nav.querySelector('[title="Grimoire"]')).toBeTruthy()
   click(en.playerReference.title)
   expect(container.querySelector('nav[aria-label="Game tools"]')).toBeNull()

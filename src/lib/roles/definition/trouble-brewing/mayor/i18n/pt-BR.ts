@@ -14,7 +14,7 @@ const ptBR = {
     },
     {
       type: 'WIN',
-      text: 'O Bem vence sem Demônio vivo ou com sua habilidade de fim do dia.',
+      text: 'O Bem normalmente vence quando não resta Demônio vivo.',
     },
   ],
 }

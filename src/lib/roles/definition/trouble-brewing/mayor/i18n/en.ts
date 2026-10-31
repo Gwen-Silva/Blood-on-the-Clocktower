@@ -14,7 +14,7 @@ const en = {
     },
     {
       type: 'WIN',
-      text: 'Good wins with no living Demon, or with your end-of-day ability.',
+      text: 'Good normally wins when no Demon remains alive.',
     },
   ],
 } as const

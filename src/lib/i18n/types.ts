@@ -1,3 +1,4 @@
+import type { refinementEn } from './refinement'
 import type { libraryEn } from './library'
 import type { NightGuidanceTranslations } from './nightGuidance'
 import type { clarityEn } from './clarity'
@@ -5,6 +6,7 @@ import type { aboutEn } from './about'
 export type Language = 'en' | 'es' | 'pt-BR'
 
 export type Translations = {
+  refinement: typeof refinementEn
   library: typeof libraryEn
   about: typeof aboutEn
   clarity: typeof clarityEn

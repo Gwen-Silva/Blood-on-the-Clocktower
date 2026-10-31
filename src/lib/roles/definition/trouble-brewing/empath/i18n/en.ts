@@ -10,7 +10,7 @@ const en = {
     },
     {
       type: 'INFO',
-      text: 'Only your two nearest alive neighbors count, skipping dead players.',
+      text: 'If a neighbour dies, count the next living player in that direction.',
     },
     { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],

@@ -1,7 +1,7 @@
 const ptBR = {
   name: 'Bibliotecário',
   description:
-    'Na Noite 1, você descobre que um de dois jogadores é um Forasteiro específico, ou que não há Forasteiros.',
+    'Na Noite 1, conheça 2 jogadores e um personagem Forasteiro: um deles se registra como tal. Ou descubra que não há Forasteiros.',
   quote: 'Todo nome tem uma história. Algumas são avisos.',
   lines: [
     {

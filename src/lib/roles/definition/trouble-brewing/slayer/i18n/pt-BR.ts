@@ -10,11 +10,11 @@ const ptBR = {
     },
     {
       type: 'INFO',
-      text: 'Se o alvo se registrar como Demônio, morre. Caso contrário, nada acontece.',
+      text: 'Se o alvo não se registrar como Demônio, nada acontece.',
     },
     {
       type: 'CAVEAT',
-      text: 'Você só tem um disparo.',
+      text: 'O disparo é gasto mesmo se o alvo não morrer.',
     },
     {
       type: 'WIN',

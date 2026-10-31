@@ -1,7 +1,7 @@
 const es = {
   name: 'Diablo',
   description:
-    'Cada noche salvo la primera, elige a alguien para matar. Si te matas así, un Secuaz se convierte en Diablo.',
+    'Cada noche salvo la primera, elige a alguien para matar. Si te matas así, un Secuaz vivo se convierte en Diablo.',
   quote: 'No conquista. Simplemente perdura.',
   lines: [
     {

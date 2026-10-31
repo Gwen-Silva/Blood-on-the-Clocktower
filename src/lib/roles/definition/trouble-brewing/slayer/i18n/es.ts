@@ -10,9 +10,12 @@ const es = {
     },
     {
       type: 'INFO',
-      text: 'Si se registra como Demonio, muere. Si no, no pasa nada.',
+      text: 'Si el objetivo no se registra como Demonio, no pasa nada.',
     },
-    { type: 'CAVEAT', text: 'Sólo tienes un disparo.' },
+    {
+      type: 'CAVEAT',
+      text: 'El disparo se gasta aunque el objetivo no muera.',
+    },
     {
       type: 'WIN',
       text: 'El bien normalmente gana cuando no queda ningún Demonio vivo.',

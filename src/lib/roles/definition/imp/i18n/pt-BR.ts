@@ -1,7 +1,7 @@
 const ptBR = {
   name: 'Diabrete',
   description:
-    'A cada noite, exceto a primeira, escolha um jogador para matar. Se matar a si mesmo dessa forma, um Lacaio vira o Diabrete.',
+    'A cada noite, exceto a primeira, escolha um jogador para matar. Se matar a si mesmo dessa forma, um Lacaio vivo vira o Diabrete.',
   quote: 'Ele não conquista. Apenas sobrevive por mais tempo.',
   lines: [
     {

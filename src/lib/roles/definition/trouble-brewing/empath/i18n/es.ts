@@ -10,7 +10,7 @@ const es = {
     },
     {
       type: 'INFO',
-      text: 'Solo cuentan tus dos vecinos vivos más cercanos, saltando jugadores muertos.',
+      text: 'Si muere un vecino, cuenta al siguiente jugador vivo en esa dirección.',
     },
     {
       type: 'WIN',

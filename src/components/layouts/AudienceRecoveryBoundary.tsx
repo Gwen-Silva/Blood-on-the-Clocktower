@@ -17,6 +17,7 @@ export function AudienceRecoveryBoundary({
   if (!locked) return children
   return (
     <ReturnDeviceScreen
+      recovery
       onReady={() => {
         try {
           releaseAudience()

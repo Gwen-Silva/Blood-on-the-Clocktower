@@ -10,7 +10,7 @@ const en = {
     },
     {
       type: 'INFO',
-      text: 'A "pair" means two evil players who are sitting next to each other.',
+      text: 'Three consecutive evil players form 2 pairs.',
     },
     { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],

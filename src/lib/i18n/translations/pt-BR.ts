@@ -1,8 +1,10 @@
+import { refinementPtBR } from '../refinement'
 import { libraryPtBR } from '../library'
 import type { Translations } from '../types'
 import { aboutPtBR } from '../about'
 
 const ptBR: Translations = {
+  refinement: refinementPtBR,
   library: libraryPtBR,
   about: aboutPtBR,
   clarity: {

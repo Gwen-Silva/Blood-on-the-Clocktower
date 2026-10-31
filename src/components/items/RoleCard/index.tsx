@@ -1,5 +1,6 @@
 import { getRole } from '../../../lib/roles'
 import { getRoleWikiUrl } from '../../../lib/roles/wiki'
+import { getRoleSupplementaryLines } from '../../../lib/roles/presentation'
 import { getTeam, TeamId } from '../../../lib/teams'
 import {
   useI18n,
@@ -57,6 +58,7 @@ export function RoleCard({ roleId, context = 'reference' }: Props) {
   const name = getRoleName(roleId, language)
   const description = getRoleDescription(roleId, language)
   const lines = getRoleLines(roleId, language)
+  const supplementaryLines = getRoleSupplementaryLines(role.id, language)
   const quote = getRoleQuote(roleId, language)
   const wiki = getRoleWikiUrl(roleId)
   const facts = (SUPPORTING_LINES[roleId] ?? [])
@@ -120,19 +122,17 @@ export function RoleCard({ roleId, context = 'reference' }: Props) {
             </div>
           </DialogTitle>
           <DialogDescription>
-            {t.clarity.reference} · {t.teams[teamId].name}
+            {t.refinement.supplementaryRules} · {t.teams[teamId].name}
           </DialogDescription>
         </DialogHeader>
         <DialogBody className='space-y-4 text-parchment-200 text-sm leading-relaxed'>
-          <section className='rounded-lg bg-white/5 border border-white/10 p-4'>
-            <h2 className='text-xs uppercase tracking-wide text-mystic-gold mb-2'>
-              {t.clarity.yourAbility}
-            </h2>
-            <p>{description}</p>
-          </section>
           <section className='space-y-3' aria-label={t.clarity.details}>
-            {lines.map((line, index) => (
-              <p className='rounded-lg bg-white/5 p-4' key={index}>
+            {supplementaryLines.map((line, index) => (
+              <p
+                className='rounded-lg bg-white/5 p-4'
+                data-supplementary-rule={line.type}
+                key={index}
+              >
                 {line.text}
               </p>
             ))}

@@ -7,9 +7,12 @@ const en = {
     { type: 'DAY', text: 'During the day, you can publicly shoot one player.' },
     {
       type: 'INFO',
-      text: 'If they register as a Demon, they die. Otherwise, nothing happens.',
+      text: 'If the target does not register as a Demon, nothing happens.',
     },
-    { type: 'CAVEAT', text: 'You only have one shot.' },
+    {
+      type: 'CAVEAT',
+      text: 'Your shot is spent even if the target does not die.',
+    },
     { type: 'WIN', text: 'Good normally wins when no Demon remains alive.' },
   ],
 

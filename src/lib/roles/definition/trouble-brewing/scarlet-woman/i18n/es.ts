@@ -12,7 +12,10 @@ const es = {
       type: 'TEAM',
       text: 'Con 7+ jugadores, conoces a tus compañeros del Mal.',
     },
-    { type: 'WIN', text: 'Un Demonio debe permanecer vivo para ganar.' },
+    {
+      type: 'WIN',
+      text: 'El mal normalmente gana con 2 jugadores vivos, incluido un Demonio.',
+    },
   ],
 
   // First night: evil team

@@ -110,6 +110,43 @@ function fixture(phase: 'setup' | 'night' = 'setup') {
 }
 
 describe('durable audience privacy latch', () => {
+  it('fresh home startup does not invent a pending handback', () => {
+    render()
+    expect(container.querySelector('.game-shell')).not.toBeNull()
+    expect(container.textContent).not.toContain(en.game.returnDeviceReady)
+    expect(isAudienceProtected()).toBe(false)
+  })
+  it('a completed private handback remains cleared when reopening the home start URL', () => {
+    fixture()
+    render()
+    click('Alex')
+    click(en.game.tapWhenReady)
+    click(en.common.iUnderstandMyRole)
+    hold()
+    expect(isAudienceProtected()).toBe(false)
+    const saved = localStorage.getItem('grimoire_games')
+    act(() => router.replace('/'))
+    reboot()
+    expect(container.querySelector('.game-shell')).not.toBeNull()
+    expect(container.textContent).not.toContain(en.game.returnDeviceReady)
+    expect(isAudienceProtected()).toBe(false)
+    expect(localStorage.getItem('grimoire_games')).toBe(saved)
+  })
+  it('an interrupted preparation explains recovery without clearing protection or exposing its player', () => {
+    fixture()
+    render()
+    click('Alex')
+    act(() => router.replace('/'))
+    reboot()
+    expect(container.textContent).toContain('Grimorium')
+    expect(container.textContent).toContain(en.refinement.recoveryTitle)
+    expect(container.textContent).toContain(en.refinement.recoveryDescription)
+    neutral()
+    hold(999)
+    expect(isAudienceProtected()).toBe(true)
+    tick(1)
+    expect(isAudienceProtected()).toBe(false)
+  })
   it.each(['private reveal', 'ReturnDevice'])(
     'reload during %s restores neutral handback, never committed revelation',
     (stage) => {

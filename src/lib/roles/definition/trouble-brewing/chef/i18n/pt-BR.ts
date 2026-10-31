@@ -10,7 +10,7 @@ const ptBR = {
     },
     {
       type: 'INFO',
-      text: 'Um par são dois jogadores do Mal sentados lado a lado.',
+      text: 'Três jogadores do Mal consecutivos formam 2 pares.',
     },
     {
       type: 'WIN',

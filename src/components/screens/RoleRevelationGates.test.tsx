@@ -147,7 +147,7 @@ describe('history-derived first-night gate', () => {
     expect(container.textContent).toContain('1 / 5')
     expect(
       [...container.querySelectorAll('button')].filter((node) =>
-        node.textContent?.includes(en.game.revealedShowAgain),
+        node.getAttribute('aria-label')?.includes(en.game.revealedShowAgain),
       ),
     ).toHaveLength(1)
     expect(button(en.game.startFirstNight).disabled).toBe(true)
@@ -310,7 +310,11 @@ describe('revelation completion, resume and failed saves', () => {
     const game = fixture(1)
     mountGame(game)
     const before = localStorage.getItem('grimoire_games')
-    expect(button('Alex').textContent).toContain(en.game.revealedShowAgain)
+    expect(button('Alex').textContent).not.toContain(en.game.revealedShowAgain)
+    expect(button('Alex').getAttribute('aria-label')).toContain(
+      en.game.revealedShowAgain,
+    )
+    expect(button('Alex').querySelector('.text-emerald-500 svg')).not.toBeNull()
     revealFirstPlayer()
     expect(document.querySelector('[title="Grimoire"]')).toBeNull()
     expect(container.textContent).not.toContain(en.game.roleRevelation)

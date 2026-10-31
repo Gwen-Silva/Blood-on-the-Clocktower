@@ -185,10 +185,15 @@ function PlayerRevealRow({
   return (
     <button
       onClick={onClick}
-      className={cn(
-        'w-full flex items-center gap-3 p-3 rounded-lg transition-colors text-left group',
+      aria-label={
         isRevealed
-          ? 'bg-white/5 hover:bg-white/8'
+          ? `${player.name}, ${roleName}. ${t.game.revealedShowAgain}`
+          : undefined
+      }
+      className={cn(
+        'w-full flex items-center gap-3 p-3 border rounded-lg transition-colors text-left group',
+        isRevealed
+          ? 'border-transparent bg-white/5 hover:bg-white/8'
           : 'bg-mystic-gold/5 hover:bg-mystic-gold/10 border border-mystic-gold/20',
       )}
     >
@@ -240,9 +245,8 @@ function PlayerRevealRow({
 
       {/* Status */}
       {isRevealed ? (
-        <div className='flex items-center gap-1 text-emerald-500'>
+        <div className='shrink-0 text-emerald-500' aria-hidden='true'>
           <Icon name='checkCircle' size='md' />
-          <span className='text-xs'>{t.game.revealedShowAgain}</span>
         </div>
       ) : (
         <div className='flex items-center gap-1 text-mystic-gold group-hover:text-mystic-gold/80'>

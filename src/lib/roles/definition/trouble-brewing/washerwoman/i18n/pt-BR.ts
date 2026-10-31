@@ -1,7 +1,7 @@
 const ptBR = {
   name: 'Lavadeira',
   description:
-    'Na Noite 1, você descobre que um de dois jogadores é um Cidadão específico.',
+    'Na Noite 1, conheça 2 jogadores e um personagem Cidadão. Um deles se registra como esse personagem.',
   quote: 'Até a roupa mais suja guarda vestígios de quem a usou.',
   lines: [
     {

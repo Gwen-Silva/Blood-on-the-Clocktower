@@ -4,15 +4,19 @@ import { useHandbackHold } from './useHandbackHold'
 
 type Props = {
   onReady: () => void
+  recovery?: boolean
 }
 
-export function ReturnDeviceScreen({ onReady }: Props) {
+export function ReturnDeviceScreen({ onReady, recovery = false }: Props) {
   const { t } = useI18n()
   const { progress, handlers } = useHandbackHold(onReady)
 
   return (
     <div className='min-h-app bg-gradient-to-b from-grimoire-purple via-grimoire-dark to-grimoire-darker flex flex-col items-center justify-center px-6'>
       <div className='text-center max-w-sm'>
+        {recovery && (
+          <p className='font-tarot text-mystic-gold mb-4'>Grimorium</p>
+        )}
         <div className='mb-6'>
           <Icon
             name='shield'
@@ -21,13 +25,17 @@ export function ReturnDeviceScreen({ onReady }: Props) {
           />
         </div>
         <h1 className='font-tarot text-2xl text-parchment-100 tracking-widest-xl uppercase mb-3'>
-          {t.game.returnDeviceToNarrator}
+          {recovery
+            ? t.refinement.recoveryTitle
+            : t.game.returnDeviceToNarrator}
         </h1>
         <p
           id='handback-instruction'
           className='text-parchment-500 text-sm mb-10'
         >
-          {t.game.returnDeviceDescription}
+          {recovery
+            ? t.refinement.recoveryDescription
+            : t.game.returnDeviceDescription}
         </p>
         <Button
           {...handlers}

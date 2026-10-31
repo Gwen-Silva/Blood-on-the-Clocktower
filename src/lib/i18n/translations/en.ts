@@ -1,3 +1,4 @@
+import { refinementEn } from '../refinement'
 import { libraryEn } from '../library'
 import { Translations } from '../types'
 import { nightGuidanceEn } from '../nightGuidance'
@@ -5,6 +6,7 @@ import { clarityEn } from '../clarity'
 import { aboutEn } from '../about'
 
 const en: Translations = {
+  refinement: refinementEn,
   library: libraryEn,
   about: aboutEn,
   clarity: clarityEn,

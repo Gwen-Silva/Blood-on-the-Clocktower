@@ -637,3 +637,19 @@
     align-self: center;
   }
 }
+
+/* Game controls retain one bounded row; full names remain accessible. */
+.game-tools--compact {
+  flex-wrap: nowrap;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
+}
+.game-tools--compact > button {
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+}
+@media (max-width: 359px) {
+  .game-tools--compact > button > span {
+    display: none;
+  }
+}

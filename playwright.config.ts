@@ -16,6 +16,11 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   projects: [
+    {
+      name: 'mobile-320',
+      testMatch: /ui-refinement\.spec\.ts/,
+      use: { viewport: { width: 320, height: 568 } },
+    },
     ...[
       [360, 800],
       [390, 844],
@@ -26,7 +31,7 @@ export default defineConfig({
     })),
     {
       name: 'desktop',
-      testMatch: /role-library\.spec\.ts/,
+      testMatch: /(role-library|ui-refinement)\.spec\.ts/,
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1400, height: 900 },
