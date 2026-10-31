@@ -107,6 +107,17 @@ function readOperation(
   const before = previous.stateAfter,
     after = first.stateAfter,
     d = first.data
+  // Legacy records remain readable, but an impossible prior execution status
+  // cannot establish a safe baseline for a new correctable operation.
+  if (
+    !count(benchmark) ||
+    benchmark > before.players.length ||
+    (block &&
+      (!count(block.voteCount) ||
+        block.voteCount !== benchmark ||
+        !before.players.some((player) => player.id === block.playerId)))
+  )
+    return fail()
   const nominee = before.players.find((p) => p.id === d.nomineeId),
     nominator = nomination.stateAfter.players.find(
       (p) => p.id === nomination.data.nominatorId,

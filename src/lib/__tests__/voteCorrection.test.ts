@@ -77,6 +77,32 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 describe('Task013 logical vote correction and effective audit', () => {
+  it('keeps legacy records readable but rejects an impossible prior block as a correction baseline', () => {
+    const legacy = addHistoryEntry(day(), {
+      type: 'vote',
+      message: [],
+      data: {
+        nomineeId: 'missing',
+        nomineeName: 'Unknown',
+        voteCount: 3,
+        threshold: 3,
+        meetsThreshold: true,
+        replacesBlock: true,
+        clearsBlock: false,
+      },
+    })
+    expect(isSavedGame(legacy)).toBe(true)
+    const nominated = nominate(legacy, 'p1', 'p2'),
+      before = structuredClone(nominated)
+    expect(() =>
+      recordVoteOperation(
+        nominated,
+        resolveVote(nominated, 'p2', 4, ['p1', 'p2', 'p3', 'p4']),
+      ),
+    ).toThrow()
+    expect(nominated).toEqual(before)
+  })
+
   it('zero votes is a meaningful recorded operation even though the player snapshot is unchanged', () => {
     const zero = vote(day(), 'p2', []),
       restored = correct(zero)

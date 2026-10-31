@@ -239,7 +239,7 @@ for (const language of ['pt-BR', 'en', 'es'] as const)
     ).toHaveLength(1)
     await history(page, language)
     await expect(page.locator('body')).toContainText(
-      t.voteCorrection.history.split('{votes}')[0],
+      interpolate(t.voteCorrection.history, { player: 'Bob', votes: 5 }),
     )
     await page.screenshot({
       path: info.outputPath(`vote-${language}-audit.png`),
